@@ -1,11 +1,12 @@
 @baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
 # @name create_account
 POST {{baseUrl}}/accounts
 Content-Type: application/json
 
 {
   "name": "Felipe Amorim",
-  "email": "felipe@gmail.com",
+  "email": "felipe12@gmail.com",
   "password": "123456"
 }
 
@@ -16,6 +17,19 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "felipe4@gmail.com",
+  "email": "felipe1@gmail.com",
   "password": "123456"
+}
+
+###
+
+# @name create_exercise
+POST {{baseUrl}}/exercises
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Supino Reto",
+  "videoUrl": "http://youtube.com",
+  "description": "Exercicio trabalha o peito medio"
 }

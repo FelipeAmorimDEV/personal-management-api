@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   postgres:
-    container_name: nest-clean-boilerplate
+    container_name: personal-management-api
     image: postgres
     ports:
       - 5432:5432 # Troca a porta no host para 5433
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: nest-clean
+      POSTGRES_DB: personal-management

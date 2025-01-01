@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-import { execSync } from "node:child_process";
-import { randomUUID } from "node:crypto";
+import { PrismaClient } from '@prisma/client'
+import { execSync } from 'node:child_process'
+import { randomUUID } from 'node:crypto'
 
 const prisma = new PrismaClient()
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!process.env.DATABASE_URL) {
-    throw new Error("Please provinder a DATABASE_URL environment variables")
+    throw new Error('Please provinder a DATABASE_URL environment variables')
   }
 
   const url = new URL(process.env.DATABASE_URL)

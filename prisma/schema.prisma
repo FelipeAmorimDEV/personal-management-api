@@ -7,13 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  STUDENT
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
+  role      Role     @default(STUDENT)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model Exercise {
+  id          String   @id @default(uuid())
+  name        String
+  videoUrl    String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("exercises")
 }

@@ -5,7 +5,6 @@ import {
   Post,
   UnauthorizedException,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
@@ -23,15 +22,16 @@ const createExerciseBodySchema = z.object({
 
 type CreateExerciseBodySchema = z.infer<typeof createExerciseBodySchema>
 
+const zodValidationPipe = new ZodValidationPipe(createExerciseBodySchema)
+
 @Controller('exercises')
-@UsePipes(new ZodValidationPipe(createExerciseBodySchema))
 @UseGuards(JwtAuthGuard)
 export class CreateExerciseController {
   constructor(private createExercise: CreateExerciseUseCase) {}
 
   @Post()
   async handle(
-    @Body() body: CreateExerciseBodySchema,
+    @Body(zodValidationPipe) body: CreateExerciseBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
     const { videoUrl, name, description } = body

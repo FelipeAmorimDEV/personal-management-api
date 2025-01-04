@@ -3,6 +3,7 @@ import { ExercisesRepository } from '../repositories/exercises-repository'
 import { UsersAutorizationService } from '../repositories/users-autorization-service'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteExerciseUseCaseRequest {
   userId: string
@@ -14,6 +15,7 @@ type DeleteExerciseUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class DeleteExerciseUseCase {
   constructor(
     private userAutorizationService: UsersAutorizationService,

@@ -4,6 +4,7 @@ import { ExercisesRepository } from '../repositories/exercises-repository'
 import { UsersAutorizationService } from '../repositories/users-autorization-service'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Either, left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface EditExerciseUseCaseRequest {
   userId: string
@@ -18,6 +19,7 @@ type EditExerciseUseCaseResponse = Either<
   { exercise: Exercise }
 >
 
+@Injectable()
 export class EditExerciseUseCase {
   constructor(
     private userAutorizationService: UsersAutorizationService,

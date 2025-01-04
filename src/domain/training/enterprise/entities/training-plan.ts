@@ -7,14 +7,14 @@ export enum TrainingStrategy {
   FLEXIBLE_SESSIONS = 'FLEXIBLE_SESSIONS',
 }
 
-interface TrainingPlanProps {
+export interface TrainingPlanProps {
   studentId: UniqueEntityID
   name: string
   goal: string
   sessionsPerWeek: number
   startDate: Date
   endDate: Date
-  strategy: TrainingStrategy
+  strategy: 'FIXED_DAYS' | 'FLEXIBLE_SESSIONS'
   createdAt: Date
   updatedAt?: Date
 }

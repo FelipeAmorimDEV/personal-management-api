@@ -1,5 +1,6 @@
 import { Training } from '../../enterprise/entities/training'
 
-export interface TrainingsRepository {
-  create(training: Training): Promise<void>
+export abstract class TrainingsRepository {
+  abstract fetchManyByTrainingPlanId(trainingPlanId: string): Promise<Training[]>
+  abstract create(training: Training): Promise<void>
 }

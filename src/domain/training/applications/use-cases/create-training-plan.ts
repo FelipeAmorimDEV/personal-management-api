@@ -1,12 +1,10 @@
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import {
-  TrainingPlan,
-  TrainingStrategy,
-} from '../../enterprise/entities/training-plan'
+import { TrainingPlan } from '../../enterprise/entities/training-plan'
 import { TrainingPlansRepository } from '../repositories/training-plans-repository'
 import { UsersAutorizationService } from '../repositories/users-autorization-service'
 import { Either, left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface CreateTrainingPlanUseCaseRequest {
   userId: string
@@ -14,13 +12,14 @@ interface CreateTrainingPlanUseCaseRequest {
   name: string
   goal: string
   sessionsPerWeek: number
-  strategy: TrainingStrategy
-  startDate: Date
-  endDate: Date
+  strategy: 'FIXED_DAYS' | 'FLEXIBLE_SESSIONS'
+  startDate: string
+  endDate: string
 }
 
 type CreateTrainingPlanUseCaseResponse = Either<NotAllowedError, null>
 
+@Injectable()
 export class CreateTrainingPlanUseCase {
   constructor(
     private userAutorizationService: UsersAutorizationService,
@@ -48,8 +47,8 @@ export class CreateTrainingPlanUseCase {
       name,
       goal,
       sessionsPerWeek,
-      startDate,
-      endDate,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
       strategy,
     })
 

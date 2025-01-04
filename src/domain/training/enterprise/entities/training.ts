@@ -13,11 +13,20 @@ export enum DayOfWeek {
   SUNDAY = 'SUNDAY',
 }
 
-interface TrainingProps {
+type DayOfWeekType =
+  | 'MONDAY'
+  | 'TUESDAY'
+  | 'WEDNESDAY'
+  | 'THURSDAY'
+  | 'FRIDAY'
+  | 'SATURDAY'
+  | 'SUNDAY'
+
+export interface TrainingProps {
   trainingPlanId: UniqueEntityID
   name: string
   type: 'DAY' | 'SESSION'
-  dayOfWeek?: DayOfWeek
+  dayOfWeek?: DayOfWeekType | null
   exercises: StudentExerciseList
   createdAt: Date
   updatedAt?: Date

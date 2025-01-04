@@ -20,6 +20,7 @@ export default [
     rules: {
       'no-useless-constructor': 'off',
       'no-new': 'off',
+      'camelcase': 'off'
     },
   },
 ]

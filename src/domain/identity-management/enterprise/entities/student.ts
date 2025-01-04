@@ -13,7 +13,7 @@ export class Student extends User<StudentProps> {
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
-        role: 'STUDENT',
+        role: props.role ?? 'STUDENT',
       },
       id,
     )

@@ -13,24 +13,91 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(STUDENT)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  role          Role           @default(STUDENT)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  trainingPlans TrainingPlan[]
 
   @@map("users")
 }
 
 model Exercise {
-  id          String   @id @default(uuid())
-  name        String
-  videoUrl    String
-  description String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id              String            @id @default(uuid())
+  name            String
+  videoUrl        String
+  description     String?
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  StudentExercise StudentExercise[]
 
   @@map("exercises")
+}
+
+enum TrainingPlanStrategy {
+  FIXED_DAYS
+  FLEXIBLE_SESSIONS
+}
+
+model TrainingPlan {
+  id              String               @id @default(uuid())
+  name            String
+  goal            String
+  sessionsPerWeek Int                  @map("sessions_per_week")
+  strategy        TrainingPlanStrategy @default(FLEXIBLE_SESSIONS)
+  startDate       DateTime             @map("start_date")
+  endDate         DateTime             @map("end_date")
+  createdAt       DateTime             @default(now()) @map("created_at")
+  updatedAt       DateTime             @updatedAt @map("updated_at")
+  studentId       String               @map("student_id")
+
+  student  User       @relation(fields: [studentId], references: [id])
+  Training Training[]
+
+  @@map("training_plans")
+}
+
+enum TrainingType {
+  DAY
+  SESSION
+}
+
+enum DaysOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model Training {
+  id             String            @id @default(uuid())
+  name           String
+  type           TrainingType      @default(SESSION)
+  daysOfWeek     DaysOfWeek?
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+  trainingPlanId String            @map("training_plan_id")
+  exercises      StudentExercise[]
+
+  trainingPlan TrainingPlan @relation(fields: [trainingPlanId], references: [id])
+}
+
+model StudentExercise {
+  id          String   @id @default(uuid())
+  sets        Int
+  repetitions Int
+  restTime    Int      @map("rest_time")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  exerciseId  String   @map("exercise_id")
+  trainingId  String   @map("training_id")
+
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+  training Training @relation(fields: [trainingId], references: [id])
 }

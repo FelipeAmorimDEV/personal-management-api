@@ -7,6 +7,7 @@ import { DayOfWeek, Training } from '../../enterprise/entities/training'
 import { TrainingsRepository } from '../repositories/trainings-repository'
 import { UsersAutorizationService } from '../repositories/users-autorization-service'
 import { Either, left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 type Exercise = {
   exerciseId: string
@@ -26,6 +27,7 @@ interface CreateTrainingUseCaseRequest {
 
 type CreateTrainingUseCaseResponse = Either<NotAllowedError, null>
 
+@Injectable()
 export class CreateTrainingUseCase {
   constructor(
     private userAutorizationService: UsersAutorizationService,

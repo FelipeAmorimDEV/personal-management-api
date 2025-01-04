@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryTrainingPlansRepository } from 'test/repositories/in-memory-training-plans-repository'
 import { CreateTrainingPlanUseCase } from './create-training-plan'
-import { TrainingStrategy } from '../../enterprise/entities/training-plan'
 
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { UserAutorizationServiceImpl } from '../../../identity-management/applications/services/user-autorization-service'
@@ -38,9 +37,9 @@ describe('Create Training Plan', () => {
       name: 'Treino Hipertrofia',
       goal: 'Hipertrofia',
       sessionsPerWeek: 3,
-      strategy: TrainingStrategy.FIXED_DAYS,
-      startDate: new Date(2024, 6, 10),
-      endDate: new Date(2024, 9, 10),
+      strategy: 'FIXED_DAYS',
+      startDate: new Date(2024, 6, 10).toString(),
+      endDate: new Date(2024, 9, 10).toString(),
     })
 
     expect(inMemoryTrainingPlansRepository.items[0]).toEqual(
@@ -60,9 +59,9 @@ describe('Create Training Plan', () => {
       name: 'Treino Hipertrofia',
       goal: 'Hipertrofia',
       sessionsPerWeek: 3,
-      strategy: TrainingStrategy.FIXED_DAYS,
-      startDate: new Date(2024, 6, 10),
-      endDate: new Date(2024, 9, 10),
+      strategy: 'FIXED_DAYS',
+      startDate: new Date(2024, 6, 10).toString(),
+      endDate: new Date(2024, 9, 10).toString(),
     })
 
     expect(result.isLeft()).toBe(true)

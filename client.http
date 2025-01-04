@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "name": "Felipe Amorim",
-  "email": "felipe12@gmail.com",
+  "email": "felipe2@gmail.com",
   "password": "123456"
 }
 
@@ -29,7 +29,90 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "Supino Reto",
+  "name": "Supino Inclinado",
   "videoUrl": "http://youtube.com",
-  "description": "Exercicio trabalha o peito medio"
+  "description": "Exercicio trabalha o peito inferior"
 }
+
+###
+
+# @name edit_exercise
+PUT {{baseUrl}}/exercises/2cd3747a-bc4b-4f4a-af6c-46a4013e6d29
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Supino Inclinado",
+  "description": "Exercicio trabalha o peito inferior"
+}
+
+###
+
+# @name delete_exercise
+DELETE  {{baseUrl}}/exercises/2cd3747a-bc4b-4f4a-af6c-46a4013e6d29
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name create_training-plan
+POST {{baseUrl}}/training-plans
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "studentId": "e42edb74-d88d-44f1-8383-118a97f8f4a0",
+  "name": "Plano de treino Hipertrofia",
+  "goal": "Hipertrofia",
+  "sessionsPerWeek": 3,
+  "strategy": "FLEXIBLE_SESSIONS",
+  "startDate": "2025-01-01",
+  "endDate": "2025-04-01"
+}
+
+###
+
+# @name create_training
+POST {{baseUrl}}/trainings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "trainingPlanId": "5edc28c9-961c-4853-97f2-4bb00dd1e68f",
+  "name": "TREINO C",
+  "type": "SESSION",
+  "exercises": [
+    {
+      "exerciseId": "82901f83-e697-4500-a5d6-5c589891e686",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    },
+    {
+      "exerciseId": "33fd5c93-37bb-4c20-baaf-47ebe830d158",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+  ]
+}
+
+###
+
+# @name fetch_training-plan
+GET {{baseUrl}}/training-plans
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_trainings
+GET {{baseUrl}}/trainings?trainingPlanId=5edc28c9-961c-4853-97f2-4bb00dd1e68f
+Authorization: Bearer {{authToken}}
+
+
+###
+
+# @name fetch_training_exercises
+GET {{baseUrl}}/trainings/exercises?trainingId=025a2518-6fce-4776-99e1-2187f7326418
+Authorization: Bearer {{authToken}}
+
+

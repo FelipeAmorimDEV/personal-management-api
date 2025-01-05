@@ -2,14 +2,11 @@ import { Entity } from '@/core/entities/entities'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-type StudentExerciseExecutionProps = {
+export type StudentExerciseExecutionProps = {
   studentId: UniqueEntityID
   exerciseId: UniqueEntityID
-  setsCompleted: number
-  repsCompleted: number
+  feedbackId: UniqueEntityID
   weightUsed: number
-  restTime: number
-  notes: string
   createdAt: Date
 }
 export class StudentExerciseExecution extends Entity<StudentExerciseExecutionProps> {
@@ -21,24 +18,12 @@ export class StudentExerciseExecution extends Entity<StudentExerciseExecutionPro
     return this.props.exerciseId
   }
 
-  get setsCompleted() {
-    return this.props.setsCompleted
-  }
-
-  get repsCompleted() {
-    return this.props.repsCompleted
+  get feedbackId() {
+    return this.props.feedbackId
   }
 
   get weightUsed() {
     return this.props.weightUsed
-  }
-
-  get restTime() {
-    return this.props.restTime
-  }
-
-  get notes() {
-    return this.props.notes
   }
 
   get createdAt() {

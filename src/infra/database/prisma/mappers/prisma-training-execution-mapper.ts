@@ -1,4 +1,4 @@
-import { TrainingExecutionFeedback } from "@/domain/progress-tracking/enterprise/entities/training-execution-feedback";
+import { TrainingExecutionFeedback } from "@/domain/progress-tracking/enterprise/entities/training-feedback";
 
 export class PrismaTrainingExecutionMapper {
   static toDomain() {

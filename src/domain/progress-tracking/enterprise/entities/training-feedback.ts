@@ -1,11 +1,10 @@
-import { Entity } from '@/core/entities/entities'
 import { StudentExerciseExecution } from './student-exercise-execution'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-
-export type TrainingExecutionFeedbackProps = {
+export type TrainingFeedbackProps = {
+  studentId: UniqueEntityID
   trainingId: UniqueEntityID
   exercises: StudentExerciseExecution[]
   rate: number
@@ -14,7 +13,11 @@ export type TrainingExecutionFeedbackProps = {
   readAt?: Date | null
 }
 
-export class TrainingExecutionFeedback extends AggregateRoot<TrainingExecutionFeedbackProps> {
+export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
+  get studentId() {
+    return this.props.studentId
+  }
+
   get trainingId() {
     return this.props.trainingId
   }
@@ -43,13 +46,19 @@ export class TrainingExecutionFeedback extends AggregateRoot<TrainingExecutionFe
     this.props.readAt = new Date()
   }
 
-  static create(props: Optional<TrainingExecutionFeedbackProps, 'createdAt' | 'exercises'>, id?: UniqueEntityID) {
-    const trainingExecutionFeedback = new TrainingExecutionFeedback({
-      ...props,
-      createdAt: props.createdAt ?? new Date(),
-      exercises: props.exercises ?? []
-    }, id)
+  static create(
+    props: Optional<TrainingFeedbackProps, 'createdAt' | 'exercises'>,
+    id?: UniqueEntityID,
+  ) {
+    const trainingFeedback = new TrainingFeedback(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        exercises: props.exercises ?? [],
+      },
+      id,
+    )
 
-    return trainingExecutionFeedback
+    return trainingFeedback
   }
 }

@@ -1,14 +1,19 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { TrainingExecutionFeedback, TrainingExecutionFeedbackProps } from '@/domain/progress-tracking/enterprise/entities/training-execution-feedback'
+import {
+  TrainingFeedback,
+  TrainingFeedbackProps,
+} from '@/domain/progress-tracking/enterprise/entities/training-feedback'
 
-
-export function makeTrainingExecution(override: Partial<TrainingExecutionFeedbackProps>, id?: UniqueEntityID) {
-  const trainingExecutionFeedback = TrainingExecutionFeedback.create(
+export function makeTrainingFeedback(
+  override: Partial<TrainingFeedbackProps>,
+  id?: UniqueEntityID,
+) {
+  const trainingExecutionFeedback = TrainingFeedback.create(
     {
       trainingId: new UniqueEntityID('training-1'),
       comment: 'Novo comentario',
       rate: 5,
-      ...override
+      ...override,
     },
     id,
   )

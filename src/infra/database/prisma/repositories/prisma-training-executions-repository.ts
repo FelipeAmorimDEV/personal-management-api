@@ -1,5 +1,5 @@
-import { TrainingExecutionsRepository } from "@/domain/progress-tracking/applications/repositories/training-executions-repository";
-import { TrainingExecutionFeedback } from "@/domain/progress-tracking/enterprise/entities/training-execution-feedback";
+import { TrainingExecutionsRepository } from "@/domain/progress-tracking/applications/repositories/training-feedbacks-repository";
+import { TrainingExecutionFeedback } from "@/domain/progress-tracking/enterprise/entities/training-feedback";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 

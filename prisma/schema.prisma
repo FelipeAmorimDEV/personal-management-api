@@ -13,15 +13,16 @@ enum Role {
 }
 
 model User {
-  id                String              @id @default(uuid())
-  name              String
-  email             String              @unique
-  password          String
-  role              Role                @default(STUDENT)
-  createdAt         DateTime            @default(now()) @map("created_at")
-  updatedAt         DateTime            @updatedAt @map("updated_at")
-  trainingPlans     TrainingPlan[]
-  ExerciseExecution ExerciseExecution[]
+  id                        String                      @id @default(uuid())
+  name                      String
+  email                     String                      @unique
+  password                  String
+  role                      Role                        @default(STUDENT)
+  createdAt                 DateTime                    @default(now()) @map("created_at")
+  updatedAt                 DateTime                    @updatedAt @map("updated_at")
+  trainingPlans             TrainingPlan[]
+  ExerciseExecution         ExerciseExecution[]
+  TrainingExecutionFeedback TrainingExecutionFeedback[]
 
   @@map("users")
 }
@@ -110,11 +111,14 @@ model TrainingExecutionFeedback {
   rate       Int
   comment    String?
   trainingId String              @map("training_id")
+  studentId  String              @map("student_id")
   createdAt  DateTime            @default(now()) @map("created_at")
   readAt     DateTime?           @map("read_at")
   exercises  ExerciseExecution[]
 
-  training Training @relation(fields: [trainingId], references: [id])
+  training              Training                @relation(fields: [trainingId], references: [id])
+  student               User                    @relation(fields: [studentId], references: [id])
+  TrainingFeedbackReply TrainingFeedbackReply[]
 
   @@map("training_execution_feedbacks")
 }
@@ -132,4 +136,14 @@ model ExerciseExecution {
   feedback TrainingExecutionFeedback @relation(fields: [feedbackId], references: [id])
 
   @@map("exercise_executions")
+}
+
+model TrainingFeedbackReply {
+  id                 String    @id @default(uuid())
+  reply              String
+  trainingFeedbackId String    @map("training_feedback_id")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  readAt             DateTime? @map("read_at")
+
+  feedbacks TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
 }

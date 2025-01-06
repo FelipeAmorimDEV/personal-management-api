@@ -21,6 +21,18 @@ import { FetchTrainingController } from './controllers/fetch-training.controller
 import { FetchTrainingUseCase } from '@/domain/training/applications/use-cases/fetch-training'
 import { FetchStudentExercisesController } from './controllers/fetch-student-exercises.controller'
 import { FetchTrainingExercisesUseCase } from '@/domain/training/applications/use-cases/fetch-training-exercises'
+import { CreateTrainingExecutionFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/create-training-feedback'
+import { CreateTrainingFeedbackController } from './controllers/create-training-feedback.controller'
+import { ReplayTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/reply-training-feedback'
+import { ReplyTrainingFeedbackController } from './controllers/reply-training-feedback.controller'
+import { FetchTrainingFeedbackReplyUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-training-feedback-reply'
+import { FetchRecentTrainingFeedbackRepliesController } from './controllers/fetch-recent-training-feedback-replies.controller'
+import { FetchExerciseExecutionsUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-exercise-executions'
+import { FetchExerciseExecutionController } from './controllers/fetch-exercise-execution.controller'
+import { FetchTrainingFeedbackController } from './controllers/fetch-training-feedback.controller'
+import { FetchTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-training-feedback'
+import { ReadTrainingFeedbackReplyController } from './controllers/read-training-feedback-reply.controller'
+import { ReadReplyTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/read-reply-training-feedback'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -34,7 +46,13 @@ import { FetchTrainingExercisesUseCase } from '@/domain/training/applications/us
     CreateTrainingController,
     FetchTrainingPlanController,
     FetchTrainingController,
-    FetchStudentExercisesController
+    FetchStudentExercisesController,
+    CreateTrainingFeedbackController,
+    ReplyTrainingFeedbackController,
+    FetchRecentTrainingFeedbackRepliesController,
+    FetchExerciseExecutionController,
+    FetchTrainingFeedbackController,
+    ReadTrainingFeedbackReplyController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -46,7 +64,13 @@ import { FetchTrainingExercisesUseCase } from '@/domain/training/applications/us
     CreateTrainingUseCase,
     FetchTrainingPlanUseCase,
     FetchTrainingUseCase,
-    FetchTrainingExercisesUseCase
+    FetchTrainingExercisesUseCase,
+    CreateTrainingExecutionFeedbackUseCase,
+    ReplayTrainingFeedbackUseCase,
+    FetchTrainingFeedbackReplyUseCase,
+    FetchExerciseExecutionsUseCase,
+    FetchTrainingFeedbackUseCase,
+    ReadReplyTrainingFeedbackUseCase,
   ],
 })
 export class HttpModule {}

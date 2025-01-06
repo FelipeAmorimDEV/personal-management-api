@@ -1,5 +1,4 @@
-import { StudentExercise } from "@/domain/training/enterprise/entities/student-exercise";
-
+import { StudentExercise } from '@/domain/training/enterprise/entities/student-exercise'
 
 export class HttpStudentExercisePresenter {
   static toHTTP(exercise: StudentExercise) {

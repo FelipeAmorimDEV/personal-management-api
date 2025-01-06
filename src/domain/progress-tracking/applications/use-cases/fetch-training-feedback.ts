@@ -1,8 +1,10 @@
 import { Either, left, right } from '@/core/either'
 import { TrainingFeedback } from '../../enterprise/entities/training-feedback'
 import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-repository'
-import { UsersAutorizationService } from '../repositories/user-autorization-service'
+
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
+import { UsersAutorizationService } from '@/domain/training/applications/repositories/users-autorization-service'
 
 interface FetchTrainingFeedbackUseCaseRequest {
   userId: string
@@ -14,6 +16,7 @@ type FetchTrainingFeedbackUseCaseResponse = Either<
   { trainingFeedbacks: TrainingFeedback[] }
 >
 
+@Injectable()
 export class FetchTrainingFeedbackUseCase {
   constructor(
     private trainingFeedbacks: TrainingFeedbacksRepository,

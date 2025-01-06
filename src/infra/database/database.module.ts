@@ -12,6 +12,12 @@ import { TrainingsRepository } from '@/domain/training/applications/repositories
 import { PrismaTrainingRepository } from './prisma/repositories/prisma-training-repository'
 import { StudentExercisesRepository } from '@/domain/training/applications/repositories/student-exercises-repository'
 import { PrismaStudentExercisesRepository } from './prisma/repositories/prisma-student-exercises-repository'
+import { ExerciseExecutionsRepository } from '@/domain/progress-tracking/applications/repositories/exercise-executions-repository'
+import { PrismaExerciseExecutionsRepository } from './prisma/repositories/prisma-exercise-executions-repository'
+import { ReplyTrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/reply-training-feedbacks-repository'
+import { PrismaReplyTrainingFeedbacksRepository } from './prisma/repositories/prisma-reply-training-feedbacks-repository'
+import { TrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/training-feedbacks-repository'
+import { PrismaTrainingFeedbacksRepository } from './prisma/repositories/prisma-training-feedbacks-repository'
 
 @Module({
   providers: [
@@ -38,8 +44,20 @@ import { PrismaStudentExercisesRepository } from './prisma/repositories/prisma-s
     },
     {
       provide: StudentExercisesRepository,
-      useClass: PrismaStudentExercisesRepository
-    }
+      useClass: PrismaStudentExercisesRepository,
+    },
+    {
+      provide: ExerciseExecutionsRepository,
+      useClass: PrismaExerciseExecutionsRepository,
+    },
+    {
+      provide: ReplyTrainingFeedbacksRepository,
+      useClass: PrismaReplyTrainingFeedbacksRepository,
+    },
+    {
+      provide: TrainingFeedbacksRepository,
+      useClass: PrismaTrainingFeedbacksRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -48,7 +66,10 @@ import { PrismaStudentExercisesRepository } from './prisma/repositories/prisma-s
     UsersAutorizationService,
     TrainingPlansRepository,
     TrainingsRepository,
-    StudentExercisesRepository
+    StudentExercisesRepository,
+    ExerciseExecutionsRepository,
+    ReplyTrainingFeedbacksRepository,
+    TrainingFeedbacksRepository,
   ],
 })
 export class DatabaseModule {}

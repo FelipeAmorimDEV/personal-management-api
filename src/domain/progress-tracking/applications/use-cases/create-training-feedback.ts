@@ -4,6 +4,7 @@ import { StudentExerciseExecution } from '../../enterprise/entities/student-exer
 import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-repository'
 import { Either, right } from '@/core/either'
 import { TrainingFeedback } from '../../enterprise/entities/training-feedback'
+import { Injectable } from '@nestjs/common'
 
 type Exercises = {
   exerciseId: string
@@ -23,6 +24,7 @@ type CreateTrainingExecutionFeedbackResponse = Either<
   { trainingFeedback: TrainingFeedback }
 >
 
+@Injectable()
 export class CreateTrainingExecutionFeedbackUseCase {
   constructor(private trainingFeedbacks: TrainingFeedbacksRepository) {}
   async execute({

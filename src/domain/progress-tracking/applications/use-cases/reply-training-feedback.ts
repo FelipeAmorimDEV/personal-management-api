@@ -4,6 +4,8 @@ import { ReplyTrainingFeedbacksRepository } from '../repositories/reply-training
 import { Either, left, right } from '@/core/either'
 import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
+import { FeedbackAlreadyRepliedError } from './errors/feedback-already-reply'
 
 interface ReplayTrainingFeedbackUseCaseRequest {
   feedbackId: string
@@ -15,6 +17,7 @@ type ReplayTrainingFeedbackUseCaseResponse = Either<
   { trainingFeedbackReply: TrainingFeedbackReply }
 >
 
+@Injectable()
 export class ReplayTrainingFeedbackUseCase {
   constructor(
     private trainingFeedbacksRepository: TrainingFeedbacksRepository,
@@ -29,6 +32,9 @@ export class ReplayTrainingFeedbackUseCase {
 
     if (!feedback) {
       return left(new ResourceNotFoundError())
+    }
+    if (feedback.readAt) {
+      return left(new FeedbackAlreadyRepliedError())
     }
 
     const trainingFeedbackReply = TrainingFeedbackReply.create({

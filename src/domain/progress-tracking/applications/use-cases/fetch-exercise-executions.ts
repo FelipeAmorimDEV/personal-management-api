@@ -1,6 +1,7 @@
 import { Either, right } from '@/core/either'
 import { ExerciseExecutionsRepository } from '../repositories/exercise-executions-repository'
 import { StudentExerciseExecution } from '../../enterprise/entities/student-exercise-execution'
+import { Injectable } from '@nestjs/common'
 
 interface FetchExerciseExecutionsUseCaseRequest {
   studentId: string
@@ -13,6 +14,7 @@ type FetchExerciseExecutionsUseCaseResponse = Either<
   { exerciseExecutions: StudentExerciseExecution[] }
 >
 
+@Injectable()
 export class FetchExerciseExecutionsUseCase {
   constructor(private exerciseExecutions: ExerciseExecutionsRepository) {}
 

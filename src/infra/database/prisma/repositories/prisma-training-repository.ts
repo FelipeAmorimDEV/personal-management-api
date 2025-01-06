@@ -12,8 +12,8 @@ export class PrismaTrainingRepository implements TrainingsRepository {
   async fetchManyByTrainingPlanId(trainingPlanId: string) {
     const trainings = await this.prisma.training.findMany({
       where: {
-        trainingPlanId
-      }
+        trainingPlanId,
+      },
     })
 
     return trainings.map(PrismaTrainingMapper.toDomain)

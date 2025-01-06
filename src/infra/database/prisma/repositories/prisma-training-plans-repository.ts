@@ -11,8 +11,8 @@ export class PrismaTrainingPlansRepository implements TrainingPlansRepository {
   async findById(trainingPlanId: string): Promise<TrainingPlan | null> {
     const trainingPlan = await this.prisma.trainingPlan.findUnique({
       where: {
-        id: trainingPlanId
-      }
+        id: trainingPlanId,
+      },
     })
 
     if (!trainingPlan) {
@@ -25,8 +25,8 @@ export class PrismaTrainingPlansRepository implements TrainingPlansRepository {
   async fetchManyByStudentId(studentId: string): Promise<TrainingPlan[]> {
     const trainingPlans = await this.prisma.trainingPlan.findMany({
       where: {
-        studentId
-      }
+        studentId,
+      },
     })
 
     return trainingPlans.map(PrismaTrainingPlanMapper.toDomain)

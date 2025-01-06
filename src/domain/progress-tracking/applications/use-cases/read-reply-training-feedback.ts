@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { TrainingFeedbackReply } from '../../enterprise/entities/training-feedback-reply'
 import { ReplyTrainingFeedbacksRepository } from '../repositories/reply-training-feedbacks-repository'
 import { Either, left, right } from '@/core/either'
@@ -12,6 +13,7 @@ type ReadReplyTrainingFeedbackUseCaseResponse = Either<
   { trainingFeedbackReply: TrainingFeedbackReply }
 >
 
+@Injectable()
 export class ReadReplyTrainingFeedbackUseCase {
   constructor(
     private replayTrainingFeedbacks: ReplyTrainingFeedbacksRepository,

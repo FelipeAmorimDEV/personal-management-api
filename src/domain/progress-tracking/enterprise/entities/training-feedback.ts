@@ -3,12 +3,17 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
+interface FeedbackDetails {
+  studentName: string
+  trainingName: string
+}
 export type TrainingFeedbackProps = {
   studentId: UniqueEntityID
   trainingId: UniqueEntityID
   exercises: StudentExerciseExecution[]
+  feedbackDetails?: FeedbackDetails
   rate: number
-  comment: string
+  comment?: string | null
   createdAt: Date
   readAt?: Date | null
 }
@@ -30,6 +35,10 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
     this.props.exercises = exercises
   }
 
+  get feedbackDetails() {
+    return this.props.feedbackDetails
+  }
+
   get rate() {
     return this.props.rate
   }
@@ -40,6 +49,10 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
 
   get readAt() {
     return this.props.readAt
+  }
+
+  get createdAt() {
+    return this.props.createdAt
   }
 
   readFeedback() {

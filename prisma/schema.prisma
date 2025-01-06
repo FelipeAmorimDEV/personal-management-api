@@ -116,9 +116,9 @@ model TrainingExecutionFeedback {
   readAt     DateTime?           @map("read_at")
   exercises  ExerciseExecution[]
 
-  training              Training                @relation(fields: [trainingId], references: [id])
-  student               User                    @relation(fields: [studentId], references: [id])
-  TrainingFeedbackReply TrainingFeedbackReply[]
+  training      Training               @relation(fields: [trainingId], references: [id])
+  student       User                   @relation(fields: [studentId], references: [id])
+  feedbackReply TrainingFeedbackReply?
 
   @@map("training_execution_feedbacks")
 }
@@ -141,9 +141,9 @@ model ExerciseExecution {
 model TrainingFeedbackReply {
   id                 String    @id @default(uuid())
   reply              String
-  trainingFeedbackId String    @map("training_feedback_id")
+  trainingFeedbackId String    @unique @map("training_feedback_id")
   createdAt          DateTime  @default(now()) @map("created_at")
   readAt             DateTime? @map("read_at")
 
-  feedbacks TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
+  feedback TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
 }

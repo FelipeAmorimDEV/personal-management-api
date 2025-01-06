@@ -98,6 +98,42 @@ Content-Type: application/json
 
 ###
 
+# @name create_training_feedback
+POST {{baseUrl}}/trainings/feedback
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "trainingId": "c0294196-2545-4410-b774-1d29d0b40206",
+  "rate": 3,
+  "comment": "Achei facil",
+  "exercises": [
+    {
+      "exerciseId": "82901f83-e697-4500-a5d6-5c589891e686",
+      "weightUsed": 40  
+    }
+  ]
+}
+
+###
+
+# @name reply_training_feedback
+POST {{baseUrl}}/trainings/feedback/50fcf791-8bc7-4a0c-be3c-e341fbad8a8d/reply
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "reply": "Continue firme no progresso!"
+}
+
+###
+
+# @name read_training_feedback_reply
+PUT {{baseUrl}}/trainings/feedbacks/reply/fb1a4a1c-1d23-41db-a710-a705b1de79e8
+Authorization: Bearer {{authToken}}
+
+###
+
 # @name fetch_training-plan
 GET {{baseUrl}}/training-plans
 Authorization: Bearer {{authToken}}
@@ -115,4 +151,20 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/trainings/exercises?trainingId=025a2518-6fce-4776-99e1-2187f7326418
 Authorization: Bearer {{authToken}}
 
+###
 
+# @name fetch_training_feedbacks_reply
+GET {{baseUrl}}/trainings/replies
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_exercise_executions
+GET {{baseUrl}}/exercises/82901f83-e697-4500-a5d6-5c589891e686/execution?page=1
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_training_feedbacks_admin
+GET {{baseUrl}}/trainings/feedbacks?page=1
+Authorization: Bearer {{authToken}}

@@ -1,18 +1,12 @@
-import { FetchTrainingPlanUseCase } from '@/domain/training/applications/use-cases/fetch-training-plan'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
-import { UserPayload } from '@/infra/auth/jwt-strategy'
 import {
   BadRequestException,
-  Body,
   Controller,
   Get,
   NotFoundException,
-  Param,
   Query,
   UseGuards,
 } from '@nestjs/common'
-import { HttpTrainingPlanPresenter } from '../presenters/http-training-plan-presenter'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { FetchTrainingUseCase } from '@/domain/training/applications/use-cases/fetch-training'

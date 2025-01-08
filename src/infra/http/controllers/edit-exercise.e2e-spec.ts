@@ -27,7 +27,7 @@ describe('Edit Exercise (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /exercises', async () => {
+  test('[PUT] /exercises', async () => {
     const user = await prisma.user.create({
       data: {
         name: 'John Doe',

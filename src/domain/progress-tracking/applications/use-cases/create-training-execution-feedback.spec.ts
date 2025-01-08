@@ -13,7 +13,7 @@ describe('Create Training Execution Feedback', () => {
     )
   })
 
-  it('should be able to create a training execution feedback', async () => {
+  it('should be able to create a training execution feedbacks', async () => {
     const result = await sut.execute({
       studentId: 'student-1',
       trainingId: 'training-1',

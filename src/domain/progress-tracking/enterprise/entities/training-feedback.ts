@@ -2,6 +2,7 @@ import { StudentExerciseExecution } from './student-exercise-execution'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { TrainingFeedbackCreatedEvent } from '../events/training-feedback-created-event'
 
 interface FeedbackDetails {
   studentName: string
@@ -71,6 +72,14 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
       },
       id,
     )
+
+    const isNewFeedback = !id
+
+    if (isNewFeedback) {
+      trainingFeedback.addDomainEvent(
+        new TrainingFeedbackCreatedEvent(trainingFeedback),
+      )
+    }
 
     return trainingFeedback
   }

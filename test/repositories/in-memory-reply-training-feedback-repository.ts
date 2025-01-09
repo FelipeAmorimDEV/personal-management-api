@@ -1,6 +1,7 @@
 import { ReplyTrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/reply-training-feedbacks-repository'
 import { TrainingFeedbackReply } from '@/domain/progress-tracking/enterprise/entities/training-feedback-reply'
 import { InMemoryTrainingExecutionsRepository } from './in-memory-training-executions-repository'
+import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryReplyTrainingFeedbackRepository
   implements ReplyTrainingFeedbacksRepository
@@ -35,6 +36,7 @@ export class InMemoryReplyTrainingFeedbackRepository
 
   async create(trainingFeedbackReply: TrainingFeedbackReply) {
     this.items.push(trainingFeedbackReply)
+    DomainEvents.dispatchEventsForAggregate(trainingFeedbackReply.id)
   }
 
   async save(trainingFeedbackReply: TrainingFeedbackReply) {
@@ -42,5 +44,6 @@ export class InMemoryReplyTrainingFeedbackRepository
       (item) => item.id === trainingFeedbackReply.id,
     )
     this.items[itemIndex] = trainingFeedbackReply
+    DomainEvents.dispatchEventsForAggregate(trainingFeedbackReply.id)
   }
 }

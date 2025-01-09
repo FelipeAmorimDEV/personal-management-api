@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/types/pagination-params'
 import { TrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/training-feedbacks-repository'
 import { TrainingFeedback } from '@/domain/progress-tracking/enterprise/entities/training-feedback'
@@ -33,6 +34,7 @@ export class InMemoryTrainingExecutionsRepository
 
   async create(trainingExecutionFeedback: TrainingFeedback) {
     this.items.push(trainingExecutionFeedback)
+    DomainEvents.dispatchEventsForAggregate(trainingExecutionFeedback.id)
   }
 
   async save(trainingExecution: TrainingFeedback) {

@@ -1,6 +1,7 @@
-import { Entity } from '@/core/entities/entities'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { TrainingFeedbackReplyCreatedEvent } from '../events/training-feedback-reply-created-event'
 
 interface TrainingFeedback {
   trainingName: string
@@ -15,7 +16,8 @@ interface TrainingFeedbackReplyProps {
   createdAt: Date
   trainingFeedback?: TrainingFeedback | null
 }
-export class TrainingFeedbackReply extends Entity<TrainingFeedbackReplyProps> {
+
+export class TrainingFeedbackReply extends AggregateRoot<TrainingFeedbackReplyProps> {
   get trainingFeedbackId() {
     return this.props.trainingFeedbackId
   }
@@ -40,6 +42,10 @@ export class TrainingFeedbackReply extends Entity<TrainingFeedbackReplyProps> {
     this.props.readAt = new Date()
   }
 
+  except() {
+    return this.props.reply.substring(0, 56).concat('...')
+  }
+
   static create(
     props: Optional<
       TrainingFeedbackReplyProps,
@@ -55,6 +61,14 @@ export class TrainingFeedbackReply extends Entity<TrainingFeedbackReplyProps> {
       },
       id,
     )
+
+    const isNewFeedback = !id
+
+    if (isNewFeedback) {
+      trainingFeedbackReply.addDomainEvent(
+        new TrainingFeedbackReplyCreatedEvent(trainingFeedbackReply),
+      )
+    }
 
     return trainingFeedbackReply
   }

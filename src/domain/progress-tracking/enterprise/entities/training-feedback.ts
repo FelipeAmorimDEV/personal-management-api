@@ -56,6 +56,10 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
     return this.props.createdAt
   }
 
+  except() {
+    return this.props.comment?.substring(0, 60).concat('...')
+  }
+
   readFeedback() {
     this.props.readAt = new Date()
   }

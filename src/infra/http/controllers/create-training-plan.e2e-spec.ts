@@ -59,6 +59,7 @@ describe('Create Training Plan (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         startDate: '2025-01-01',
         endDate: '2024-04-01',
+        trainingLevel: 'INICIANTE',
       })
 
     const trainingPlanOnDataBase = await prisma.trainingPlan.findFirst({

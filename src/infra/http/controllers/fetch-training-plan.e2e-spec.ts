@@ -47,8 +47,9 @@ describe('Fetch Training Plan (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         startDate: new Date(2025, 0, 1),
         endDate: new Date(2025, 3, 1),
-        studentId: student.id
-      }
+        studentId: student.id,
+        trainingLevel: 'INICIANTE',
+      },
     })
 
     await prisma.trainingPlan.create({
@@ -59,8 +60,9 @@ describe('Fetch Training Plan (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         startDate: new Date(2025, 0, 1),
         endDate: new Date(2025, 3, 1),
-        studentId: student.id
-      }
+        studentId: student.id,
+        trainingLevel: 'INICIANTE',
+      },
     })
 
     const response = await request(app.getHttpServer())
@@ -70,6 +72,5 @@ describe('Fetch Training Plan (E2E)', () => {
 
     expect(response.status).toBe(200)
     expect(response.body.trainingPlans).toHaveLength(2)
-
   })
 })

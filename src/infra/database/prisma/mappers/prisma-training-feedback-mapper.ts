@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client'
 export class PrismaTrainingFeedbackMapper {
   static toDomain(
     trainingFeedback: Prisma.TrainingExecutionFeedbackGetPayload<{
-      include: { student: true; training: true }
+      include: { student: true; training: true; feedbackReply: true }
     }>,
   ) {
     return TrainingFeedback.create(
@@ -19,6 +19,10 @@ export class PrismaTrainingFeedbackMapper {
         feedbackDetails: {
           trainingName: trainingFeedback.training.name,
           studentName: trainingFeedback.student.name,
+        },
+        personalAnswer: {
+          id: trainingFeedback.feedbackReply?.id,
+          reply: trainingFeedback.feedbackReply?.reply,
         },
       },
       new UniqueEntityID(trainingFeedback.id),

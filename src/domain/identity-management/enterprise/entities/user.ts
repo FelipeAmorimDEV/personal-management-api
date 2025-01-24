@@ -21,6 +21,10 @@ export abstract class User<Props extends UserProps> extends Entity<Props> {
     return this.props.password
   }
 
+  set password(password: string) {
+    this.props.password = password
+  }
+
   get role() {
     return this.props.role
   }

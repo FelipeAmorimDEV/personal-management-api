@@ -11,6 +11,7 @@ export interface TrainingPlanProps {
   studentId: UniqueEntityID
   name: string
   goal: string
+  trainingLevel: string
   sessionsPerWeek: number
   startDate: Date
   endDate: Date
@@ -30,6 +31,10 @@ export class TrainingPlan extends Entity<TrainingPlanProps> {
 
   get goal() {
     return this.props.goal
+  }
+
+  get trainingLevel() {
+    return this.props.trainingLevel
   }
 
   get sessionsPerWeek() {

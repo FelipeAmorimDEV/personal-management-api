@@ -18,6 +18,7 @@ const createTrainingPlanBodySchema = z.object({
   studentId: z.string().uuid(),
   name: z.string(),
   goal: z.string(),
+  trainingLevel: z.string(),
   sessionsPerWeek: z.coerce.number(),
   strategy: z.enum(['FIXED_DAYS', 'FLEXIBLE_SESSIONS']),
   startDate: z.string().date(),
@@ -46,6 +47,7 @@ export class CreateTrainingPlanController {
       startDate,
       endDate,
       studentId,
+      trainingLevel,
     } = body
     const userId = user.sub
 
@@ -58,6 +60,7 @@ export class CreateTrainingPlanController {
       strategy,
       startDate,
       endDate,
+      trainingLevel,
     })
 
     if (result.isLeft()) {

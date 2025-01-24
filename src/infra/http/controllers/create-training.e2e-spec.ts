@@ -56,6 +56,7 @@ describe('Create Training (E2E)', () => {
         startDate: new Date(2025, 0, 1),
         endDate: new Date(2025, 3, 1),
         studentId: student.id,
+        trainingLevel: 'INICIANTE',
       },
     })
 
@@ -67,6 +68,12 @@ describe('Create Training (E2E)', () => {
       },
     })
 
+    const groupMuscle = await prisma.groupMuscle.create({
+      data: {
+        name: 'Biceps',
+      },
+    })
+
     const response = await request(app.getHttpServer())
       .post('/trainings')
       .set('Authorization', `Bearer ${jwtToken}`)
@@ -74,6 +81,12 @@ describe('Create Training (E2E)', () => {
         trainingPlanId: trainingPlan.id,
         name: 'Treino A',
         type: 'SESSION',
+        groupMuscle: [
+          {
+            id: groupMuscle.id,
+            name: groupMuscle.name,
+          },
+        ],
         exercises: [
           {
             exerciseId: exercise.id,

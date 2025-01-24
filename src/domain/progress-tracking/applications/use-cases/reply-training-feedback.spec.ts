@@ -10,12 +10,13 @@ let sut: ReplayTrainingFeedbackUseCase
 
 describe('Reply Training Feedback', () => {
   beforeEach(() => {
-    inMemoryTrainingFeedbacksRepository =
-      new InMemoryTrainingExecutionsRepository()
     inMemoryReplyTrainingFeedbackRepository =
-      new InMemoryReplyTrainingFeedbackRepository(
-        inMemoryTrainingFeedbacksRepository,
+      new InMemoryReplyTrainingFeedbackRepository()
+    inMemoryTrainingFeedbacksRepository =
+      new InMemoryTrainingExecutionsRepository(
+        inMemoryReplyTrainingFeedbackRepository,
       )
+
     sut = new ReplayTrainingFeedbackUseCase(
       inMemoryTrainingFeedbacksRepository,
       inMemoryReplyTrainingFeedbackRepository,

@@ -13,6 +13,9 @@ export class PrismaExercisesRepository implements ExercisesRepository {
       where: {
         id: exerciseId,
       },
+      include: {
+        groupMuscle: true,
+      },
     })
 
     if (!exercise) {

@@ -54,6 +54,7 @@ describe('Fetch Exercise Execution (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         studentId: student.id,
         sessionsPerWeek: 3,
+        trainingLevel: 'INICIANTE',
       },
     })
 

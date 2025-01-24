@@ -1,13 +1,19 @@
 import { InMemoryTrainingExecutionsRepository } from 'test/repositories/in-memory-training-executions-repository'
 import { CreateTrainingExecutionFeedbackUseCase } from './create-training-feedback'
+import { InMemoryReplyTrainingFeedbackRepository } from 'test/repositories/in-memory-reply-training-feedback-repository'
 
 let inMemoryTrainingExecutionsRepository: InMemoryTrainingExecutionsRepository
+let inMemoryReplyTrainingFeedbackRepository: InMemoryReplyTrainingFeedbackRepository
 let sut: CreateTrainingExecutionFeedbackUseCase
 
 describe('Create Training Execution Feedback', () => {
   beforeEach(() => {
+    inMemoryReplyTrainingFeedbackRepository =
+      new InMemoryReplyTrainingFeedbackRepository()
     inMemoryTrainingExecutionsRepository =
-      new InMemoryTrainingExecutionsRepository()
+      new InMemoryTrainingExecutionsRepository(
+        inMemoryReplyTrainingFeedbackRepository,
+      )
     sut = new CreateTrainingExecutionFeedbackUseCase(
       inMemoryTrainingExecutionsRepository,
     )

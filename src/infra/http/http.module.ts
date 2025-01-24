@@ -25,14 +25,24 @@ import { CreateTrainingExecutionFeedbackUseCase } from '@/domain/progress-tracki
 import { CreateTrainingFeedbackController } from './controllers/create-training-feedback.controller'
 import { ReplayTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/reply-training-feedback'
 import { ReplyTrainingFeedbackController } from './controllers/reply-training-feedback.controller'
-import { FetchTrainingFeedbackReplyUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-training-feedback-reply'
-import { FetchRecentTrainingFeedbackRepliesController } from './controllers/fetch-recent-training-feedback-replies.controller'
 import { FetchExerciseExecutionsUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-exercise-executions'
 import { FetchExerciseExecutionController } from './controllers/fetch-exercise-execution.controller'
 import { FetchTrainingFeedbackController } from './controllers/fetch-training-feedback.controller'
 import { FetchTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-training-feedback'
 import { ReadTrainingFeedbackReplyController } from './controllers/read-training-feedback-reply.controller'
 import { ReadReplyTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/read-reply-training-feedback'
+import { FetchRecentTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-recent-training-feedback-user'
+import { FetchRecentTrainingFeedbackController } from './controllers/fetch-training-feedback-user.controller'
+import { FetchExerciseExecutionByUserUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-exercise-execution-by-user'
+import { FetchExerciseExecutionByUserController } from './controllers/fetch-exercise-execution-by-user.controller'
+import { FetchTrainingFrequencyController } from './controllers/fetch-training-frequency.controller'
+import { FetchTrainingFrequencyUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-training-frequency'
+import { FindRecentExerciseWeightController } from './controllers/find-recent-exercise-weight.controller'
+import { FindRecentWeightUseCase } from '@/domain/progress-tracking/applications/use-cases/find-recent-weight'
+import { GetStudentProfileController } from './controllers/get-student-profile.controller'
+import { GetStudentProfileUseCase } from '@/domain/identity-management/applications/use-cases/get-student-profile'
+import { EditStudentController } from './controllers/edit-student.controller'
+import { EditStudentUseCase } from '@/domain/identity-management/applications/use-cases/edit-student'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -49,10 +59,15 @@ import { ReadReplyTrainingFeedbackUseCase } from '@/domain/progress-tracking/app
     FetchStudentExercisesController,
     CreateTrainingFeedbackController,
     ReplyTrainingFeedbackController,
-    FetchRecentTrainingFeedbackRepliesController,
     FetchExerciseExecutionController,
     FetchTrainingFeedbackController,
     ReadTrainingFeedbackReplyController,
+    FetchRecentTrainingFeedbackController,
+    FetchExerciseExecutionByUserController,
+    FetchTrainingFrequencyController,
+    FindRecentExerciseWeightController,
+    GetStudentProfileController,
+    EditStudentController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -67,10 +82,15 @@ import { ReadReplyTrainingFeedbackUseCase } from '@/domain/progress-tracking/app
     FetchTrainingExercisesUseCase,
     CreateTrainingExecutionFeedbackUseCase,
     ReplayTrainingFeedbackUseCase,
-    FetchTrainingFeedbackReplyUseCase,
     FetchExerciseExecutionsUseCase,
     FetchTrainingFeedbackUseCase,
     ReadReplyTrainingFeedbackUseCase,
+    FetchRecentTrainingFeedbackUseCase,
+    FetchExerciseExecutionByUserUseCase,
+    FetchTrainingFrequencyUseCase,
+    FindRecentWeightUseCase,
+    GetStudentProfileUseCase,
+    EditStudentUseCase,
   ],
 })
 export class HttpModule {}

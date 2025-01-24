@@ -1,4 +1,4 @@
-import { Training } from "@/domain/training/enterprise/entities/training";
+import { Training } from '@/domain/training/enterprise/entities/training'
 
 export class HttpTrainingPresenter {
   static toHTTP(training: Training) {
@@ -9,8 +9,8 @@ export class HttpTrainingPresenter {
       dayOfWeek: training.dayOfWeek,
       trainingPlanId: training.trainingPlanId.toString(),
       createdAt: training.createdAt,
-      updatedAt: training.updatedAt
+      updatedAt: training.updatedAt,
+      groupMuscle: training.groupMuscle,
     }
-
   }
 }

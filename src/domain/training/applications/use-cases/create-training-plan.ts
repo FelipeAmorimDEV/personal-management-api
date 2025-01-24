@@ -11,6 +11,7 @@ interface CreateTrainingPlanUseCaseRequest {
   studentId: string
   name: string
   goal: string
+  trainingLevel: string
   sessionsPerWeek: number
   strategy: 'FIXED_DAYS' | 'FLEXIBLE_SESSIONS'
   startDate: string
@@ -35,6 +36,7 @@ export class CreateTrainingPlanUseCase {
     strategy,
     startDate,
     endDate,
+    trainingLevel,
   }: CreateTrainingPlanUseCaseRequest): Promise<CreateTrainingPlanUseCaseResponse> {
     const isAdmin = await this.userAutorizationService.isAdmin(userId)
 
@@ -50,6 +52,7 @@ export class CreateTrainingPlanUseCase {
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       strategy,
+      trainingLevel,
     })
 
     await this.trainingPlansRepository.create(trainingPlan)

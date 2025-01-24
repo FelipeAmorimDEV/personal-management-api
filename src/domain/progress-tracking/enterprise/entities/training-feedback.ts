@@ -5,14 +5,23 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { TrainingFeedbackCreatedEvent } from '../events/training-feedback-created-event'
 
 interface FeedbackDetails {
-  studentName: string
-  trainingName: string
+  studentName?: string
+  trainingName?: string
 }
+
+interface PersonalAnswer {
+  id?: string
+  reply?: string
+}
+
+type PersonalAnswerType = PersonalAnswer | null | undefined
+
 export type TrainingFeedbackProps = {
   studentId: UniqueEntityID
   trainingId: UniqueEntityID
   exercises: StudentExerciseExecution[]
   feedbackDetails?: FeedbackDetails
+  personalAnswer?: PersonalAnswer | null
   rate: number
   comment?: string | null
   createdAt: Date
@@ -38,6 +47,14 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
 
   get feedbackDetails() {
     return this.props.feedbackDetails
+  }
+
+  get personalAnswer() {
+    return this.props.personalAnswer
+  }
+
+  set personalAnswer(personalAnswer: PersonalAnswerType) {
+    this.props.personalAnswer = personalAnswer
   }
 
   get rate() {

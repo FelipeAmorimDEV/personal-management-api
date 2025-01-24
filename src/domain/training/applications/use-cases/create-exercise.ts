@@ -4,12 +4,14 @@ import { ExercisesRepository } from '../repositories/exercises-repository'
 import { UsersAutorizationService } from '../repositories/users-autorization-service'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
+import { GroupMuscle } from './create-training'
 
 interface CreateExerciseUseCaseRequest {
   userId: string
   name: string
   videoUrl: string
   description?: string
+  groupMuscle: GroupMuscle[]
 }
 
 type CreateExerciseUseCaseResponse = Either<NotAllowedError, null>
@@ -26,6 +28,7 @@ export class CreateExerciseUseCase {
     name,
     videoUrl,
     description,
+    groupMuscle,
   }: CreateExerciseUseCaseRequest): Promise<CreateExerciseUseCaseResponse> {
     const isAdmin = await this.userAutorizationService.isAdmin(userId)
 
@@ -37,6 +40,7 @@ export class CreateExerciseUseCase {
       name,
       videoUrl,
       description,
+      groupMuscle,
     })
 
     await this.exercisesRepository.create(exercise)

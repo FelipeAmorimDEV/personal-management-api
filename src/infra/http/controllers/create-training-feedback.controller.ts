@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { CreateTrainingExecutionFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/create-training-feedback'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
+import { IntensityLevel } from '@/domain/progress-tracking/applications/use-cases/enums/intensity-level'
 
 const exerciseSchema = z.object({
   exerciseId: z.string().uuid(),
@@ -13,7 +14,13 @@ const exerciseSchema = z.object({
 
 const createTrainingFeedbackBodySchema = z.object({
   trainingId: z.string().uuid(),
-  rate: z.coerce.number().min(1).max(5),
+  intensity: z.enum([
+    IntensityLevel.VERY_LOW,
+    IntensityLevel.LOW,
+    IntensityLevel.MODERATE,
+    IntensityLevel.HIGH,
+    IntensityLevel.EXTREME,
+  ]),
   comment: z.string(),
   exercises: z.array(exerciseSchema),
 })
@@ -38,13 +45,13 @@ export class CreateTrainingFeedbackController {
     @Body(zodValidationPipe) body: CreateTrainingFeedbackBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { trainingId, rate, comment, exercises } = body
+    const { trainingId, intensity, comment, exercises } = body
     const userId = user.sub
 
     await this.createTrainingFeedback.execute({
       studentId: userId,
       trainingId,
-      rate,
+      intensity,
       comment,
       exercises,
     })

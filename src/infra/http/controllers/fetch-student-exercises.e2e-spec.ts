@@ -47,8 +47,9 @@ describe('Fetch Student Exercises (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         startDate: new Date(2025, 0, 1),
         endDate: new Date(2025, 3, 1),
-        studentId: student.id
-      }
+        studentId: student.id,
+        trainingLevel: 'INICIANTE',
+      },
     })
 
     const training = await prisma.training.create({
@@ -56,25 +57,25 @@ describe('Fetch Student Exercises (E2E)', () => {
         name: 'TREINO A',
         type: 'SESSION',
         trainingPlanId: trainingPlan.id,
-      }
+      },
     })
 
     const exercise = await prisma.exercise.create({
       data: {
         name: 'Supino Reto',
         videoUrl: 'http://youtube.com',
-        description: 'Peito medio'
-      }
+        description: 'Peito medio',
+      },
     })
 
     await prisma.studentExercise.create({
       data: {
-        exerciseId:  exercise.id,
+        exerciseId: exercise.id,
         trainingId: training.id,
         sets: 3,
         repetitions: 12,
-        restTime: 120
-      }
+        restTime: 120,
+      },
     })
 
     const response = await request(app.getHttpServer())

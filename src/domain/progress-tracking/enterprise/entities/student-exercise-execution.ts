@@ -1,11 +1,13 @@
 import { Entity } from '@/core/entities/entities'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { PrismaExerciseRelation } from '@/infra/database/prisma/mappers/prisma-exercise-execution-mapper'
 
 export type StudentExerciseExecutionProps = {
   studentId: UniqueEntityID
   exerciseId: UniqueEntityID
   feedbackId: UniqueEntityID
+  exercise?: PrismaExerciseRelation
   weightUsed: number
   createdAt: Date
 }
@@ -20,6 +22,10 @@ export class StudentExerciseExecution extends Entity<StudentExerciseExecutionPro
 
   get feedbackId() {
     return this.props.feedbackId
+  }
+
+  get exercise() {
+    return this.props.exercise
   }
 
   get weightUsed() {

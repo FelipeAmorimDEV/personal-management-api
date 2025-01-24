@@ -14,10 +14,16 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { CreateExerciseUseCase } from '@/domain/training/applications/use-cases/create-exercise'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
+const groupMuscleSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+})
+
 const createExerciseBodySchema = z.object({
   videoUrl: z.string().url(),
   name: z.string(),
   description: z.string(),
+  groupMuscle: z.array(groupMuscleSchema),
 })
 
 type CreateExerciseBodySchema = z.infer<typeof createExerciseBodySchema>
@@ -34,13 +40,14 @@ export class CreateExerciseController {
     @Body(zodValidationPipe) body: CreateExerciseBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { videoUrl, name, description } = body
+    const { videoUrl, name, description, groupMuscle } = body
 
     const result = await this.createExercise.execute({
       userId: user.sub,
       name,
       videoUrl,
       description,
+      groupMuscle,
     })
 
     if (result.isLeft()) {

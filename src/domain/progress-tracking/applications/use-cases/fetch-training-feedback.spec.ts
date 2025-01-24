@@ -5,17 +5,23 @@ import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repos
 import { makeTrainingFeedback } from 'test/factories/make-training-execution'
 import { makeAdmin } from 'test/factories/make-admin'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryReplyTrainingFeedbackRepository } from 'test/repositories/in-memory-reply-training-feedback-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryTrainingFeedbacksRepository: InMemoryTrainingExecutionsRepository
+let inMemoryReplyTrainingFeedbackRepository: InMemoryReplyTrainingFeedbackRepository
 let userAutorizationService: UserAutorizationServiceImpl
 let sut: FetchTrainingFeedbackUseCase
 
 describe('Fetch Training Feedback', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryReplyTrainingFeedbackRepository =
+      new InMemoryReplyTrainingFeedbackRepository()
     inMemoryTrainingFeedbacksRepository =
-      new InMemoryTrainingExecutionsRepository()
+      new InMemoryTrainingExecutionsRepository(
+        inMemoryReplyTrainingFeedbackRepository,
+      )
     userAutorizationService = new UserAutorizationServiceImpl(
       inMemoryUsersRepository,
     )

@@ -22,12 +22,18 @@ const exercisesSchema = z.object({
   restTime: z.coerce.number(),
 })
 
+const groupMuscleSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+})
+
 const createTrainingBodySchema = z.object({
   name: z.string(),
   type: z.enum(['DAY', 'SESSION']),
   exercises: z.array(exercisesSchema),
   trainingPlanId: z.string().uuid(),
   dayOfWeek: z.nativeEnum(DayOfWeek).optional(),
+  groupMuscle: z.array(groupMuscleSchema),
 })
 
 type CreateTrainingBodySchema = z.infer<typeof createTrainingBodySchema>
@@ -44,7 +50,8 @@ export class CreateTrainingController {
     @Body(zodValidationPipe) body: CreateTrainingBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { trainingPlanId, name, type, exercises, dayOfWeek } = body
+    const { trainingPlanId, name, type, exercises, dayOfWeek, groupMuscle } =
+      body
     const userId = user.sub
 
     const result = await this.createTraining.execute({
@@ -54,6 +61,7 @@ export class CreateTrainingController {
       type,
       exercises,
       dayOfWeek,
+      groupMuscle,
     })
 
     if (result.isLeft()) {

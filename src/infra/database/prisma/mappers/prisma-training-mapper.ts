@@ -1,6 +1,11 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { GroupMuscle } from '@/domain/training/applications/use-cases/create-training'
 import { Training } from '@/domain/training/enterprise/entities/training'
-import { Prisma, Training as PrismaTraining } from '@prisma/client'
+import { Prisma, Training as PrismaTrainings } from '@prisma/client'
+
+type PrismaTraining = PrismaTrainings & {
+  groupMuscle: GroupMuscle[]
+}
 
 export class PrismaTrainingMapper {
   static toDomain(training: PrismaTraining) {
@@ -12,6 +17,7 @@ export class PrismaTrainingMapper {
         dayOfWeek: training.daysOfWeek,
         createdAt: training.createdAt,
         updatedAt: training.updatedAt,
+        groupMuscle: training.groupMuscle,
       },
       new UniqueEntityID(training.id),
     )
@@ -21,6 +27,11 @@ export class PrismaTrainingMapper {
     return {
       id: training.id.toString(),
       trainingPlanId: training.trainingPlanId.toString(),
+      groupMuscle: {
+        connect: training.groupMuscle.map((group) => ({
+          id: group.id,
+        })),
+      },
       name: training.name,
       type: training.type,
       daysOfWeek: training.dayOfWeek,

@@ -1,19 +1,12 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { TrainingFeedbackReply } from '@/domain/progress-tracking/enterprise/entities/training-feedback-reply'
-import { Prisma } from '@prisma/client'
+import {
+  Prisma,
+  TrainingFeedbackReply as PrismaTrainingFeedbackReply,
+} from '@prisma/client'
 
 export class PrismaReplyTrainingFeedbackMapper {
-  static toDomain(
-    trainingFeedbackReply: Prisma.TrainingFeedbackReplyGetPayload<{
-      include: {
-        feedback: {
-          include: {
-            training: true
-          }
-        }
-      }
-    }>,
-  ) {
+  static toDomain(trainingFeedbackReply: PrismaTrainingFeedbackReply) {
     return TrainingFeedbackReply.create(
       {
         trainingFeedbackId: new UniqueEntityID(
@@ -21,11 +14,6 @@ export class PrismaReplyTrainingFeedbackMapper {
         ),
         reply: trainingFeedbackReply.reply,
         readAt: trainingFeedbackReply.readAt,
-        trainingFeedback: {
-          comment: trainingFeedbackReply.feedback.comment,
-          rate: trainingFeedbackReply.feedback.rate,
-          trainingName: trainingFeedbackReply.feedback.training.name,
-        },
         createdAt: trainingFeedbackReply.createdAt,
       },
       new UniqueEntityID(trainingFeedbackReply.id),

@@ -2,17 +2,28 @@ import { StudentExerciseExecution } from './student-exercise-execution'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { TrainingFeedbackCreatedEvent } from '../events/training-feedback-created-event'
+import { IntensityLevel } from '../../applications/use-cases/enums/intensity-level'
 
 interface FeedbackDetails {
-  studentName: string
-  trainingName: string
+  studentName?: string
+  trainingName?: string
 }
+
+interface PersonalAnswer {
+  id?: string
+  reply?: string
+}
+
+type PersonalAnswerType = PersonalAnswer | null | undefined
+
 export type TrainingFeedbackProps = {
   studentId: UniqueEntityID
   trainingId: UniqueEntityID
   exercises: StudentExerciseExecution[]
   feedbackDetails?: FeedbackDetails
-  rate: number
+  personalAnswer?: PersonalAnswer | null
+  intensity: IntensityLevel
   comment?: string | null
   createdAt: Date
   readAt?: Date | null
@@ -39,8 +50,16 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
     return this.props.feedbackDetails
   }
 
-  get rate() {
-    return this.props.rate
+  get personalAnswer() {
+    return this.props.personalAnswer
+  }
+
+  set personalAnswer(personalAnswer: PersonalAnswerType) {
+    this.props.personalAnswer = personalAnswer
+  }
+
+  get intensity() {
+    return this.props.intensity
   }
 
   get comment() {
@@ -53,6 +72,10 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
 
   get createdAt() {
     return this.props.createdAt
+  }
+
+  except() {
+    return this.props.comment?.substring(0, 60).concat('...')
   }
 
   readFeedback() {
@@ -71,6 +94,14 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
       },
       id,
     )
+
+    const isNewFeedback = !id
+
+    if (isNewFeedback) {
+      trainingFeedback.addDomainEvent(
+        new TrainingFeedbackCreatedEvent(trainingFeedback),
+      )
+    }
 
     return trainingFeedback
   }

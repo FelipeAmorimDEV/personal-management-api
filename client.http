@@ -29,9 +29,15 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "Supino Inclinado",
+  "name": "Rosca Scott",
   "videoUrl": "http://youtube.com",
-  "description": "Exercicio trabalha o peito inferior"
+  "description": "Exercicio trabalha o peito inferior",
+  "groupMuscle": [
+    {
+      "id": "fde6515e-3727-46f5-b446-451eb926997a",
+      "name": "Biceps"
+    }
+  ]
 }
 
 ###
@@ -61,9 +67,10 @@ Content-Type: application/json
 
 {
   "studentId": "e42edb74-d88d-44f1-8383-118a97f8f4a0",
-  "name": "Plano de treino Hipertrofia",
-  "goal": "Hipertrofia",
-  "sessionsPerWeek": 3,
+  "name": "Plano Trimestral",
+  "goal": "Emagrecimento",
+  "sessionsPerWeek": 4,
+  "trainingLevel": "Intermediario",
   "strategy": "FLEXIBLE_SESSIONS",
   "startDate": "2025-01-01",
   "endDate": "2025-04-01"
@@ -77,9 +84,19 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "trainingPlanId": "5edc28c9-961c-4853-97f2-4bb00dd1e68f",
-  "name": "TREINO C",
+  "trainingPlanId": "2f8bebb8-0817-4448-b672-20fe08c7eb3c",
+  "name": "TREINO B",
   "type": "SESSION",
+  "groupMuscle": [
+    {
+      "name": "Triceps",
+      "id": "472dcea4-60c4-4557-ba5d-6849c33256a1"
+    },
+    {
+      "name": "Ombro",
+      "id": "53bdcc47-91cb-406d-8a84-d7c04d0bdd12"
+    }
+  ],
   "exercises": [
     {
       "exerciseId": "82901f83-e697-4500-a5d6-5c589891e686",
@@ -89,6 +106,53 @@ Content-Type: application/json
     },
     {
       "exerciseId": "33fd5c93-37bb-4c20-baaf-47ebe830d158",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+    ,
+    {
+      "exerciseId": "e1913045-7243-4d43-8152-2ba2d222b493",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+    ,
+    {
+      "exerciseId": "c464024a-38de-4116-a01d-aa3c254ecefb",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+    ,
+    {
+      "exerciseId": "e0cb4a57-e7b1-423a-afd5-d8cfdfcf9511",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+    ,
+    {
+      "exerciseId": "3a6e2a16-30a3-40b2-aa51-51ae8bd5fe7f",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    }
+    ,
+    {
+      "exerciseId": "99b19dca-48d6-4b10-a537-62b946f0569b",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    },
+    {
+      "exerciseId": "55976c1e-ad14-4920-b732-7d6b3790e28f",
+      "sets": 3,
+      "repetitions": 12,
+      "restTime": 120
+    },
+    {
+      "exerciseId": "d054c3eb-b1c4-4f50-9d94-8abfff28c017",
       "sets": 3,
       "repetitions": 12,
       "restTime": 120
@@ -104,13 +168,13 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "trainingId": "c0294196-2545-4410-b774-1d29d0b40206",
-  "rate": 3,
-  "comment": "Achei facil",
+  "trainingId": "14f43bd7-4e3d-4640-915c-3a6701918136",
+  "rate": 2,
+  "comment": "Otimo treino, tive um pouco de dificuldade no primeiro exercicio mas depois foi tranquilo2.",
   "exercises": [
     {
-      "exerciseId": "82901f83-e697-4500-a5d6-5c589891e686",
-      "weightUsed": 40  
+      "exerciseId": "47597df6-b360-4197-a828-31526641f35f",
+      "weightUsed": 20 
     }
   ]
 }
@@ -118,7 +182,7 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/50fcf791-8bc7-4a0c-be3c-e341fbad8a8d/reply
+POST {{baseUrl}}/trainings/feedback/9b5a7ccc-edf2-4fa7-a711-039d1c227696/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -132,7 +196,22 @@ Content-Type: application/json
 PUT {{baseUrl}}/trainings/feedbacks/reply/fb1a4a1c-1d23-41db-a710-a705b1de79e8
 Authorization: Bearer {{authToken}}
 
+
+
+
 ###
+
+# @name update_student_profile
+PUT {{baseUrl}}/profile
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Felipe Douglas"
+}
+
+###
+
 
 # @name fetch_training-plan
 GET {{baseUrl}}/training-plans
@@ -141,14 +220,14 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name fetch_trainings
-GET {{baseUrl}}/trainings?trainingPlanId=5edc28c9-961c-4853-97f2-4bb00dd1e68f
+GET {{baseUrl}}/trainings?trainingPlanId=2f8bebb8-0817-4448-b672-20fe08c7eb3c
 Authorization: Bearer {{authToken}}
 
 
 ###
 
 # @name fetch_training_exercises
-GET {{baseUrl}}/trainings/exercises?trainingId=025a2518-6fce-4776-99e1-2187f7326418
+GET {{baseUrl}}/trainings/exercises?trainingId=6e8380ca-a8eb-4dcc-abba-97b6898215a3
 Authorization: Bearer {{authToken}}
 
 ###
@@ -159,12 +238,46 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name fetch_training_feedbacks
+GET {{baseUrl}}/trainings/feedback?page=1
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_training_feedbacks_user
+GET {{baseUrl}}/trainings/feedback/user
+Authorization: Bearer {{authToken}}
+
+###
+
 # @name fetch_exercise_executions
-GET {{baseUrl}}/exercises/82901f83-e697-4500-a5d6-5c589891e686/execution?page=1
+GET {{baseUrl}}/exercises/47597df6-b360-4197-a828-31526641f35f/execution?page=1
 Authorization: Bearer {{authToken}}
 
 ###
 
 # @name fetch_training_feedbacks_admin
-GET {{baseUrl}}/trainings/feedbacks?page=1
+GET {{baseUrl}}/trainings/feedback?page=1
 Authorization: Bearer {{authToken}}
+
+### 
+# @name fetch_exercise_executions_by_user
+GET {{baseUrl}}/exercises/executions
+Authorization: Bearer {{authToken}}
+
+
+### 
+# @name fetch_training_frequency
+GET {{baseUrl}}/trainings/frequency
+Authorization: Bearer {{authToken}}
+
+### 
+# @name find_recent_exercise_weight
+GET {{baseUrl}}/exercises/82901f83-e697-4500-a5d6-5c589891e686/executions
+Authorization: Bearer {{authToken}}
+
+### 
+# @name get_profile
+GET {{baseUrl}}/profile
+Authorization: Bearer {{authToken}}
+

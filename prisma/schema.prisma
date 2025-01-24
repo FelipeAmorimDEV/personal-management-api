@@ -32,6 +32,7 @@ model Exercise {
   name              String
   videoUrl          String
   description       String?
+  groupMuscle       GroupMuscle[]       @relation("ExerciseMuscleGroups")
   createdAt         DateTime            @default(now()) @map("created_at")
   updatedAt         DateTime            @updatedAt @map("updated_at")
   StudentExercise   StudentExercise[]
@@ -49,6 +50,7 @@ model TrainingPlan {
   id              String               @id @default(uuid())
   name            String
   goal            String
+  trainingLevel   String               @map("training_level")
   sessionsPerWeek Int                  @map("sessions_per_week")
   strategy        TrainingPlanStrategy @default(FLEXIBLE_SESSIONS)
   startDate       DateTime             @map("start_date")
@@ -81,6 +83,7 @@ enum DaysOfWeek {
 model Training {
   id             String            @id @default(uuid())
   name           String
+  groupMuscle    GroupMuscle[]     @relation("TrainingMuscleGroups")
   type           TrainingType      @default(SESSION)
   daysOfWeek     DaysOfWeek?
   createdAt      DateTime          @default(now()) @map("created_at")
@@ -90,6 +93,17 @@ model Training {
 
   trainingPlan              TrainingPlan                @relation(fields: [trainingPlanId], references: [id])
   TrainingExecutionFeedback TrainingExecutionFeedback[]
+
+  @@map("training")
+}
+
+model GroupMuscle {
+  id       String     @id @default(uuid())
+  name     String
+  Training Training[] @relation("TrainingMuscleGroups")
+  Exercise Exercise[] @relation("ExerciseMuscleGroups")
+
+  @@map("group_muscle")
 }
 
 model StudentExercise {
@@ -104,11 +118,21 @@ model StudentExercise {
 
   exercise Exercise @relation(fields: [exerciseId], references: [id])
   training Training @relation(fields: [trainingId], references: [id])
+
+  @@map("student_exercise")
+}
+
+enum IntensityLevel {
+  VERY_LOW // Muito pouco intenso
+  LOW // Pouco intenso
+  MODERATE // Intenso
+  HIGH // Muito intenso
+  EXTREME // Extremamente intenso
 }
 
 model TrainingExecutionFeedback {
   id         String              @id @default(uuid())
-  rate       Int
+  intensity  IntensityLevel
   comment    String?
   trainingId String              @map("training_id")
   studentId  String              @map("student_id")
@@ -146,4 +170,6 @@ model TrainingFeedbackReply {
   readAt             DateTime? @map("read_at")
 
   feedback TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
+
+  @@map("training_feedback_reply")
 }

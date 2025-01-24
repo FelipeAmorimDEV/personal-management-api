@@ -11,6 +11,46 @@ export class PrismaExerciseExecutionsRepository
 {
   constructor(private prisma: PrismaService) {}
 
+  async findByUserIdAndExerciseId(userId: string, exerciseId: string) {
+    const exerciseExecution = await this.prisma.exerciseExecution.findFirst({
+      where: {
+        studentId: userId,
+        exerciseId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    console.log('Exercise Execution', exerciseExecution)
+
+    if (!exerciseExecution) {
+      return null
+    }
+
+    return PrismaExerciseExecutionMapper.toDomain(exerciseExecution)
+  }
+
+  async fetchManyByUserId(userId: string): Promise<StudentExerciseExecution[]> {
+    const exerciseExecutions = await this.prisma.exerciseExecution.findMany({
+      where: {
+        studentId: userId,
+      },
+      include: {
+        exercise: {
+          include: {
+            groupMuscle: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return exerciseExecutions.map(PrismaExerciseExecutionMapper.toDomain)
+  }
+
   async fetchManyByUserIdAndExerciseId(
     userId: string,
     exerciseId: string,
@@ -20,6 +60,13 @@ export class PrismaExerciseExecutionsRepository
       where: {
         studentId: userId,
         exerciseId,
+      },
+      include: {
+        exercise: {
+          include: {
+            groupMuscle: true,
+          },
+        },
       },
       skip: (page - 1) * 20,
       take: 20 * page,

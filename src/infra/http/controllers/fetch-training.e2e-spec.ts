@@ -47,8 +47,9 @@ describe('Fetch Training (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         startDate: new Date(2025, 0, 1),
         endDate: new Date(2025, 3, 1),
-        studentId: student.id
-      }
+        studentId: student.id,
+        trainingLevel: 'INICIANTE',
+      },
     })
 
     await prisma.training.create({
@@ -56,7 +57,7 @@ describe('Fetch Training (E2E)', () => {
         name: 'TREINO A',
         type: 'SESSION',
         trainingPlanId: training.id,
-      }
+      },
     })
 
     const response = await request(app.getHttpServer())

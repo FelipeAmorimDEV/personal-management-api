@@ -46,6 +46,7 @@ describe('Read Training Feedback  Reply (E2E)', () => {
         strategy: 'FLEXIBLE_SESSIONS',
         studentId: student.id,
         sessionsPerWeek: 3,
+        trainingLevel: 'INICIANTE',
       },
     })
 

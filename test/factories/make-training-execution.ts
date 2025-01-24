@@ -12,6 +12,7 @@ export function makeTrainingFeedback(
     {
       trainingId: new UniqueEntityID('training-1'),
       comment: 'Novo comentario',
+      studentId: new UniqueEntityID('student-1'),
       rate: 5,
       ...override,
     },

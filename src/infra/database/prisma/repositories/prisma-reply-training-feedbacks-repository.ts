@@ -9,26 +9,22 @@ export class PrismaReplyTrainingFeedbacksRepository
   implements ReplyTrainingFeedbacksRepository
 {
   constructor(private prisma: PrismaService) {}
-  async findRepliesForStudent(studentId: string) {
-    const trainingFeedbackReplies =
-      await this.prisma.trainingFeedbackReply.findMany({
+
+  async findByFeedbackId(
+    feedbackId: string,
+  ): Promise<TrainingFeedbackReply | null> {
+    const trainingFeedbackReply =
+      await this.prisma.trainingFeedbackReply.findFirst({
         where: {
-          feedback: {
-            studentId,
-          },
-        },
-        include: {
-          feedback: {
-            include: {
-              training: true,
-            },
-          },
+          trainingFeedbackId: feedbackId,
         },
       })
 
-    return trainingFeedbackReplies.map(
-      PrismaReplyTrainingFeedbackMapper.toDomain,
-    )
+    if (!trainingFeedbackReply) {
+      return null
+    }
+
+    return PrismaReplyTrainingFeedbackMapper.toDomain(trainingFeedbackReply)
   }
 
   async findById(id: string) {

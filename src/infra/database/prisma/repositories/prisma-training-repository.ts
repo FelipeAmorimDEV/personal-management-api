@@ -14,6 +14,9 @@ export class PrismaTrainingRepository implements TrainingsRepository {
       where: {
         trainingPlanId,
       },
+      include: {
+        groupMuscle: true,
+      },
     })
 
     return trainings.map(PrismaTrainingMapper.toDomain)
@@ -25,9 +28,7 @@ export class PrismaTrainingRepository implements TrainingsRepository {
     )
     const data = PrismaTrainingMapper.toPrisma(training)
 
-    await this.prisma.training.create({
-      data,
-    })
+    await this.prisma.training.create({ data })
     await this.prisma.studentExercise.createMany({
       data: exercises,
     })

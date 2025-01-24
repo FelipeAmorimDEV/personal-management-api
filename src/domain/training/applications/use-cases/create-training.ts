@@ -16,6 +16,11 @@ type Exercise = {
   restTime: number
 }
 
+export type GroupMuscle = {
+  id: string
+  name: string
+}
+
 interface CreateTrainingUseCaseRequest {
   userId: string
   name: string
@@ -23,6 +28,7 @@ interface CreateTrainingUseCaseRequest {
   exercises: Exercise[]
   trainingPlanId: string
   dayOfWeek?: DayOfWeek
+  groupMuscle: GroupMuscle[]
 }
 
 type CreateTrainingUseCaseResponse = Either<NotAllowedError, null>
@@ -41,6 +47,7 @@ export class CreateTrainingUseCase {
     dayOfWeek,
     exercises,
     trainingPlanId,
+    groupMuscle,
   }: CreateTrainingUseCaseRequest): Promise<CreateTrainingUseCaseResponse> {
     const isAdmin = await this.userAutorizationService.isAdmin(userId)
 
@@ -53,6 +60,7 @@ export class CreateTrainingUseCase {
       type,
       dayOfWeek,
       trainingPlanId: new UniqueEntityID(trainingPlanId),
+      groupMuscle,
     })
 
     const studentExercises = exercises.map((exercise) =>

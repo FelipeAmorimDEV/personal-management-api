@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../../core/entities/aggregate-root'
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Optional } from '../../../../core/types/optional'
+import { GroupMuscle } from '../../applications/use-cases/create-training'
 import { StudentExerciseList } from './student-exercise-list'
 
 export enum DayOfWeek {
@@ -28,6 +29,7 @@ export interface TrainingProps {
   type: 'DAY' | 'SESSION'
   dayOfWeek?: DayOfWeekType | null
   exercises: StudentExerciseList
+  groupMuscle: GroupMuscle[]
   createdAt: Date
   updatedAt?: Date
 }
@@ -53,6 +55,10 @@ export class Training extends AggregateRoot<TrainingProps> {
     return this.props.exercises
   }
 
+  get groupMuscle() {
+    return this.props.groupMuscle
+  }
+
   get createdAt() {
     return this.props.createdAt
   }
@@ -66,7 +72,7 @@ export class Training extends AggregateRoot<TrainingProps> {
   }
 
   static create(
-    props: Optional<TrainingProps, 'createdAt' | 'exercises'>,
+    props: Optional<TrainingProps, 'createdAt' | 'exercises' | 'groupMuscle'>,
     id?: UniqueEntityID,
   ) {
     const training = new Training(
@@ -74,6 +80,7 @@ export class Training extends AggregateRoot<TrainingProps> {
         ...props,
         createdAt: props.createdAt ?? new Date(),
         exercises: props.exercises ?? new StudentExerciseList(),
+        groupMuscle: props.groupMuscle ?? [],
       },
       id,
     )

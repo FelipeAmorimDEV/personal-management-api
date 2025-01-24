@@ -7,7 +7,8 @@ export class HttpTrainingFeedbackPresenter {
       studentName: trainingFeedback.feedbackDetails?.studentName,
       trainingName: trainingFeedback.feedbackDetails?.trainingName,
       comment: trainingFeedback.comment,
-      rate: trainingFeedback.rate,
+      intensity: trainingFeedback.intensity,
+      personalAnswer: trainingFeedback.personalAnswer?.reply,
       createdAt: trainingFeedback.createdAt,
       readAt: trainingFeedback.readAt,
     }

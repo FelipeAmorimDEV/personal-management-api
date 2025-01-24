@@ -7,6 +7,28 @@ export class InMemoryExerciseExecutionsRepository
 {
   public items: StudentExerciseExecution[] = []
 
+  async findByUserIdAndExerciseId(userId: string, exerciseId: string) {
+    const exerciseExecution = this.items.find(
+      (item) =>
+        item.studentId.toString() === userId &&
+        item.exerciseId.toString() === exerciseId,
+    )
+
+    if (!exerciseExecution) {
+      return null
+    }
+
+    return exerciseExecution
+  }
+
+  async fetchManyByUserId(userId: string) {
+    const exerciseExecutions = this.items.filter(
+      (item) => item.studentId.toString() === userId,
+    )
+
+    return exerciseExecutions
+  }
+
   async fetchManyByUserIdAndExerciseId(
     userId: string,
     exerciseId: string,

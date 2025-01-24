@@ -1,21 +1,16 @@
 import { InMemoryReplyTrainingFeedbackRepository } from 'test/repositories/in-memory-reply-training-feedback-repository'
-import { InMemoryTrainingExecutionsRepository } from 'test/repositories/in-memory-training-executions-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ReadReplyTrainingFeedbackUseCase } from './read-reply-training-feedback'
 import { TrainingFeedbackReply } from '../../enterprise/entities/training-feedback-reply'
 
-let inMemoryTrainingFeedbacksRepository: InMemoryTrainingExecutionsRepository
 let inMemoryReplyTrainingFeedbackRepository: InMemoryReplyTrainingFeedbackRepository
 let sut: ReadReplyTrainingFeedbackUseCase
 
 describe('Read Reply Training Feedback', () => {
   beforeEach(() => {
-    inMemoryTrainingFeedbacksRepository =
-      new InMemoryTrainingExecutionsRepository()
     inMemoryReplyTrainingFeedbackRepository =
-      new InMemoryReplyTrainingFeedbackRepository(
-        inMemoryTrainingFeedbacksRepository,
-      )
+      new InMemoryReplyTrainingFeedbackRepository()
+
     sut = new ReadReplyTrainingFeedbackUseCase(
       inMemoryReplyTrainingFeedbackRepository,
     )

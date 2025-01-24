@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Optional } from '../../../../core/types/optional'
 
 export interface Details {
-  name: string,
+  name: string
   videoUrl: string
   description: string | null
 }

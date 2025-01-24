@@ -5,12 +5,46 @@ import { PrismaService } from '../prisma.service'
 import { PrismaTrainingFeedbackMapper } from '../mappers/prisma-training-feedback-mapper'
 import { Injectable } from '@nestjs/common'
 import { PrismaExerciseExecutionMapper } from '../mappers/prisma-exercise-execution-mapper'
+import { getDatesOfWeek } from '@/utils/get-dates-of-week'
+import * as dayjs from 'dayjs'
 
 @Injectable()
 export class PrismaTrainingFeedbacksRepository
   implements TrainingFeedbacksRepository
 {
   constructor(private prisma: PrismaService) {}
+
+  async findTrainingFrequencyByUserId(userId: string) {
+    const today = new Date()
+    const datesOfWeek = getDatesOfWeek(today.toUTCString())
+
+    const frequencyTraining = await Promise.all(
+      datesOfWeek.map(async (date) => {
+        const startOfDay = dayjs(date).startOf('date').toDate()
+        const endOfDay = dayjs(date).endOf('date').toDate()
+        const hasTraining =
+          await this.prisma.trainingExecutionFeedback.findFirst({
+            where: {
+              studentId: userId,
+              createdAt: {
+                gte: startOfDay,
+                lte: endOfDay,
+              },
+            },
+          })
+
+        return {
+          day: date.getDay(),
+          isTraining: !!hasTraining,
+          isInvalid: !!(
+            !hasTraining === true && date.getDate() < today.getDate()
+          ),
+        }
+      }),
+    )
+
+    return frequencyTraining
+  }
 
   async findMany({ page }: PaginationParams) {
     const trainingFeedbacks =
@@ -20,6 +54,7 @@ export class PrismaTrainingFeedbacksRepository
         include: {
           student: true,
           training: true,
+          feedbackReply: true,
         },
       })
 
@@ -35,6 +70,10 @@ export class PrismaTrainingFeedbacksRepository
         include: {
           student: true,
           training: true,
+          feedbackReply: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       })
 
@@ -50,6 +89,7 @@ export class PrismaTrainingFeedbacksRepository
         include: {
           student: true,
           training: true,
+          feedbackReply: true,
         },
       })
 

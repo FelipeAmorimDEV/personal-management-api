@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { IntensityLevel } from '@/domain/progress-tracking/applications/use-cases/enums/intensity-level'
 import { TrainingFeedback } from '@/domain/progress-tracking/enterprise/entities/training-feedback'
 import { Prisma } from '@prisma/client'
 
@@ -13,7 +14,7 @@ export class PrismaTrainingFeedbackMapper {
         trainingId: new UniqueEntityID(trainingFeedback.trainingId),
         studentId: new UniqueEntityID(trainingFeedback.studentId),
         comment: trainingFeedback.comment,
-        rate: trainingFeedback.rate,
+        intensity: IntensityLevel[trainingFeedback.intensity],
         createdAt: trainingFeedback.createdAt,
         readAt: trainingFeedback.readAt,
         feedbackDetails: {
@@ -36,7 +37,7 @@ export class PrismaTrainingFeedbackMapper {
       id: trainingFeedback.id.toString(),
       studentId: trainingFeedback.studentId.toString(),
       trainingId: trainingFeedback.trainingId.toString(),
-      rate: trainingFeedback.rate,
+      intensity: trainingFeedback.intensity,
       comment: trainingFeedback.comment,
       createdAt: trainingFeedback.createdAt,
       readAt: trainingFeedback.readAt,

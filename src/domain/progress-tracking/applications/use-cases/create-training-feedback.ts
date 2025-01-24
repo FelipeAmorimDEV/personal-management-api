@@ -5,6 +5,7 @@ import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-
 import { Either, right } from '@/core/either'
 import { TrainingFeedback } from '../../enterprise/entities/training-feedback'
 import { Injectable } from '@nestjs/common'
+import { IntensityLevel } from './enums/intensity-level'
 
 type Exercises = {
   exerciseId: string
@@ -15,7 +16,7 @@ interface CreateTrainingExecutionFeedbackRequest {
   studentId: string
   trainingId: string
   exercises: Exercises[]
-  rate: number
+  intensity: IntensityLevel
   comment: string
 }
 
@@ -29,14 +30,14 @@ export class CreateTrainingExecutionFeedbackUseCase {
   constructor(private trainingFeedbacks: TrainingFeedbacksRepository) {}
   async execute({
     trainingId,
-    rate,
+    intensity,
     comment,
     exercises,
     studentId,
   }: CreateTrainingExecutionFeedbackRequest): Promise<CreateTrainingExecutionFeedbackResponse> {
     const trainingFeedback = TrainingFeedback.create({
       trainingId: new UniqueEntityID(trainingId),
-      rate,
+      intensity,
       comment,
       studentId: new UniqueEntityID(studentId),
     })

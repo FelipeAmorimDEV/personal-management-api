@@ -72,6 +72,9 @@ export class PrismaTrainingFeedbacksRepository
           training: true,
           feedbackReply: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       })
 
     return trainingFeedbacks.map(PrismaTrainingFeedbackMapper.toDomain)

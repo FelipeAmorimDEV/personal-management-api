@@ -43,6 +43,9 @@ export class PrismaExerciseExecutionsRepository
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     return exerciseExecutions.map(PrismaExerciseExecutionMapper.toDomain)

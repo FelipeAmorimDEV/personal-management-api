@@ -3,6 +3,7 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Optional } from '@/core/types/optional'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { TrainingFeedbackCreatedEvent } from '../events/training-feedback-created-event'
+import { IntensityLevel } from '../../applications/use-cases/enums/intensity-level'
 
 interface FeedbackDetails {
   studentName?: string
@@ -22,7 +23,7 @@ export type TrainingFeedbackProps = {
   exercises: StudentExerciseExecution[]
   feedbackDetails?: FeedbackDetails
   personalAnswer?: PersonalAnswer | null
-  rate: number
+  intensity: IntensityLevel
   comment?: string | null
   createdAt: Date
   readAt?: Date | null
@@ -57,8 +58,8 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
     this.props.personalAnswer = personalAnswer
   }
 
-  get rate() {
-    return this.props.rate
+  get intensity() {
+    return this.props.intensity
   }
 
   get comment() {

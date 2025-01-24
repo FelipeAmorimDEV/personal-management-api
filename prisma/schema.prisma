@@ -122,9 +122,17 @@ model StudentExercise {
   @@map("student_exercise")
 }
 
+enum IntensityLevel {
+  VERY_LOW // Muito pouco intenso
+  LOW // Pouco intenso
+  MODERATE // Intenso
+  HIGH // Muito intenso
+  EXTREME // Extremamente intenso
+}
+
 model TrainingExecutionFeedback {
   id         String              @id @default(uuid())
-  rate       Int
+  intensity  IntensityLevel
   comment    String?
   trainingId String              @map("training_id")
   studentId  String              @map("student_id")

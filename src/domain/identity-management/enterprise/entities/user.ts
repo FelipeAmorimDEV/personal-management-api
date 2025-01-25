@@ -5,6 +5,7 @@ export interface UserProps {
   email: string
   password: string
   role: 'ADMIN' | 'STUDENT'
+  avatar?: string | null
   createdAt: Date
   updatedAt?: Date
 }
@@ -27,6 +28,14 @@ export abstract class User<Props extends UserProps> extends Entity<Props> {
 
   get role() {
     return this.props.role
+  }
+
+  get avatar() {
+    return this.props.avatar
+  }
+
+  set avatar(avatarUrl: string | undefined | null) {
+    this.props.avatar = avatarUrl
   }
 
   get createdAt() {

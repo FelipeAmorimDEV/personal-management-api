@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { AuthenticateStudentUseCase } from '@/domain/identity-management/applications/use-cases/authenticate-student'
 import { CredentialsInvalidError } from '@/domain/identity-management/applications/use-cases/errors/credentials-invalid-error'
+import { HttpUserPresenter } from '../presenters/http-user-presenter'
 
 const authenticateAccountBodySchema = z.object({
   email: z.string().email(),
@@ -44,8 +45,8 @@ export class AuthenticateAccountController {
       }
     }
 
-    const { access_token } = result.value
+    const { access_token, user } = result.value
 
-    return { access_token }
+    return { access_token, user: HttpUserPresenter.toHTTP(user) }
   }
 }

@@ -1,5 +1,6 @@
 import { PaginationParams } from '@/core/types/pagination-params'
 import { TrainingFeedback } from '../../enterprise/entities/training-feedback'
+import { TrainingFeedbackWithDetails } from '../../enterprise/entities/value-objects/training-feedback-with-details'
 
 export interface TrainingFrequency {
   day: number
@@ -10,6 +11,10 @@ export interface TrainingFrequency {
 export abstract class TrainingFeedbacksRepository {
   abstract findMany({ page }: PaginationParams): Promise<TrainingFeedback[]>
   abstract findManyByUserId(id: string): Promise<TrainingFeedback[]>
+  abstract fetchManyByUserIdWithDetails(
+    userId: string,
+  ): Promise<TrainingFeedbackWithDetails[]>
+
   abstract findTrainingFrequencyByUserId(
     userId: string,
   ): Promise<TrainingFrequency[]>

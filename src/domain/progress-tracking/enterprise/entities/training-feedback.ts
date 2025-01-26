@@ -5,24 +5,10 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { TrainingFeedbackCreatedEvent } from '../events/training-feedback-created-event'
 import { IntensityLevel } from '../../applications/use-cases/enums/intensity-level'
 
-interface FeedbackDetails {
-  studentName?: string
-  trainingName?: string
-}
-
-interface PersonalAnswer {
-  id?: string
-  reply?: string
-}
-
-type PersonalAnswerType = PersonalAnswer | null | undefined
-
 export type TrainingFeedbackProps = {
   studentId: UniqueEntityID
   trainingId: UniqueEntityID
   exercises: StudentExerciseExecution[]
-  feedbackDetails?: FeedbackDetails
-  personalAnswer?: PersonalAnswer | null
   intensity: IntensityLevel
   comment?: string | null
   createdAt: Date
@@ -44,18 +30,6 @@ export class TrainingFeedback extends AggregateRoot<TrainingFeedbackProps> {
 
   set exercises(exercises: StudentExerciseExecution[]) {
     this.props.exercises = exercises
-  }
-
-  get feedbackDetails() {
-    return this.props.feedbackDetails
-  }
-
-  get personalAnswer() {
-    return this.props.personalAnswer
-  }
-
-  set personalAnswer(personalAnswer: PersonalAnswerType) {
-    this.props.personalAnswer = personalAnswer
   }
 
   get intensity() {

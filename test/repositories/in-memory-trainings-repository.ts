@@ -3,9 +3,11 @@ import { Training } from '@/domain/training/enterprise/entities/training'
 
 export class InMemoryTrainingsRepository implements TrainingsRepository {
   public items: Training[] = []
-  
+
   async fetchManyByTrainingPlanId(trainingPlanId: string) {
-    const trainings = this.items.filter((item) => item.trainingPlanId.toString() === trainingPlanId)
+    const trainings = this.items.filter(
+      (item) => item.trainingPlanId.toString() === trainingPlanId,
+    )
     return trainings
   }
 

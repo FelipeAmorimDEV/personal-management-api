@@ -182,7 +182,7 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/804801f0-62f1-48ff-8156-905774979cf0/reply
+POST {{baseUrl}}/trainings/feedback/3a9215a1-1386-4556-8948-56e39149f44b/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 

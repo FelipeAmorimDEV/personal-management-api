@@ -1,15 +1,20 @@
 import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/types/pagination-params'
-import { ReplyTrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/reply-training-feedbacks-repository'
 import { TrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/training-feedbacks-repository'
 import { TrainingFeedback } from '@/domain/progress-tracking/enterprise/entities/training-feedback'
+import { TrainingFeedbackWithDetails } from '@/domain/progress-tracking/enterprise/entities/value-objects/training-feedback-with-details'
 import { getDatesOfWeek } from '@/utils/get-dates-of-week'
+import { InMemoryReplyTrainingFeedbackRepository } from './in-memory-reply-training-feedback-repository'
+import { InMemoryUsersRepository } from './in-memory-users-repository'
+import { InMemoryTrainingsRepository } from './in-memory-trainings-repository'
 
 export class InMemoryTrainingExecutionsRepository
   implements TrainingFeedbacksRepository
 {
   constructor(
-    private replyTrainingFeedback: ReplyTrainingFeedbacksRepository,
+    private replyTrainingFeedback: InMemoryReplyTrainingFeedbackRepository,
+    private usersRepository: InMemoryUsersRepository,
+    private trainingsRepository: InMemoryTrainingsRepository,
   ) {}
 
   public items: TrainingFeedback[] = []
@@ -47,32 +52,40 @@ export class InMemoryTrainingExecutionsRepository
       (item) => item.studentId.toString() === id,
     )
 
-    // Para cada feedback, aguardamos a busca pela resposta correspondente
-    const trainingFeedbackWithResponse = await Promise.all(
-      trainingFeedbacks.map(async (trainingFeedback) => {
-        try {
-          const data = await this.replyTrainingFeedback.findByFeedbackId(
-            trainingFeedback.id.toString(),
-          )
+    return trainingFeedbacks
+  }
 
-          if (data) {
-            trainingFeedback.personalAnswer = {
-              id: data.id.toString(),
-              reply: data.reply,
-            }
-          }
-        } catch (error) {
-          console.error(
-            `Erro ao buscar resposta para feedback ${trainingFeedback.id}:`,
-            error,
-          )
+  async fetchManyByUserIdWithDetails(userId: string) {
+    const trainingFeedbacks = this.items
+      .filter((item) => item.studentId.toString() === userId)
+      .map((trainingFeedback) => {
+        const student = this.usersRepository.items.find(
+          (user) => user.id === trainingFeedback.studentId,
+        )
+        const training = this.trainingsRepository.items.find(
+          (training) => training.id === trainingFeedback.trainingId,
+        )
+        const answer = this.replyTrainingFeedback.items.find(
+          (reply) => reply.trainingFeedbackId === trainingFeedback.id,
+        )
+
+        if (!student || !training || !answer) {
+          throw new Error('Relacionamento não encontrado')
         }
+        return TrainingFeedbackWithDetails.create({
+          studentId: trainingFeedback.studentId,
+          trainingFeedbackId: trainingFeedback.id,
+          comment: trainingFeedback.comment,
+          intensity: trainingFeedback.intensity,
+          createdAt: trainingFeedback.createdAt,
+          readAt: trainingFeedback.readAt,
+          studentName: student.name,
+          trainingName: training.name,
+          personalAnswer: answer.reply,
+        })
+      })
 
-        return trainingFeedback
-      }),
-    )
-
-    return trainingFeedbackWithResponse
+    return trainingFeedbacks
   }
 
   async findById(id: string) {

@@ -1,9 +1,9 @@
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import { Controller, Get, UseGuards } from '@nestjs/common'
-import { HttpTrainingFeedbackPresenter } from '../presenters/http-training-feedback-presenter'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { FetchRecentTrainingFeedbackUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-recent-training-feedback-user'
+import { HttpTrainingFeedbackWithDetailsPresenter } from '../presenters/http-training-feedback-with-details-presenter'
 
 @Controller('trainings/feedback/user') // FIX
 @UseGuards(JwtAuthGuard)
@@ -25,7 +25,7 @@ export class FetchRecentTrainingFeedbackController {
     }
 
     const trainingFeedbacks = result.value.trainingFeedbacks.map(
-      HttpTrainingFeedbackPresenter.toHTTP,
+      HttpTrainingFeedbackWithDetailsPresenter.toHTTP,
     )
 
     return { trainingFeedbacks }

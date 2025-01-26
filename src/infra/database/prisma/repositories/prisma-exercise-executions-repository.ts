@@ -22,8 +22,6 @@ export class PrismaExerciseExecutionsRepository
       },
     })
 
-    console.log('Exercise Execution', exerciseExecution)
-
     if (!exerciseExecution) {
       return null
     }

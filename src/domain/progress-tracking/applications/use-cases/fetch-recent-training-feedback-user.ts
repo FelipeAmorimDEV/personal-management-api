@@ -1,9 +1,9 @@
 import { Either, right } from '@/core/either'
-import { TrainingFeedback } from '../../enterprise/entities/training-feedback'
 import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-repository'
 
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
+import { TrainingFeedbackWithDetails } from '../../enterprise/entities/value-objects/training-feedback-with-details'
 
 interface FetchRecentTrainingFeedbackUseCaseRequest {
   userId: string
@@ -11,7 +11,7 @@ interface FetchRecentTrainingFeedbackUseCaseRequest {
 
 type FetchRecentTrainingFeedbackUseCaseResponse = Either<
   NotAllowedError,
-  { trainingFeedbacks: TrainingFeedback[] }
+  { trainingFeedbacks: TrainingFeedbackWithDetails[] }
 >
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FetchRecentTrainingFeedbackUseCase {
     userId,
   }: FetchRecentTrainingFeedbackUseCaseRequest): Promise<FetchRecentTrainingFeedbackUseCaseResponse> {
     const trainingFeedbacks =
-      await this.trainingFeedbacks.findManyByUserId(userId)
+      await this.trainingFeedbacks.fetchManyByUserIdWithDetails(userId)
 
     return right({ trainingFeedbacks })
   }

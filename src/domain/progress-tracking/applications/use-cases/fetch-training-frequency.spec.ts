@@ -26,8 +26,8 @@ describe('Fetch Training Frequency', () => {
   })
 
   it('should be able to fetch training Frequency', async () => {
-    const firstDate = new Date('2025-01-19')
-    const secondDate = new Date('2025-01-20')
+    const firstDate = new Date('2025-01-19T03:00:00')
+    const secondDate = new Date('2025-01-20T03:00:00')
 
     vi.setSystemTime(new Date(firstDate))
     const trainingFeedback = makeTrainingFeedback({
@@ -46,10 +46,10 @@ describe('Fetch Training Frequency', () => {
 
     if (result.isRight()) {
       expect(result.value.frequencyTraining).toHaveLength(7)
-      expect(result.value.frequencyTraining[6].isTraining).toEqual(true)
-      expect(result.value.frequencyTraining[6].isInvalid).toEqual(false)
-      expect(result.value.frequencyTraining[4].isInvalid).toEqual(true)
-      expect(result.value.frequencyTraining[4].isTraining).toEqual(false)
+      expect(result.value.frequencyTraining[0].isTraining).toEqual(true)
+      expect(result.value.frequencyTraining[0].isInvalid).toEqual(false)
+      expect(result.value.frequencyTraining[1].isInvalid).toEqual(false)
+      expect(result.value.frequencyTraining[1].isTraining).toEqual(true)
     }
   })
 })

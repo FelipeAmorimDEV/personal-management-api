@@ -10,5 +10,7 @@ export function getDatesOfWeek(baseDate: string) {
     dates.push(date)
   }
 
+  console.log('Dates', dates)
+
   return dates
 }

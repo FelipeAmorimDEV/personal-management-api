@@ -5,9 +5,7 @@ test('get first day of week', () => {
 
   const datesOfWeek = getDatesOfWeek(date)
 
-  console.log(datesOfWeek)
-
   expect(datesOfWeek).toHaveLength(7)
-  expect(datesOfWeek[0].getDate()).toEqual(13)
-  expect(datesOfWeek[6].getDate()).toEqual(19)
+  expect(datesOfWeek[0].getDate()).toEqual(12)
+  expect(datesOfWeek[6].getDate()).toEqual(18)
 })

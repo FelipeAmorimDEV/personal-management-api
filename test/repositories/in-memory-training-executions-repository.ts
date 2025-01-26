@@ -25,12 +25,16 @@ export class InMemoryTrainingExecutionsRepository
     const today = new Date()
     const datesOfWeek = getDatesOfWeek(today.toUTCString())
 
+    console.log('datesOfWeek', datesOfWeek)
+
     const frequencyTraining = datesOfWeek.map((dates) => {
-      const hasTraining = this.items.find(
-        (item) =>
+      const hasTraining = this.items.find((item) => {
+        console.log(item.createdAt)
+        return (
           item.studentId.toString() === userId &&
-          item.createdAt.getDate() === dates.getDate(),
-      )
+          item.createdAt.getDate() === dates.getDate()
+        )
+      })
       return {
         day: dates.getDay(),
         isTraining: !!hasTraining,

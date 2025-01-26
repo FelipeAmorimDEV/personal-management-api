@@ -1,5 +1,5 @@
 export class CredentialsInvalidError extends Error {
   constructor() {
-    super('Credentials invalid')
+    super('O e-mail ou o password esta incorreto.')
   }
 }

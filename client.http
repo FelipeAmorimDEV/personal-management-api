@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "name": "Felipe Amorim",
-  "email": "felipe2@gmail.com",
+  "email": "felipe5@gmail.com",
   "password": "123456"
 }
 
@@ -182,7 +182,7 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/9b5a7ccc-edf2-4fa7-a711-039d1c227696/reply
+POST {{baseUrl}}/trainings/feedback/3a9215a1-1386-4556-8948-56e39149f44b/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 

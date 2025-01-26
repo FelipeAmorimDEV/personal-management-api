@@ -7,7 +7,9 @@ export class InMemoryTrainingPlansRepository
   public items: TrainingPlan[] = []
 
   async findById(trainingPlanId: string) {
-    const trainingPlan = this.items.find((item) => item.id.toString() === trainingPlanId)
+    const trainingPlan = this.items.find(
+      (item) => item.id.toString() === trainingPlanId,
+    )
     if (!trainingPlan) {
       return null
     }
@@ -15,8 +17,10 @@ export class InMemoryTrainingPlansRepository
     return trainingPlan
   }
 
-  async fetchManyByStudentId(studentId: string){
-    const trainingPlans = this.items.filter((item) => item.studentId.toString() === studentId)
+  async fetchManyByStudentId(studentId: string) {
+    const trainingPlans = this.items.filter(
+      (item) => item.studentId.toString() === studentId,
+    )
     return trainingPlans
   }
 

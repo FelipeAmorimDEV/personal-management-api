@@ -3,6 +3,7 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
+import { IntensityLevel } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
@@ -62,7 +63,7 @@ describe('Read Training Feedback  Reply (E2E)', () => {
       data: {
         studentId: student.id,
         trainingId: training.id,
-        rate: 3,
+        intensity: IntensityLevel.HIGH,
         comment: 'Bom treino',
       },
     })

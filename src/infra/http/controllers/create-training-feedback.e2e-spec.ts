@@ -1,3 +1,4 @@
+import { IntensityLevel } from '@/domain/progress-tracking/applications/use-cases/enums/intensity-level'
 import { AppModule } from '@/infra/app.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
@@ -73,7 +74,7 @@ describe('Create Training Feedback (E2E)', () => {
       .set('Authorization', `Bearer ${jwtToken}`)
       .send({
         trainingId: training.id,
-        rate: 3,
+        intensity: IntensityLevel.HIGH,
         comment: 'Bom Treino',
         exercises: [
           {

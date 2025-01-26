@@ -39,6 +39,12 @@ describe('Create Exercise (E2E)', () => {
 
     const access_token = jwt.sign({ sub: user.id })
 
+    const groupMuscle = await prisma.groupMuscle.create({
+      data: {
+        name: 'Peito',
+      },
+    })
+
     const response = await request(app.getHttpServer())
       .post('/exercises')
       .set('Authorization', `Bearer ${access_token}`)
@@ -46,6 +52,7 @@ describe('Create Exercise (E2E)', () => {
         name: 'Supino Reto',
         videoUrl: 'http://youtube.com',
         description: 'Exercicio trabalha peito medio',
+        groupMuscle: [{ id: groupMuscle.id, name: groupMuscle.name }],
       })
 
     const exerciseOnDataBase = await prisma.exercise.findFirst({

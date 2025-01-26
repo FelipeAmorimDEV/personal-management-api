@@ -43,6 +43,8 @@ import { GetStudentProfileController } from './controllers/get-student-profile.c
 import { GetStudentProfileUseCase } from '@/domain/identity-management/applications/use-cases/get-student-profile'
 import { EditStudentController } from './controllers/edit-student.controller'
 import { EditStudentUseCase } from '@/domain/identity-management/applications/use-cases/edit-student'
+import { UploadAvatarController } from './controllers/upload-avatar.controller'
+import { UploadAvatarUseCase } from '@/domain/identity-management/applications/use-cases/upload-avatar'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -68,6 +70,7 @@ import { EditStudentUseCase } from '@/domain/identity-management/applications/us
     FindRecentExerciseWeightController,
     GetStudentProfileController,
     EditStudentController,
+    UploadAvatarController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -91,6 +94,7 @@ import { EditStudentUseCase } from '@/domain/identity-management/applications/us
     FindRecentWeightUseCase,
     GetStudentProfileUseCase,
     EditStudentUseCase,
+    UploadAvatarUseCase,
   ],
 })
 export class HttpModule {}

@@ -4,6 +4,7 @@ import { UsersRepository } from '../repositories/users-repository'
 import { CredentialsInvalidError } from './errors/credentials-invalid-error'
 import { Encrypter } from '../cryptography/encrypter'
 import { Injectable } from '@nestjs/common'
+import { Student } from '../../enterprise/entities/student'
 
 interface AuthenticateStudentUseCaseRequest {
   email: string
@@ -12,7 +13,7 @@ interface AuthenticateStudentUseCaseRequest {
 
 type AuthenticateStudentUseCaseResponse = Either<
   CredentialsInvalidError,
-  { access_token: string }
+  { access_token: string; user: Student }
 >
 
 @Injectable()
@@ -41,6 +42,6 @@ export class AuthenticateStudentUseCase {
 
     const acessToken = await this.encrypter.encrypt({ sub: user.id })
 
-    return right({ access_token: acessToken })
+    return right({ access_token: acessToken, user })
   }
 }

@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaExerciseExecutionMapper } from '../mappers/prisma-exercise-execution-mapper'
 import { getDatesOfWeek } from '@/utils/get-dates-of-week'
 import * as dayjs from 'dayjs'
+import { PrismaTrainingFeedbackWithDetailsMapper } from '../mappers/prisma-training-feedback-with-details-mapper'
 
 @Injectable()
 export class PrismaTrainingFeedbacksRepository
@@ -51,14 +52,30 @@ export class PrismaTrainingFeedbacksRepository
       await this.prisma.trainingExecutionFeedback.findMany({
         skip: (page - 1) * 20,
         take: page * 20,
+      })
+
+    return trainingFeedbacks.map(PrismaTrainingFeedbackMapper.toDomain)
+  }
+
+  async fetchManyByUserIdWithDetails(userId: string) {
+    const trainingFeedbacks =
+      await this.prisma.trainingExecutionFeedback.findMany({
+        where: {
+          studentId: userId,
+        },
         include: {
           student: true,
           training: true,
           feedbackReply: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       })
 
-    return trainingFeedbacks.map(PrismaTrainingFeedbackMapper.toDomain)
+    return trainingFeedbacks.map(
+      PrismaTrainingFeedbackWithDetailsMapper.toDomain,
+    )
   }
 
   async findManyByUserId(id: string) {
@@ -66,11 +83,6 @@ export class PrismaTrainingFeedbacksRepository
       await this.prisma.trainingExecutionFeedback.findMany({
         where: {
           studentId: id,
-        },
-        include: {
-          student: true,
-          training: true,
-          feedbackReply: true,
         },
         orderBy: {
           createdAt: 'desc',
@@ -85,11 +97,6 @@ export class PrismaTrainingFeedbacksRepository
       await this.prisma.trainingExecutionFeedback.findUnique({
         where: {
           id,
-        },
-        include: {
-          student: true,
-          training: true,
-          feedbackReply: true,
         },
       })
 

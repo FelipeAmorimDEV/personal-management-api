@@ -10,6 +10,7 @@ export class PrismaStudentMapper {
         email: student.email,
         password: student.password,
         role: student.role,
+        avatar: student.avatar,
         createdAt: student.createdAt,
         updatedAt: student.updatedAt,
       },
@@ -25,6 +26,7 @@ export class PrismaStudentMapper {
       password: student.password,
       createdAt: student.createdAt,
       updatedAt: student.updatedAt,
+      avatar: student.avatar,
     }
   }
 }

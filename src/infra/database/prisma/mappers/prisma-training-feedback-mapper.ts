@@ -1,30 +1,18 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { IntensityLevel } from '@/domain/progress-tracking/applications/use-cases/enums/intensity-level'
 import { TrainingFeedback } from '@/domain/progress-tracking/enterprise/entities/training-feedback'
-import { Prisma } from '@prisma/client'
+import { Prisma, TrainingExecutionFeedback } from '@prisma/client'
 
 export class PrismaTrainingFeedbackMapper {
-  static toDomain(
-    trainingFeedback: Prisma.TrainingExecutionFeedbackGetPayload<{
-      include: { student: true; training: true; feedbackReply: true }
-    }>,
-  ) {
+  static toDomain(trainingFeedback: TrainingExecutionFeedback) {
     return TrainingFeedback.create(
       {
         trainingId: new UniqueEntityID(trainingFeedback.trainingId),
         studentId: new UniqueEntityID(trainingFeedback.studentId),
         comment: trainingFeedback.comment,
         intensity: IntensityLevel[trainingFeedback.intensity],
-        createdAt: trainingFeedback.createdAt,
+        createdAt: new Date(trainingFeedback.createdAt),
         readAt: trainingFeedback.readAt,
-        feedbackDetails: {
-          trainingName: trainingFeedback.training.name,
-          studentName: trainingFeedback.student.name,
-        },
-        personalAnswer: {
-          id: trainingFeedback.feedbackReply?.id,
-          reply: trainingFeedback.feedbackReply?.reply,
-        },
       },
       new UniqueEntityID(trainingFeedback.id),
     )

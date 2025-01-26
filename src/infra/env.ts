@@ -5,6 +5,7 @@ export const envSchema = z.object({
   PORT: z.coerce.number().optional().default(3333),
   PRIVATE_KEY: z.string(),
   PUBLIC_KEY: z.string(),
+  UPLOAD_FOLDER: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

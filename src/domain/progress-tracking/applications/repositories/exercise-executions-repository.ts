@@ -1,5 +1,6 @@
 import { PaginationParams } from '@/core/types/pagination-params'
 import { StudentExerciseExecution } from '../../enterprise/entities/student-exercise-execution'
+import { StudentExerciseExecutionWithDetails } from '../../enterprise/entities/value-objects/student-exercise-execution-with-details'
 
 export abstract class ExerciseExecutionsRepository {
   abstract findByUserIdAndExerciseId(
@@ -7,9 +8,9 @@ export abstract class ExerciseExecutionsRepository {
     exerciseId: string,
   ): Promise<StudentExerciseExecution | null>
 
-  abstract fetchManyByUserId(
+  abstract fetchManyByUserIdWithDetails(
     userId: string,
-  ): Promise<StudentExerciseExecution[]>
+  ): Promise<StudentExerciseExecutionWithDetails[]>
 
   abstract fetchManyByUserIdAndExerciseId(
     userId: string,

@@ -38,9 +38,7 @@ export class InMemoryTrainingExecutionsRepository
       return {
         day: dates.getDay(),
         isTraining: !!hasTraining,
-        isInvalid: !!(
-          !hasTraining === true && dates.getDate() < today.getDate()
-        ),
+        isInvalid: !hasTraining && dates.getDay() < today.getDay(),
       }
     })
 

@@ -1,22 +1,9 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { StudentExerciseExecution } from '@/domain/progress-tracking/enterprise/entities/student-exercise-execution'
-import {
-  Exercise,
-  GroupMuscle,
-  Prisma,
-  ExerciseExecution as PrismaExeciseExecutions,
-} from '@prisma/client'
-
-export type PrismaExerciseRelation = Exercise & {
-  groupMuscle: GroupMuscle[]
-}
-
-type PrismaExeciseExecution = PrismaExeciseExecutions & {
-  exercise?: PrismaExerciseRelation
-}
+import { ExerciseExecution, Prisma } from '@prisma/client'
 
 export class PrismaExerciseExecutionMapper {
-  static toDomain(exerciseExecution: PrismaExeciseExecution) {
+  static toDomain(exerciseExecution: ExerciseExecution) {
     return StudentExerciseExecution.create(
       {
         exerciseId: new UniqueEntityID(exerciseExecution.exerciseId),
@@ -24,7 +11,6 @@ export class PrismaExerciseExecutionMapper {
         studentId: new UniqueEntityID(exerciseExecution.studentId),
         weightUsed: exerciseExecution.weightUsed,
         createdAt: exerciseExecution.createdAt,
-        exercise: exerciseExecution.exercise,
       },
       new UniqueEntityID(exerciseExecution.id),
     )

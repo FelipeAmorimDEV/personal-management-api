@@ -41,7 +41,9 @@ export class FetchTrainingUseCase {
     }
 
     const trainings =
-      await this.training.fetchManyByTrainingPlanId(trainingPlanId)
+      await this.training.fetchManyByTrainingPlanIdWithGroupsMuscle(
+        trainingPlanId,
+      )
 
     if (trainingPlan.strategy === 'FLEXIBLE_SESSIONS') {
       return right({ trainings })

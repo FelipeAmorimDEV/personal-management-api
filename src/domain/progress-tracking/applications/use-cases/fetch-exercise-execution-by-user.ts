@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { ExerciseExecutionsRepository } from '../repositories/exercise-executions-repository'
-import { StudentExerciseExecution } from '../../enterprise/entities/student-exercise-execution'
 import { Injectable } from '@nestjs/common'
+import { StudentExerciseExecutionWithDetails } from '../../enterprise/entities/value-objects/student-exercise-execution-with-details'
 
 interface FetchExerciseExecutionByUserUseCaseRequest {
   studentId: string
@@ -9,7 +9,7 @@ interface FetchExerciseExecutionByUserUseCaseRequest {
 
 type FetchExerciseExecutionByUserUseCaseResponse = Either<
   null,
-  { exerciseExecutions: StudentExerciseExecution[] }
+  { exerciseExecutions: StudentExerciseExecutionWithDetails[] }
 >
 
 @Injectable()
@@ -20,7 +20,7 @@ export class FetchExerciseExecutionByUserUseCase {
     studentId,
   }: FetchExerciseExecutionByUserUseCaseRequest): Promise<FetchExerciseExecutionByUserUseCaseResponse> {
     const exerciseExecutions =
-      await this.exerciseExecutions.fetchManyByUserId(studentId)
+      await this.exerciseExecutions.fetchManyByUserIdWithDetails(studentId)
 
     return right({ exerciseExecutions })
   }

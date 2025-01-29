@@ -1,7 +1,7 @@
 import { AggregateRoot } from '../../../../core/entities/aggregate-root'
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Optional } from '../../../../core/types/optional'
-import { GroupMuscle } from '../../applications/use-cases/create-training'
+import { GroupMuscle } from './group-muscle'
 import { StudentExerciseList } from './student-exercise-list'
 
 export enum DayOfWeek {

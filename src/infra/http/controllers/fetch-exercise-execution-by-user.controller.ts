@@ -2,8 +2,8 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import { Controller, Get, UseGuards } from '@nestjs/common'
-import { HttpExerciseExecutionPresenter } from '../presenters/http-exercise-execution'
 import { FetchExerciseExecutionByUserUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-exercise-execution-by-user'
+import { HttpExerciseExecutionWithDetailsPresenter } from '../presenters/http-exercise-execution-with-details'
 
 @Controller('exercises/executions')
 export class FetchExerciseExecutionByUserController {
@@ -26,7 +26,7 @@ export class FetchExerciseExecutionByUserController {
 
     return {
       exerciseExecutions: result.value.exerciseExecutions.map(
-        HttpExerciseExecutionPresenter.toHTTP,
+        HttpExerciseExecutionWithDetailsPresenter.toHTTP,
       ),
     }
   }

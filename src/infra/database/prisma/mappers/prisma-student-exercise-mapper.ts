@@ -1,11 +1,12 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { StudentExercise } from '@/domain/training/enterprise/entities/student-exercise'
-import { Prisma } from '@prisma/client'
+import {
+  Prisma,
+  StudentExercise as PrismaStudentExercise,
+} from '@prisma/client'
 
 export class PrismaStudentExerciseMapper {
-  static toDomain(
-    exercise: Prisma.StudentExerciseGetPayload<{ include: { exercise: true } }>,
-  ) {
+  static toDomain(exercise: PrismaStudentExercise) {
     return StudentExercise.create(
       {
         exerciseId: new UniqueEntityID(exercise.exerciseId),
@@ -15,11 +16,6 @@ export class PrismaStudentExerciseMapper {
         restTime: exercise.restTime,
         createdAt: exercise.createdAt,
         updatedAt: exercise.updatedAt,
-        exerciseDetails: {
-          name: exercise.exercise.name,
-          description: exercise.exercise.description,
-          videoUrl: exercise.exercise.videoUrl,
-        },
       },
       new UniqueEntityID(exercise.id),
     )

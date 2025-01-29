@@ -43,6 +43,12 @@ describe('Create Training', () => {
           restTime: 60,
         },
       ],
+      groupMuscle: [
+        {
+          id: '1',
+          name: 'Peito',
+        },
+      ],
     })
 
     expect(inMemoryTrainingsRepository.items).toHaveLength(1)
@@ -63,6 +69,12 @@ describe('Create Training', () => {
           sets: 3,
           repetitions: 12,
           restTime: 60,
+        },
+      ],
+      groupMuscle: [
+        {
+          id: '1',
+          name: 'Peito',
         },
       ],
     })

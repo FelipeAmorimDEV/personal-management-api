@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { StudentExercise } from '../../enterprise/entities/student-exercise'
 import { StudentExercisesRepository } from '../repositories/student-exercises-repository'
 import { Either, right } from '@/core/either'
+import { ExerciseWithDetails } from '../../enterprise/entities/value-objects/exercise-with-details'
 
 interface FetchTrainingExercisesRequest {
   trainingId: string
@@ -9,7 +9,7 @@ interface FetchTrainingExercisesRequest {
 
 type FetchTrainingExercisesResponse = Either<
   null,
-  { exercises: StudentExercise[] }
+  { exercises: ExerciseWithDetails[] }
 >
 
 @Injectable()

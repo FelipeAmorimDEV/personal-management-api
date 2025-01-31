@@ -7,8 +7,6 @@ export class HttpExerciseExecutionPresenter {
       exerciseId: exerciseExecution.exerciseId.toString(),
       feedbackId: exerciseExecution.feedbackId.toString(),
       studentId: exerciseExecution.studentId.toString(),
-      exerciseName: exerciseExecution.exercise?.name,
-      groupsMuscle: exerciseExecution.exercise?.groupMuscle,
       weightUsed: exerciseExecution.weightUsed,
       createdAt: exerciseExecution.createdAt,
     }

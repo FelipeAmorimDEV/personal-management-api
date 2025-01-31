@@ -2,7 +2,7 @@ import { FetchTrainingExercisesUseCase } from '@/domain/training/applications/us
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { HttpStudentExercisePresenter } from '../presenters/http-student-exercise-presenter'
+import { HttpStudentExerciseWithDetailsPresenter } from '../presenters/http-student-exercise-with-details-presenter'
 
 const fetchStudentExercisesQuerySchema = z.object({
   trainingId: z.string().uuid(),
@@ -32,7 +32,7 @@ export class FetchStudentExercisesController {
     }
 
     const exercises = result.value.exercises.map(
-      HttpStudentExercisePresenter.toHTTP,
+      HttpStudentExerciseWithDetailsPresenter.toHTTP,
     )
 
     return { exercises }

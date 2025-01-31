@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { CreateExerciseUseCase } from './create-exercise'
 import { InMemoryExercisesRepository } from 'test/repositories/in-memory-exercises-repository'
-import { UsersAutorizationService } from '../repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { UserAutorizationServiceImpl } from '../../../identity-management/applications/services/user-autorization-service'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { Admin } from '../../../identity-management/enterprise/entities/admin'

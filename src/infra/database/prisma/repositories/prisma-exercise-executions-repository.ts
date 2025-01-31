@@ -4,6 +4,7 @@ import { StudentExerciseExecution } from '@/domain/progress-tracking/enterprise/
 import { PrismaService } from '../prisma.service'
 import { PrismaExerciseExecutionMapper } from '../mappers/prisma-exercise-execution-mapper'
 import { Injectable } from '@nestjs/common'
+import { PrismaExerciseExecutionMapperWithDetails } from '../mappers/prisma-exercise-execution-with-details-mapper'
 
 @Injectable()
 export class PrismaExerciseExecutionsRepository
@@ -29,7 +30,7 @@ export class PrismaExerciseExecutionsRepository
     return PrismaExerciseExecutionMapper.toDomain(exerciseExecution)
   }
 
-  async fetchManyByUserId(userId: string): Promise<StudentExerciseExecution[]> {
+  async fetchManyByUserIdWithDetails(userId: string) {
     const exerciseExecutions = await this.prisma.exerciseExecution.findMany({
       where: {
         studentId: userId,
@@ -46,7 +47,9 @@ export class PrismaExerciseExecutionsRepository
       },
     })
 
-    return exerciseExecutions.map(PrismaExerciseExecutionMapper.toDomain)
+    return exerciseExecutions.map(
+      PrismaExerciseExecutionMapperWithDetails.toDomain,
+    )
   }
 
   async fetchManyByUserIdAndExerciseId(

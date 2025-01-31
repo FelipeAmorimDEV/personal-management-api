@@ -2,12 +2,6 @@ import { Entity } from '../../../../core/entities/entities'
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Optional } from '../../../../core/types/optional'
 
-export interface Details {
-  name: string
-  videoUrl: string
-  description: string | null
-}
-
 export interface StudentExerciseProps {
   exerciseId: UniqueEntityID
   trainingId: UniqueEntityID
@@ -16,7 +10,6 @@ export interface StudentExerciseProps {
   restTime: number
   createdAt: Date
   updatedAt?: Date
-  exerciseDetails?: Details
 }
 
 export class StudentExercise extends Entity<StudentExerciseProps> {
@@ -46,10 +39,6 @@ export class StudentExercise extends Entity<StudentExerciseProps> {
 
   get updatedAt() {
     return this.props.updatedAt
-  }
-
-  get exerciseDetails() {
-    return this.props.exerciseDetails
   }
 
   static create(

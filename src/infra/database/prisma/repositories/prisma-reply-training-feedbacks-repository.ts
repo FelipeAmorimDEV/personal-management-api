@@ -33,13 +33,6 @@ export class PrismaReplyTrainingFeedbacksRepository
         where: {
           id,
         },
-        include: {
-          feedback: {
-            include: {
-              training: true,
-            },
-          },
-        },
       })
 
     if (!trainingFeedbackReply) {

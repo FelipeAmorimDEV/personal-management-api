@@ -37,9 +37,7 @@ export class PrismaTrainingFeedbacksRepository
         return {
           day: date.getDay(),
           isTraining: !!hasTraining,
-          isInvalid: !!(
-            !hasTraining === true && date.getDate() < today.getDate()
-          ),
+          isInvalid: !hasTraining && date.getDay() < today.getDay(),
         }
       }),
     )

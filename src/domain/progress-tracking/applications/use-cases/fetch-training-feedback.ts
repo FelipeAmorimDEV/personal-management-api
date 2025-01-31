@@ -4,7 +4,7 @@ import { TrainingFeedbacksRepository } from '../repositories/training-feedbacks-
 
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
-import { UsersAutorizationService } from '@/domain/training/applications/repositories/users-autorization-service'
+import { UsersAutorizationService } from '@/core/repositories/users-autorization-service'
 
 interface FetchTrainingFeedbackUseCaseRequest {
   userId: string

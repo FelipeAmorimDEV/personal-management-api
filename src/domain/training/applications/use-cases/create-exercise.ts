@@ -1,7 +1,7 @@
 import { Either, left, right } from '@/core/either'
 import { Exercise } from '../../enterprise/entities/exercise'
 import { ExercisesRepository } from '../repositories/exercises-repository'
-import { UsersAutorizationService } from '../repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
 import { GroupMuscle } from './create-training'

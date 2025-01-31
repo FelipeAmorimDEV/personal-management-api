@@ -2,7 +2,7 @@ import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { TrainingPlan } from '../../enterprise/entities/training-plan'
 import { TrainingPlansRepository } from '../repositories/training-plans-repository'
-import { UsersAutorizationService } from '../repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
 

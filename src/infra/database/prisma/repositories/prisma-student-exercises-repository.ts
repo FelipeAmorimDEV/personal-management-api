@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service'
 import { StudentExercisesRepository } from '@/domain/training/applications/repositories/student-exercises-repository'
 import { StudentExercise } from '@/domain/training/enterprise/entities/student-exercise'
 import { PrismaStudentExerciseMapper } from '../mappers/prisma-student-exercise-mapper'
+import { PrismaStudentExerciseWithDetailsMapper } from '../mappers/prisma-student-exercise-with-details-mapper'
 
 @Injectable()
 export class PrismaStudentExercisesRepository
@@ -19,7 +20,7 @@ export class PrismaStudentExercisesRepository
       },
     })
 
-    return studentExercises.map(PrismaStudentExerciseMapper.toDomain)
+    return studentExercises.map(PrismaStudentExerciseWithDetailsMapper.toDomain)
   }
 
   async create(StudentExercise: StudentExercise) {

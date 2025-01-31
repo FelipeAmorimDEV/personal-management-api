@@ -5,9 +5,10 @@ import { StudentExercise } from '../../enterprise/entities/student-exercise'
 import { StudentExerciseList } from '../../enterprise/entities/student-exercise-list'
 import { DayOfWeek, Training } from '../../enterprise/entities/training'
 import { TrainingsRepository } from '../repositories/trainings-repository'
-import { UsersAutorizationService } from '../repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
+import { GroupMuscle as GroupMuscleEntity } from '../../enterprise/entities/group-muscle'
 
 type Exercise = {
   exerciseId: string
@@ -60,7 +61,14 @@ export class CreateTrainingUseCase {
       type,
       dayOfWeek,
       trainingPlanId: new UniqueEntityID(trainingPlanId),
-      groupMuscle,
+      groupMuscle: groupMuscle.map((group) =>
+        GroupMuscleEntity.create(
+          {
+            name: group.name,
+          },
+          new UniqueEntityID(group.id),
+        ),
+      ),
     })
 
     const studentExercises = exercises.map((exercise) =>

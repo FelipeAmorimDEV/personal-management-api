@@ -10,7 +10,10 @@ export class HttpTrainingPresenter {
       trainingPlanId: training.trainingPlanId.toString(),
       createdAt: training.createdAt,
       updatedAt: training.updatedAt,
-      groupMuscle: training.groupMuscle,
+      groupMuscle: training.groupMuscle.map((group) => ({
+        id: group.id.toString(),
+        name: group.name,
+      })),
     }
   }
 }

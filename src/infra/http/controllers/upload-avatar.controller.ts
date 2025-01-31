@@ -26,7 +26,7 @@ export class UploadAvatarController {
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: diskStorage({
-        destination: './upload',
+        destination: './uploads',
         filename(req, file, callback) {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9)

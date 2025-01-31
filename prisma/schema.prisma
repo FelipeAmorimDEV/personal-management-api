@@ -24,6 +24,8 @@ model User {
   trainingPlans             TrainingPlan[]
   ExerciseExecution         ExerciseExecution[]
   TrainingExecutionFeedback TrainingExecutionFeedback[]
+  MyProgress                MyProgress[]
+  MyProgressAnswer          MyProgressAnswer[]
 
   @@map("users")
 }
@@ -173,4 +175,27 @@ model TrainingFeedbackReply {
   feedback TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
 
   @@map("training_feedback_reply")
+}
+
+model MyProgress {
+  id               String            @id @default(uuid())
+  comment          String
+  photo            String
+  createdAt        DateTime          @default(now()) @map("created_at")
+  studentId        String            @map("student_id")
+  user             User              @relation(fields: [studentId], references: [id])
+  myProgressAnswer MyProgressAnswer?
+
+  @@map("my_progress")
+}
+
+model MyProgressAnswer {
+  id           String     @id @default(uuid())
+  adminId      String     @map("admin_id")
+  reply        String
+  myProgressId String     @unique @map("my_progress_id")
+  admin        User       @relation(fields: [adminId], references: [id])
+  MyProgress   MyProgress @relation(fields: [myProgressId], references: [id])
+
+  @@map("my_progress_answer")
 }

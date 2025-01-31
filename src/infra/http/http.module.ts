@@ -45,6 +45,13 @@ import { EditStudentController } from './controllers/edit-student.controller'
 import { EditStudentUseCase } from '@/domain/identity-management/applications/use-cases/edit-student'
 import { UploadAvatarController } from './controllers/upload-avatar.controller'
 import { UploadAvatarUseCase } from '@/domain/identity-management/applications/use-cases/upload-avatar'
+import { UploadMyProgressPhotoController } from './controllers/upload-my-progress-photo.controller'
+import { CreateMyProgressUpdateController } from './controllers/create-my-progress-update.controller'
+import { CreateMyProgressUpdateUseCase } from '@/domain/progress-tracking/applications/use-cases/create-my-progress-update'
+import { FetchMyProgressUpdateController } from './controllers/fetch-my-progress-update.controller'
+import { FetchMyProgressUpdateUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-my-progress-update'
+import { CreateMyProgressAnswerController } from './controllers/create-my-progress-answer.controller'
+import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applications/use-cases/create-my-progress-answer'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -71,6 +78,10 @@ import { UploadAvatarUseCase } from '@/domain/identity-management/applications/u
     GetStudentProfileController,
     EditStudentController,
     UploadAvatarController,
+    UploadMyProgressPhotoController,
+    CreateMyProgressUpdateController,
+    FetchMyProgressUpdateController,
+    CreateMyProgressAnswerController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -95,6 +106,9 @@ import { UploadAvatarUseCase } from '@/domain/identity-management/applications/u
     GetStudentProfileUseCase,
     EditStudentUseCase,
     UploadAvatarUseCase,
+    CreateMyProgressUpdateUseCase,
+    FetchMyProgressUpdateUseCase,
+    CreateMyProgressAnswerUseCase,
   ],
 })
 export class HttpModule {}

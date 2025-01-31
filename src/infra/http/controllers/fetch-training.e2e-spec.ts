@@ -27,7 +27,7 @@ describe('Fetch Training (E2E)', () => {
     await app.close()
   })
 
-  test('[GET] /trainings', async () => {
+  test('[GET] /exercises/:id/executions', async () => {
     const student = await prisma.user.create({
       data: {
         name: 'John Doe',

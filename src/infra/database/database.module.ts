@@ -4,7 +4,7 @@ import { UsersRepository } from '@/domain/identity-management/applications/repos
 import { PrismaService } from './prisma/prisma.service'
 import { ExercisesRepository } from '@/domain/training/applications/repositories/exercises-repository'
 import { PrismaExercisesRepository } from './prisma/repositories/prisma-exercises-repository'
-import { UsersAutorizationService } from '@/domain/training/applications/repositories/users-autorization-service'
+import { UsersAutorizationService } from '@/core/repositories/users-autorization-service'
 import { UserAutorizationServiceImpl } from '@/domain/identity-management/applications/services/user-autorization-service'
 import { PrismaTrainingPlansRepository } from './prisma/repositories/prisma-training-plans-repository'
 import { TrainingPlansRepository } from '@/domain/training/applications/repositories/training-plans-repository'
@@ -18,6 +18,10 @@ import { ReplyTrainingFeedbacksRepository } from '@/domain/progress-tracking/app
 import { PrismaReplyTrainingFeedbacksRepository } from './prisma/repositories/prisma-reply-training-feedbacks-repository'
 import { TrainingFeedbacksRepository } from '@/domain/progress-tracking/applications/repositories/training-feedbacks-repository'
 import { PrismaTrainingFeedbacksRepository } from './prisma/repositories/prisma-training-feedbacks-repository'
+import { MyProgressRepository } from '@/domain/progress-tracking/applications/repositories/my-progress-repository'
+import { PrismaMyProgressRepository } from './prisma/repositories/prisma-my-progress-repository'
+import { MyProgressAnswerRepository } from '@/domain/progress-tracking/applications/repositories/my-progress-answer-repository'
+import { PrismaMyProgressAnswerRepository } from './prisma/repositories/prisma-my-progress-answer-repository'
 
 @Module({
   providers: [
@@ -58,6 +62,14 @@ import { PrismaTrainingFeedbacksRepository } from './prisma/repositories/prisma-
       provide: TrainingFeedbacksRepository,
       useClass: PrismaTrainingFeedbacksRepository,
     },
+    {
+      provide: MyProgressRepository,
+      useClass: PrismaMyProgressRepository,
+    },
+    {
+      provide: MyProgressAnswerRepository,
+      useClass: PrismaMyProgressAnswerRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -70,6 +82,8 @@ import { PrismaTrainingFeedbacksRepository } from './prisma/repositories/prisma-
     ExerciseExecutionsRepository,
     ReplyTrainingFeedbacksRepository,
     TrainingFeedbacksRepository,
+    MyProgressRepository,
+    MyProgressAnswerRepository,
   ],
 })
 export class DatabaseModule {}

@@ -81,8 +81,7 @@ Content-Type: application/json
 # @name create_training
 POST {{baseUrl}}/trainings
 Authorization: Bearer {{authToken}}
-Content-Type: application/json
-
+Content-Type: application/jsonmy-progress
 {
   "trainingPlanId": "2f8bebb8-0817-4448-b672-20fe08c7eb3c",
   "name": "TREINO B",
@@ -197,8 +196,6 @@ PUT {{baseUrl}}/trainings/feedbacks/reply/fb1a4a1c-1d23-41db-a710-a705b1de79e8
 Authorization: Bearer {{authToken}}
 
 
-
-
 ###
 
 # @name update_student_profile
@@ -208,6 +205,28 @@ Content-Type: application/json
 
 {
   "name": "Felipe Douglas"
+}
+
+###
+
+# @name create_my_progress
+POST {{baseUrl}}/my-progress
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "photo": "userphoto.jpg",
+  "comment": "Oque acha do meu fisico?"
+}
+###
+
+# @name create_my_progress_answer_admin
+POST {{baseUrl}}/my-progress/95e52595-a3bd-4218-ba05-f40a5137b8de/answer
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "reply": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
 }
 
 ###
@@ -232,32 +251,19 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-# @name fetch_training_feedbacks_reply
-GET {{baseUrl}}/trainings/replies
-Authorization: Bearer {{authToken}}
-
-###
-
-# @name fetch_training_feedbacks
-GET {{baseUrl}}/trainings/feedback?page=1
-Authorization: Bearer {{authToken}}
-
-###
-
 # @name fetch_training_feedbacks_user
 GET {{baseUrl}}/trainings/feedback/user
+Authorization: Bearer {{authToken}}
+###
+
+# @name fetch_training_feedbacks_admin
+GET {{baseUrl}}/trainings/feedback?page=1
 Authorization: Bearer {{authToken}}
 
 ###
 
 # @name fetch_exercise_executions
-GET {{baseUrl}}/exercises/47597df6-b360-4197-a828-31526641f35f/execution?page=1
-Authorization: Bearer {{authToken}}
-
-###
-
-# @name fetch_training_feedbacks_admin
-GET {{baseUrl}}/trainings/feedback?page=1
+GET {{baseUrl}}/exercises/e1913045-7243-4d43-8152-2ba2d222b493/execution?page=1
 Authorization: Bearer {{authToken}}
 
 ### 
@@ -279,5 +285,11 @@ Authorization: Bearer {{authToken}}
 ### 
 # @name get_profile
 GET {{baseUrl}}/profile
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name  fetch_my_progress_update
+GET {{baseUrl}}/my-progress
 Authorization: Bearer {{authToken}}
 

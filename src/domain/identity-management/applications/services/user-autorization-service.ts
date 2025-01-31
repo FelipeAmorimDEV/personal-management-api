@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { UsersAutorizationService } from '../../../training/applications/repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { UsersRepository } from '../repositories/users-repository'
 
 @Injectable()

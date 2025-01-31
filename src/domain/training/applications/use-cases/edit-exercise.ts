@@ -1,7 +1,7 @@
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Exercise } from '../../enterprise/entities/exercise'
 import { ExercisesRepository } from '../repositories/exercises-repository'
-import { UsersAutorizationService } from '../repositories/users-autorization-service'
+import { UsersAutorizationService } from '../../../../core/repositories/users-autorization-service'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'

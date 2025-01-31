@@ -6,7 +6,7 @@ import { PrismaTrainingFeedbackMapper } from '../mappers/prisma-training-feedbac
 import { Injectable } from '@nestjs/common'
 import { PrismaExerciseExecutionMapper } from '../mappers/prisma-exercise-execution-mapper'
 import { getDatesOfWeek } from '@/utils/get-dates-of-week'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { PrismaTrainingFeedbackWithDetailsMapper } from '../mappers/prisma-training-feedback-with-details-mapper'
 
 @Injectable()
@@ -23,6 +23,7 @@ export class PrismaTrainingFeedbacksRepository
       datesOfWeek.map(async (date) => {
         const startOfDay = dayjs(date).startOf('date').toDate()
         const endOfDay = dayjs(date).endOf('date').toDate()
+
         const hasTraining =
           await this.prisma.trainingExecutionFeedback.findFirst({
             where: {
@@ -52,6 +53,10 @@ export class PrismaTrainingFeedbacksRepository
         take: page * 20,
       })
 
+    if (!trainingFeedbacks) {
+      return []
+    }
+
     return trainingFeedbacks.map(PrismaTrainingFeedbackMapper.toDomain)
   }
 
@@ -71,6 +76,10 @@ export class PrismaTrainingFeedbacksRepository
         },
       })
 
+    if (!trainingFeedbacks) {
+      return []
+    }
+
     return trainingFeedbacks.map(
       PrismaTrainingFeedbackWithDetailsMapper.toDomain,
     )
@@ -86,6 +95,10 @@ export class PrismaTrainingFeedbacksRepository
           createdAt: 'desc',
         },
       })
+
+    if (!trainingFeedbacks) {
+      return []
+    }
 
     return trainingFeedbacks.map(PrismaTrainingFeedbackMapper.toDomain)
   }
@@ -110,9 +123,11 @@ export class PrismaTrainingFeedbacksRepository
     const dataExercise = trainingExecution.exercises.map(
       PrismaExerciseExecutionMapper.toPrisma,
     )
+
     await this.prisma.trainingExecutionFeedback.create({
       data,
     })
+
     await this.prisma.exerciseExecution.createMany({
       data: dataExercise,
     })
@@ -120,6 +135,7 @@ export class PrismaTrainingFeedbacksRepository
 
   async save(trainingExecution: TrainingFeedback) {
     const data = PrismaTrainingFeedbackMapper.toPrisma(trainingExecution)
+
     await this.prisma.trainingExecutionFeedback.update({
       data,
       where: {

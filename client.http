@@ -181,7 +181,7 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/3a9215a1-1386-4556-8948-56e39149f44b/reply
+POST {{baseUrl}}/trainings/feedback/98d7b8a4-a509-492f-befb-09e24b4f8bc5/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -221,7 +221,7 @@ Content-Type: application/json
 ###
 
 # @name create_my_progress_answer_admin
-POST {{baseUrl}}/my-progress/95e52595-a3bd-4218-ba05-f40a5137b8de/answer
+POST {{baseUrl}}/my-progress/215ef3e4-ce50-4db6-957e-9810e4100c22/answer
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 

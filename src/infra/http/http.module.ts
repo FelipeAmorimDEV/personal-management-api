@@ -52,6 +52,16 @@ import { FetchMyProgressUpdateController } from './controllers/fetch-my-progress
 import { FetchMyProgressUpdateUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-my-progress-update'
 import { CreateMyProgressAnswerController } from './controllers/create-my-progress-answer.controller'
 import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applications/use-cases/create-my-progress-answer'
+import { CreateBodyCompositionController } from './controllers/create-body-composition.controller'
+import { CreateBodyCompositionPollock3UseCase } from '@/domain/progress-tracking/applications/use-cases/create-body-composition-pullock-3'
+import { FetchBodyCompositionController } from './controllers/fetch-body-composition.controller'
+import { FetchBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-body-composition'
+import { CreateAnamnesisController } from './controllers/create-anamnesis.controller'
+import { CreateAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/create-anamnesis'
+import { FetchAnamnesisController } from './controllers/fetch-anamnesis.controller'
+import { FetchAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-anamnesis'
+import { FindBodyCompositionController } from './controllers/find-body-composition.controller'
+import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/find-body-composition'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -82,6 +92,11 @@ import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applic
     CreateMyProgressUpdateController,
     FetchMyProgressUpdateController,
     CreateMyProgressAnswerController,
+    CreateBodyCompositionController,
+    FetchBodyCompositionController,
+    CreateAnamnesisController,
+    FetchAnamnesisController,
+    FindBodyCompositionController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -109,6 +124,11 @@ import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applic
     CreateMyProgressUpdateUseCase,
     FetchMyProgressUpdateUseCase,
     CreateMyProgressAnswerUseCase,
+    CreateBodyCompositionPollock3UseCase,
+    FetchBodyCompositionUseCase,
+    CreateAnamnesisUseCase,
+    FetchAnamnesisUseCase,
+    FindBodyCompositionUseCase,
   ],
 })
 export class HttpModule {}

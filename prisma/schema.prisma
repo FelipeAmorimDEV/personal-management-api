@@ -21,6 +21,8 @@ model User {
   MyProgressAnswer          MyProgressAnswer[]
   TrainingExecutionFeedback TrainingExecutionFeedback[]
   trainingPlans             TrainingPlan[]
+  BodyComposition           BodyComposition[]
+  Anamnesis                 Anamnesis[]
 
   @@map("users")
 }
@@ -159,6 +161,57 @@ model MyProgressAnswer {
   MyProgress   MyProgress @relation(fields: [myProgressId], references: [id])
 
   @@map("my_progress_answer")
+}
+
+model BodyComposition {
+  id                 String    @id @default(uuid())
+  student            User      @relation(fields: [studentId], references: [id])
+  height             Int
+  weight             Int
+  age                Int
+  gender             Gender
+  methodName         String    @map("method_name")
+  chest              Int
+  abdominal          Int
+  thigh              Int
+  triceps            Int
+  suprailiac         Int
+  bodyDensity        Int       @map("body_density")
+  bodyFatPercentage  Int       @map("body_fat_percentage")
+  leanMassPercentage Int       @map("lean_mass_percentage")
+  fatMassKg          Int       @map("fat_mass_kg")
+  leanMassKg         Int       @map("lean_mass_kg")
+  bmi                Int
+  waist              Int
+  hip                Int
+  waistHipRatio      Int       @map("waist_hip_ratio")
+  createdAt          DateTime  @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  studentId          String    @map("student_id")
+
+  @@map("body_composition")
+}
+
+model Anamnesis {
+  id                           String    @id @default(uuid())
+  student                      User      @relation(fields: [studentId], references: [id])
+  studentId                    String    @map("student_id")
+  fullName                     String    @map("full_name")
+  age                          Int
+  hasHeartProblem              Boolean   @map("has_heart_problem")
+  hasChestPainDuringActivity   Boolean   @map("has_chest_paint_during_activity")
+  hadChestPainInLastMonth      Boolean   @map("had_chest_pain_in_last_month")
+  hasBalanceProblems           Boolean   @map("has_balance_problems")
+  hasBoneOrJointProblem        Boolean   @map("has_bone_or_joint_problem")
+  takesBloodPressureMedication Boolean   @map("takes_blood_presure_medication")
+  hasOtherHealthIssues         Boolean   @map("has_other_health_issues")
+  createdAt                    DateTime  @default(now()) @map("created_at")
+  updatedAt                    DateTime? @updatedAt @map("updated_at")
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 enum Role {

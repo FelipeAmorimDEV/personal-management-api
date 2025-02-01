@@ -231,6 +231,48 @@ Content-Type: application/json
 
 ###
 
+# @name create_body_composition_pullock
+POST {{baseUrl}}/body-composition
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "studentId": "student-1",
+  "height": 163,
+  "weight": 80,
+  "age": 29,
+  "gender": "MALE",
+  "abdominal": 90,
+  "chest": 120,
+  "hip": 70,
+  "waist": 100,
+  "suprailiac": 80,
+  "thigh": 60,
+  "triceps": 22
+}
+
+###
+
+# @name create_anamnesis
+POST {{baseUrl}}/anamnesis
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "age": 29,
+  "hadChestPainInLastMonth": false,
+  "hasBalanceProblems": true,
+  "hasBoneOrJointProblem": false,
+  "hasChestPainDuringActivity": true,
+  "hasHeartProblem": false,
+  "hasOtherHealthIssues": false,
+  "takesBloodPressureMedication": true
+}
+
+
+
+###
 
 # @name fetch_training-plan
 GET {{baseUrl}}/training-plans
@@ -272,9 +314,7 @@ GET {{baseUrl}}/exercises/executions
 Authorization: Bearer {{authToken}}
 
 
-### 
-# @name fetch_training_frequency
-GET {{baseUrl}}/trainings/frequency
+    CreateAnamnesisUseCase,
 Authorization: Bearer {{authToken}}
 
 ### 
@@ -291,5 +331,21 @@ Authorization: Bearer {{authToken}}
 
 # @name  fetch_my_progress_update
 GET {{baseUrl}}/my-progress
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name  fetch_body_composition
+GET {{baseUrl}}/body-composition
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name  fetch_anamnesis
+GET {{baseUrl}}/anamnesis
+Authorization: Bearer {{authToken}}
+
+### @name find_body_composition
+GET {{baseUrl}}/body-composition/9abcaa54-238f-44f9-b1a5-1a96ef5b23ac
 Authorization: Bearer {{authToken}}
 

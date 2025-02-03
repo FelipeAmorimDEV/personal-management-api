@@ -11,7 +11,6 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/find-body-composition'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { HttpBodyCompositionPresenter } from '../presenters/http-body-composition-presenter'
 import { HttpBodyCompositionWithDetailsPresenter } from '../presenters/http-body-composition-with-details-presenter'
 
 const paramsSchema = z.object({

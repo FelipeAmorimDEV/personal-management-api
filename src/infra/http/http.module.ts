@@ -62,9 +62,12 @@ import { FetchAnamnesisController } from './controllers/fetch-anamnesis.controll
 import { FetchAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-anamnesis'
 import { FindBodyCompositionController } from './controllers/find-body-composition.controller'
 import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/find-body-composition'
+import { UpdateExpiredPlansJob } from '../jobs/updated-expired-plans.job'
+import { UpdateExpiredPlansUseCase } from '@/domain/training/applications/use-cases/update-expired-plans'
+import { JobsModule } from '../jobs/jobs.module'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, JobsModule],
   controllers: [
     CreateAccountController,
     AuthenticateAccountController,
@@ -99,6 +102,8 @@ import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applicati
     FindBodyCompositionController,
   ],
   providers: [
+    UpdateExpiredPlansJob,
+    UpdateExpiredPlansUseCase,
     CreateStudentUseCase,
     AuthenticateStudentUseCase,
     CreateExerciseUseCase,

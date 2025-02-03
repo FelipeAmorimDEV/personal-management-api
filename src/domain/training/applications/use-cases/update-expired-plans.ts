@@ -1,7 +1,11 @@
+import { Injectable } from '@nestjs/common'
 import { TrainingPlansRepository } from '../repositories/training-plans-repository'
 
-export class updateExpiredPlansUseCase {
+@Injectable()
+export class UpdateExpiredPlansUseCase {
   constructor(private trainingplansRepository: TrainingPlansRepository) {}
 
-  async execute() {}
+  async execute() {
+    await this.trainingplansRepository.updatedExpiredPlans()
+  }
 }

@@ -21,8 +21,8 @@ const createTrainingPlanBodySchema = z.object({
   trainingLevel: z.string(),
   sessionsPerWeek: z.coerce.number(),
   strategy: z.enum(['FIXED_DAYS', 'FLEXIBLE_SESSIONS']),
-  startDate: z.string().date(),
-  endDate: z.string().date(),
+  startDate: z.string(),
+  endDate: z.string(),
 })
 
 type CreateTraingPlanBodySchema = z.infer<typeof createTrainingPlanBodySchema>

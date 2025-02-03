@@ -67,13 +67,13 @@ Content-Type: application/json
 
 {
   "studentId": "e42edb74-d88d-44f1-8383-118a97f8f4a0",
-  "name": "Plano Trimestral",
+  "name": "Plano Trimestral a Vencer",
   "goal": "Emagrecimento",
   "sessionsPerWeek": 4,
   "trainingLevel": "Intermediario",
   "strategy": "FLEXIBLE_SESSIONS",
-  "startDate": "2025-01-01",
-  "endDate": "2025-04-01"
+  "startDate": "2025-02-03T03:00:00.000Z",
+  "endDate": "2025-02-03T03:00:00.000Z"
 }
 
 ###

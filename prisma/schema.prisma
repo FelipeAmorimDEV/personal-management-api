@@ -46,6 +46,7 @@ model TrainingPlan {
   name            String
   sessionsPerWeek Int                  @map("sessions_per_week")
   strategy        TrainingPlanStrategy @default(FLEXIBLE_SESSIONS)
+  status          TrainingPlanStatus   @default(ACTIVE)
   startDate       DateTime             @map("start_date")
   endDate         DateTime             @map("end_date")
   createdAt       DateTime             @default(now()) @map("created_at")
@@ -245,4 +246,11 @@ enum IntensityLevel {
   MODERATE
   HIGH
   EXTREME
+}
+
+enum TrainingPlanStatus {
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+  CANCELED
 }

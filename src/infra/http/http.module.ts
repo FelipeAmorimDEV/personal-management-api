@@ -65,6 +65,8 @@ import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applicati
 import { UpdateExpiredPlansJob } from '../jobs/updated-expired-plans.job'
 import { UpdateExpiredPlansUseCase } from '@/domain/training/applications/use-cases/update-expired-plans'
 import { JobsModule } from '../jobs/jobs.module'
+import { CreatePaymentController } from './controllers/create-payment.controller'
+import { CreatePaymentUseCase } from '@/domain/payments/applications/use-cases/create-payment'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -100,6 +102,7 @@ import { JobsModule } from '../jobs/jobs.module'
     CreateAnamnesisController,
     FetchAnamnesisController,
     FindBodyCompositionController,
+    CreatePaymentController,
   ],
   providers: [
     UpdateExpiredPlansJob,
@@ -134,6 +137,7 @@ import { JobsModule } from '../jobs/jobs.module'
     CreateAnamnesisUseCase,
     FetchAnamnesisUseCase,
     FindBodyCompositionUseCase,
+    CreatePaymentUseCase,
   ],
 })
 export class HttpModule {}

@@ -71,6 +71,8 @@ import { FetchPaymentsController } from './controllers/fetch-payments.controller
 import { FetchPaymentsUseCase } from '@/domain/payments/applications/use-cases/fetch-payments'
 import { FindPaymentController } from './controllers/find-payment.controller'
 import { FindPaymentUseCase } from '@/domain/payments/applications/use-cases/find-payment'
+import { FetchPaymentDueController } from './controllers/fetch-payment-due.controller'
+import { FetchPaymentDueUseCase } from '@/domain/payments/applications/use-cases/fetch-payment-due'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -109,6 +111,7 @@ import { FindPaymentUseCase } from '@/domain/payments/applications/use-cases/fin
     CreatePaymentController,
     FetchPaymentsController,
     FindPaymentController,
+    FetchPaymentDueController,
   ],
   providers: [
     UpdateExpiredPlansJob,
@@ -146,6 +149,7 @@ import { FindPaymentUseCase } from '@/domain/payments/applications/use-cases/fin
     CreatePaymentUseCase,
     FetchPaymentsUseCase,
     FindPaymentUseCase,
+    FetchPaymentDueUseCase,
   ],
 })
 export class HttpModule {}

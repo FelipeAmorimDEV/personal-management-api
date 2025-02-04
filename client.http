@@ -245,7 +245,7 @@ Content-Type: application/json
   "paymentStatus": "PENDING",
   "description": "Plano de 3 Meses",
   "price": 300,
-  "dueDate": "2025-02-05",
+  "dueDate": "2025-02-02",
   "methodPayment": "PIX"
 }
 
@@ -334,5 +334,15 @@ Authorization: Bearer {{authToken}}
 
 # @name fetch_payments
 GET {{baseUrl}}/payments
+Authorization: Bearer {{authToken}}
+
+###
+# @name find_invoice
+GET {{baseUrl}}/payments/ffa94d76-921d-4ad9-ae0a-ca2f2afd1640
+Authorization: Bearer {{authToken}}
+
+###
+# @name fetch_due_invoices
+GET {{baseUrl}}/fetch-payment-due
 Authorization: Bearer {{authToken}}
 

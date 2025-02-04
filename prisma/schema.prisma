@@ -23,7 +23,7 @@ model User {
   trainingPlans             TrainingPlan[]
   BodyComposition           BodyComposition[]
   Anamnesis                 Anamnesis[]
-  Payment                   Payment[]
+  Invoice                   Invoice[]
 
   @@map("users")
 }
@@ -74,7 +74,7 @@ model Training {
   TrainingExecutionFeedback TrainingExecutionFeedback[]
   groupMuscle               GroupMuscle[]               @relation("TrainingMuscleGroups")
 
-  @@map("training")
+  @@map("trainings")
 }
 
 model GroupMuscle {
@@ -83,7 +83,7 @@ model GroupMuscle {
   Exercise Exercise[] @relation("ExerciseMuscleGroups")
   Training Training[] @relation("TrainingMuscleGroups")
 
-  @@map("group_muscle")
+  @@map("group_muscles")
 }
 
 model StudentExercise {
@@ -139,7 +139,7 @@ model TrainingFeedbackReply {
   readAt             DateTime?                 @map("read_at")
   feedback           TrainingExecutionFeedback @relation(fields: [trainingFeedbackId], references: [id])
 
-  @@map("training_feedback_reply")
+  @@map("training_feedback_replys")
 }
 
 model MyProgress {
@@ -162,7 +162,7 @@ model MyProgressAnswer {
   admin        User       @relation(fields: [adminId], references: [id])
   MyProgress   MyProgress @relation(fields: [myProgressId], references: [id])
 
-  @@map("my_progress_answer")
+  @@map("my_progress_answers")
 }
 
 model BodyComposition {
@@ -209,20 +209,24 @@ model Anamnesis {
   hasOtherHealthIssues         Boolean   @map("has_other_health_issues")
   createdAt                    DateTime  @default(now()) @map("created_at")
   updatedAt                    DateTime? @updatedAt @map("updated_at")
+
+  @@map("anamnesis")
 }
 
-model Payment {
-  id            String        @id @default(uuid())
-  student       User          @relation(fields: [studentId], references: [id])
-  studentId     String        @map("student_id")
-  methodPayment MethodPayment @map("method_payment")
-  dueDate       DateTime      @map("due_date")
-  paymentDate   DateTime?     @map("payment_date")
+model Invoice {
+  id            String         @id @default(uuid())
+  student       User           @relation(fields: [studentId], references: [id])
+  studentId     String         @map("student_id")
+  methodPayment MethodPayment? @map("method_payment")
+  dueDate       DateTime       @map("due_date")
+  paymentDate   DateTime?      @map("payment_date")
   description   String
-  paymentStatus PaymentStatus @map("payment_status")
+  invoiceStatus PaymentStatus  @map("payment_status")
   price         Float
-  createdAt     DateTime      @map("created_at")
-  updatedAt     DateTime      @map("updated_at")
+  createdAt     DateTime       @map("created_at")
+  updatedAt     DateTime?      @updatedAt @map("updated_at")
+
+  @@map("invoices")
 }
 
 enum Gender {

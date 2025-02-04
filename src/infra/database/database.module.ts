@@ -26,6 +26,8 @@ import { BodyCompositionsRepository } from '@/domain/progress-tracking/applicati
 import { PrismaBodyCompositionsRepository } from './prisma/repositories/prisma-body-compositions-repository'
 import { AnamnesisRepository } from '@/domain/progress-tracking/applications/repositories/anamnesis-repository'
 import { PrismaAnamnesisRepository } from './prisma/repositories/prisma-anamnesis-repository'
+import { PaymentsRepository } from '@/domain/payments/applications/repositories/payments-repository'
+import { PrismaPaymentRepository } from './prisma/repositories/prisma-payment-repository'
 
 @Module({
   providers: [
@@ -82,6 +84,10 @@ import { PrismaAnamnesisRepository } from './prisma/repositories/prisma-anamnesi
       provide: AnamnesisRepository,
       useClass: PrismaAnamnesisRepository,
     },
+    {
+      provide: PaymentsRepository,
+      useClass: PrismaPaymentRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -98,6 +104,7 @@ import { PrismaAnamnesisRepository } from './prisma/repositories/prisma-anamnesi
     MyProgressAnswerRepository,
     BodyCompositionsRepository,
     AnamnesisRepository,
+    PaymentsRepository,
   ],
 })
 export class DatabaseModule {}

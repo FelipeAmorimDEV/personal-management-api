@@ -6,14 +6,14 @@ import { Optional } from '@/core/types/optional'
 
 type PaymentProps = {
   studentId: UniqueEntityID
-  methodPayment: MethodPayment
+  methodPayment?: MethodPayment | null
   dueDate: Date
   paymentDate?: Date | null
   description: string
   paymentStatus: PaymentStatus
   price: number
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Payment extends Entity<PaymentProps> {

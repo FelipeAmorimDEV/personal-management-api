@@ -7,5 +7,5 @@ import { DatabaseModule } from '../database/database.module'
   imports: [DatabaseModule],
   providers: [UpdateExpiredPlansJob, UpdateExpiredPlansUseCase],
   exports: [UpdateExpiredPlansJob, UpdateExpiredPlansUseCase],
-})
+}) // FIX REMOVE EXPORTS
 export class JobsModule {}

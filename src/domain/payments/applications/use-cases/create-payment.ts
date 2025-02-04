@@ -4,10 +4,11 @@ import { Payment } from '../../enterprise/entities/payment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { MethodPayment } from '../enums/method-payment'
 import { PaymentStatus } from '../enums/payment-status'
+import { Injectable } from '@nestjs/common'
 
 interface CreatePaymentUseCaseRequest {
   studentId: string
-  methodPayment: MethodPayment
+  methodPayment?: MethodPayment
   paymentStatus: PaymentStatus
   dueDate: string
   paymentDate?: string
@@ -16,6 +17,8 @@ interface CreatePaymentUseCaseRequest {
 }
 
 type CreatePaymentUseCaseResponse = Either<null, { payment: Payment }>
+
+@Injectable()
 export class CreatePaymentUseCase {
   constructor(private paymentsRepository: PaymentsRepository) {}
 

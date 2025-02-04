@@ -1,6 +1,7 @@
 import { Either, right } from '@/core/either'
 import { PaymentsRepository } from '../repositories/payments-repository'
 import { Payment } from '../../enterprise/entities/payment'
+import { Injectable } from '@nestjs/common'
 
 interface FetchPaymentsUseCaseRequest {
   studentId: string
@@ -8,6 +9,7 @@ interface FetchPaymentsUseCaseRequest {
 
 type FetchPaymentsUseCaseResponse = Either<null, { payments: Payment[] }>
 
+@Injectable()
 export class FetchPaymentsUseCase {
   constructor(private paymentsRepository: PaymentsRepository) {}
   async execute({

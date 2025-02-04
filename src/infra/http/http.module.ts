@@ -67,6 +67,10 @@ import { UpdateExpiredPlansUseCase } from '@/domain/training/applications/use-ca
 import { JobsModule } from '../jobs/jobs.module'
 import { CreatePaymentController } from './controllers/create-payment.controller'
 import { CreatePaymentUseCase } from '@/domain/payments/applications/use-cases/create-payment'
+import { FetchPaymentsController } from './controllers/fetch-payments.controller'
+import { FetchPaymentsUseCase } from '@/domain/payments/applications/use-cases/fetch-payments'
+import { FindPaymentController } from './controllers/find-payment.controller'
+import { FindPaymentUseCase } from '@/domain/payments/applications/use-cases/find-payment'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -103,6 +107,8 @@ import { CreatePaymentUseCase } from '@/domain/payments/applications/use-cases/c
     FetchAnamnesisController,
     FindBodyCompositionController,
     CreatePaymentController,
+    FetchPaymentsController,
+    FindPaymentController,
   ],
   providers: [
     UpdateExpiredPlansJob,
@@ -138,6 +144,8 @@ import { CreatePaymentUseCase } from '@/domain/payments/applications/use-cases/c
     FetchAnamnesisUseCase,
     FindBodyCompositionUseCase,
     CreatePaymentUseCase,
+    FetchPaymentsUseCase,
+    FindPaymentUseCase,
   ],
 })
 export class HttpModule {}

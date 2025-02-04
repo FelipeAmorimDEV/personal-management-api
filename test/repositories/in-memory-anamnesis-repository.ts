@@ -3,6 +3,17 @@ import { Anamnesis } from '@/domain/progress-tracking/enterprise/entities/anamne
 
 export class InMemoryAnamnesisRepository implements AnamnesisRepository {
   public items: Anamnesis[] = []
+  async findById(anamnesisId: string) {
+    const anamnesis = this.items.find(
+      (item) => item.id.toString() === anamnesisId,
+    )
+
+    if (!anamnesis) {
+      return null
+    }
+
+    return anamnesis
+  }
 
   async fetchManyByStudentId(studentId: string) {
     const anamnesis = this.items.filter(

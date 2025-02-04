@@ -1,6 +1,6 @@
 import { FetchPaymentDueUseCase } from '@/domain/payments/applications/use-cases/fetch-payment-due'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
-import { BadRequestException, Controller, Get, UseGuards } from '@nestjs/common'
+import { Controller, Get, UseGuards } from '@nestjs/common'
 import { HttpPaymentsPresenter } from '../presenters/http-payments-presenter'
 
 @Controller('fetch-payment-due')

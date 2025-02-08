@@ -22,6 +22,12 @@ import { MyProgressRepository } from '@/domain/progress-tracking/applications/re
 import { PrismaMyProgressRepository } from './prisma/repositories/prisma-my-progress-repository'
 import { MyProgressAnswerRepository } from '@/domain/progress-tracking/applications/repositories/my-progress-answer-repository'
 import { PrismaMyProgressAnswerRepository } from './prisma/repositories/prisma-my-progress-answer-repository'
+import { BodyCompositionsRepository } from '@/domain/progress-tracking/applications/repositories/body-compositions-repository'
+import { PrismaBodyCompositionsRepository } from './prisma/repositories/prisma-body-compositions-repository'
+import { AnamnesisRepository } from '@/domain/progress-tracking/applications/repositories/anamnesis-repository'
+import { PrismaAnamnesisRepository } from './prisma/repositories/prisma-anamnesis-repository'
+import { PaymentsRepository } from '@/domain/payments/applications/repositories/payments-repository'
+import { PrismaPaymentRepository } from './prisma/repositories/prisma-payment-repository'
 
 @Module({
   providers: [
@@ -70,6 +76,18 @@ import { PrismaMyProgressAnswerRepository } from './prisma/repositories/prisma-m
       provide: MyProgressAnswerRepository,
       useClass: PrismaMyProgressAnswerRepository,
     },
+    {
+      provide: BodyCompositionsRepository,
+      useClass: PrismaBodyCompositionsRepository,
+    },
+    {
+      provide: AnamnesisRepository,
+      useClass: PrismaAnamnesisRepository,
+    },
+    {
+      provide: PaymentsRepository,
+      useClass: PrismaPaymentRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -84,6 +102,9 @@ import { PrismaMyProgressAnswerRepository } from './prisma/repositories/prisma-m
     TrainingFeedbacksRepository,
     MyProgressRepository,
     MyProgressAnswerRepository,
+    BodyCompositionsRepository,
+    AnamnesisRepository,
+    PaymentsRepository,
   ],
 })
 export class DatabaseModule {}

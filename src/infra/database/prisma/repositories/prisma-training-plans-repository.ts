@@ -3,10 +3,27 @@ import { TrainingPlan } from '@/domain/training/enterprise/entities/training-pla
 import { PrismaService } from '../prisma.service'
 import { PrismaTrainingPlanMapper } from '../mappers/prisma-training-plan-mapper'
 import { Injectable } from '@nestjs/common'
+import { TrainingPlanStatus } from '@/domain/training/applications/use-cases/enums/plan-status'
 
 @Injectable()
 export class PrismaTrainingPlansRepository implements TrainingPlansRepository {
   constructor(private prisma: PrismaService) {}
+
+  async updatedExpiredPlans(): Promise<void> {
+    const now = new Date()
+
+    await this.prisma.trainingPlan.updateMany({
+      where: {
+        endDate: {
+          lt: now,
+        },
+        status: TrainingPlanStatus.ACTIVE,
+      },
+      data: {
+        status: TrainingPlanStatus.EXPIRED,
+      },
+    })
+  }
 
   async findById(trainingPlanId: string): Promise<TrainingPlan | null> {
     const trainingPlan = await this.prisma.trainingPlan.findUnique({
@@ -26,6 +43,7 @@ export class PrismaTrainingPlansRepository implements TrainingPlansRepository {
     const trainingPlans = await this.prisma.trainingPlan.findMany({
       where: {
         studentId,
+        status: TrainingPlanStatus.ACTIVE,
       },
     })
 

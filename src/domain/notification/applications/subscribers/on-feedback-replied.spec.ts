@@ -19,9 +19,7 @@ describe('On Feedback Replied', () => {
     inMemoryTrainingFeedbacksRepository =
       new InMemoryTrainingExecutionsRepository()
     inMemoryTrainingFeedbackRepliesRepository =
-      new InMemoryReplyTrainingFeedbackRepository(
-        inMemoryTrainingFeedbacksRepository,
-      )
+      new InMemoryReplyTrainingFeedbackRepository()
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,

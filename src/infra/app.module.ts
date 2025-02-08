@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module'
 import { MulterModule } from '@nestjs/platform-express'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { join } from 'path'
       rootPath: join(__dirname, '..', '..', 'uploads'),
       serveRoot: '/uploads',
     }),
+    ScheduleModule.forRoot(),
     HttpModule,
     AuthModule,
   ],

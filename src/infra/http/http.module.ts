@@ -52,9 +52,32 @@ import { FetchMyProgressUpdateController } from './controllers/fetch-my-progress
 import { FetchMyProgressUpdateUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-my-progress-update'
 import { CreateMyProgressAnswerController } from './controllers/create-my-progress-answer.controller'
 import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applications/use-cases/create-my-progress-answer'
+import { CreateBodyCompositionController } from './controllers/create-body-composition.controller'
+import { CreateBodyCompositionPollock3UseCase } from '@/domain/progress-tracking/applications/use-cases/create-body-composition-pullock-3'
+import { FetchBodyCompositionController } from './controllers/fetch-body-composition.controller'
+import { FetchBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-body-composition'
+import { CreateAnamnesisController } from './controllers/create-anamnesis.controller'
+import { CreateAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/create-anamnesis'
+import { FetchAnamnesisController } from './controllers/fetch-anamnesis.controller'
+import { FetchAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-anamnesis'
+import { FindBodyCompositionController } from './controllers/find-body-composition.controller'
+import { FindBodyCompositionUseCase } from '@/domain/progress-tracking/applications/use-cases/find-body-composition'
+import { UpdateExpiredPlansJob } from '../jobs/updated-expired-plans.job'
+import { UpdateExpiredPlansUseCase } from '@/domain/training/applications/use-cases/update-expired-plans'
+import { JobsModule } from '../jobs/jobs.module'
+import { CreatePaymentController } from './controllers/create-payment.controller'
+import { CreatePaymentUseCase } from '@/domain/payments/applications/use-cases/create-payment'
+import { FetchPaymentsController } from './controllers/fetch-payments.controller'
+import { FetchPaymentsUseCase } from '@/domain/payments/applications/use-cases/fetch-payments'
+import { FindPaymentController } from './controllers/find-payment.controller'
+import { FindPaymentUseCase } from '@/domain/payments/applications/use-cases/find-payment'
+import { FetchPaymentDueController } from './controllers/fetch-payment-due.controller'
+import { FetchPaymentDueUseCase } from '@/domain/payments/applications/use-cases/fetch-payment-due'
+import { FindAnamnesisController } from './controllers/find-anamnesis.controller'
+import { FindAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/find-anamnesis'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, JobsModule],
   controllers: [
     CreateAccountController,
     AuthenticateAccountController,
@@ -82,8 +105,20 @@ import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applic
     CreateMyProgressUpdateController,
     FetchMyProgressUpdateController,
     CreateMyProgressAnswerController,
+    CreateBodyCompositionController,
+    FetchBodyCompositionController,
+    CreateAnamnesisController,
+    FetchAnamnesisController,
+    FindBodyCompositionController,
+    CreatePaymentController,
+    FetchPaymentsController,
+    FindPaymentController,
+    FetchPaymentDueController,
+    FindAnamnesisController,
   ],
   providers: [
+    UpdateExpiredPlansJob,
+    UpdateExpiredPlansUseCase,
     CreateStudentUseCase,
     AuthenticateStudentUseCase,
     CreateExerciseUseCase,
@@ -109,6 +144,16 @@ import { CreateMyProgressAnswerUseCase } from '@/domain/progress-tracking/applic
     CreateMyProgressUpdateUseCase,
     FetchMyProgressUpdateUseCase,
     CreateMyProgressAnswerUseCase,
+    CreateBodyCompositionPollock3UseCase,
+    FetchBodyCompositionUseCase,
+    CreateAnamnesisUseCase,
+    FetchAnamnesisUseCase,
+    FindBodyCompositionUseCase,
+    CreatePaymentUseCase,
+    FetchPaymentsUseCase,
+    FindPaymentUseCase,
+    FetchPaymentDueUseCase,
+    FindAnamnesisUseCase,
   ],
 })
 export class HttpModule {}

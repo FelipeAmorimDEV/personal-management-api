@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "name": "Felipe Amorim",
-  "email": "felipe5@gmail.com",
+  "email": "felipe@gmail.com",
   "password": "123456"
 }
 
@@ -17,7 +17,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "felipe1@gmail.com",
+  "email": "felipe@gmail.com",
   "password": "123456"
 }
 
@@ -34,7 +34,7 @@ Content-Type: application/json
   "description": "Exercicio trabalha o peito inferior",
   "groupMuscle": [
     {
-      "id": "fde6515e-3727-46f5-b446-451eb926997a",
+      "id": "4d5e1ef8-680a-4597-bcec-58fbaa80720f",
       "name": "Biceps"
     }
   ]
@@ -66,93 +66,57 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "studentId": "e42edb74-d88d-44f1-8383-118a97f8f4a0",
+  "studentId": "d1faf8ed-5d8e-4f9b-897f-6461aa1984a4",
   "name": "Plano Trimestral",
   "goal": "Emagrecimento",
-  "sessionsPerWeek": 4,
-  "trainingLevel": "Intermediario",
+  "sessionsPerWeek": 3,
+  "trainingLevel": "Iniciante",
   "strategy": "FLEXIBLE_SESSIONS",
-  "startDate": "2025-01-01",
-  "endDate": "2025-04-01"
+  "startDate": "2025-01-01T03:00:00.000Z",
+  "endDate": "2025-04-01T03:00:00.000Z"
 }
 
 ###
 
-# @name create_training
+# @name create_trainings
 POST {{baseUrl}}/trainings
 Authorization: Bearer {{authToken}}
-Content-Type: application/jsonmy-progress
+Content-Type: application/json
 {
-  "trainingPlanId": "2f8bebb8-0817-4448-b672-20fe08c7eb3c",
-  "name": "TREINO B",
+  "trainingPlanId": "fb267dad-2f9c-401c-b512-d08ecb50df38",
+  "name": "TREINO A",
   "type": "SESSION",
   "groupMuscle": [
     {
-      "name": "Triceps",
-      "id": "472dcea4-60c4-4557-ba5d-6849c33256a1"
+      "name": "Peito",
+      "id": "6415a170-9134-4581-be58-e1647798ff2f"
     },
     {
-      "name": "Ombro",
-      "id": "53bdcc47-91cb-406d-8a84-d7c04d0bdd12"
+      "name": "Biceps",
+      "id": "4d5e1ef8-680a-4597-bcec-58fbaa80720f"
+    },
+    {
+      "name": "Triceps",
+      "id": "e659dff5-1678-439e-8260-a33dcef2966d"
     }
   ],
   "exercises": [
     {
-      "exerciseId": "82901f83-e697-4500-a5d6-5c589891e686",
+      "exerciseId": "9ad1359a-1b17-40de-91ab-a70b13326a58",
       "sets": 3,
       "repetitions": 12,
       "restTime": 120
     },
     {
-      "exerciseId": "33fd5c93-37bb-4c20-baaf-47ebe830d158",
+      "exerciseId": "d7fbda49-8aeb-4b49-ae91-cf9a05a5eb78",
       "sets": 3,
       "repetitions": 12,
       "restTime": 120
     }
     ,
     {
-      "exerciseId": "e1913045-7243-4d43-8152-2ba2d222b493",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    }
-    ,
-    {
-      "exerciseId": "c464024a-38de-4116-a01d-aa3c254ecefb",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    }
-    ,
-    {
-      "exerciseId": "e0cb4a57-e7b1-423a-afd5-d8cfdfcf9511",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    }
-    ,
-    {
-      "exerciseId": "3a6e2a16-30a3-40b2-aa51-51ae8bd5fe7f",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    }
-    ,
-    {
-      "exerciseId": "99b19dca-48d6-4b10-a537-62b946f0569b",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    },
-    {
-      "exerciseId": "55976c1e-ad14-4920-b732-7d6b3790e28f",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    },
-    {
-      "exerciseId": "d054c3eb-b1c4-4f50-9d94-8abfff28c017",
-      "sets": 3,
+      "exerciseId": "461c96e2-6fde-4238-be9b-8481baaa3481",
+      "sets": 4,
       "repetitions": 12,
       "restTime": 120
     }
@@ -181,12 +145,12 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/3a9215a1-1386-4556-8948-56e39149f44b/reply
+POST {{baseUrl}}/trainings/feedback/8baee68e-6d3f-437a-a447-1cf551cbbee9/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "reply": "Continue firme no progresso!"
+  "reply": "Estou gostando de ver!, Você vai muito longe."
 }
 
 ###
@@ -221,7 +185,7 @@ Content-Type: application/json
 ###
 
 # @name create_my_progress_answer_admin
-POST {{baseUrl}}/my-progress/95e52595-a3bd-4218-ba05-f40a5137b8de/answer
+POST {{baseUrl}}/my-progress/406ee3d9-1c23-4578-8305-64494af4776e/answer
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -231,6 +195,63 @@ Content-Type: application/json
 
 ###
 
+# @name create_body_composition_pullock
+POST {{baseUrl}}/body-composition
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "height": 163,
+  "weight": 80,
+  "age": 29,
+  "gender": "MALE",
+  "abdominal": 90,
+  "chest": 120,
+  "hip": 70,
+  "waist": 100,
+  "suprailiac": 80,
+  "thigh": 60,
+  "triceps": 22
+}
+
+###
+
+# @name create_anamnesis
+POST {{baseUrl}}/anamnesis
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "age": 29,
+  "hadChestPainInLastMonth": false,
+  "hasBalanceProblems": true,
+  "hasBoneOrJointProblem": false,
+  "hasChestPainDuringActivity": true,
+  "hasHeartProblem": false,
+  "hasOtherHealthIssues": false,
+  "takesBloodPressureMedication": true
+}
+
+###
+
+# @name create_invoice
+POST {{baseUrl}}/invoices
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "studentId": "d1faf8ed-5d8e-4f9b-897f-6461aa1984a4",
+  "paymentStatus": "PENDING",
+  "description": "Plano de 3 Meses",
+  "price": 300,
+  "dueDate": "2025-02-08"
+}
+
+
+
+
+###
 
 # @name fetch_training-plan
 GET {{baseUrl}}/training-plans
@@ -272,9 +293,7 @@ GET {{baseUrl}}/exercises/executions
 Authorization: Bearer {{authToken}}
 
 
-### 
-# @name fetch_training_frequency
-GET {{baseUrl}}/trainings/frequency
+    CreateAnamnesisUseCase,
 Authorization: Bearer {{authToken}}
 
 ### 
@@ -293,3 +312,41 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/my-progress
 Authorization: Bearer {{authToken}}
 
+###
+
+# @name  fetch_body_composition
+GET {{baseUrl}}/body-composition
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name  fetch_anamnesis
+GET {{baseUrl}}/anamnesis
+Authorization: Bearer {{authToken}}
+###
+
+# @name find_body_composition
+GET {{baseUrl}}/body-composition/9abcaa54-238f-44f9-b1a5-1a96ef5b23ac
+Authorization: Bearer {{authToken}}
+
+### 
+
+# @name fetch_payments
+GET {{baseUrl}}/payments
+Authorization: Bearer {{authToken}}
+
+###
+# @name find_invoice
+GET {{baseUrl}}/payments/609ab68f-3c32-432d-9994-ff4ea28b8f8a
+Authorization: Bearer {{authToken}}
+
+###
+# @name fetch_due_invoices
+GET {{baseUrl}}/fetch-payment-due
+Authorization: Bearer {{authToken}}
+
+
+### 
+# @name find_anamnesis
+GET {{baseUrl}}/anamnesis/15bac5be-892f-46a2-af06-4febaec62c41
+Authorization: Bearer {{authToken}}

@@ -245,7 +245,7 @@ Content-Type: application/json
   "paymentStatus": "PENDING",
   "description": "Plano de 3 Meses",
   "price": 300,
-  "dueDate": "2025-02-08"
+  "dueDate": "2025-02-10"
 }
 
 

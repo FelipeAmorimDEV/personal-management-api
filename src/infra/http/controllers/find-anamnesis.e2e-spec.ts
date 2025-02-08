@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Create Anamnesis (E2E)', () => {
+describe('Find Anamnesis (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -27,22 +27,20 @@ describe('Create Anamnesis (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /anamnesis', async () => {
+  test('[GET] /anamnesis/:id', async () => {
     const student = await prisma.user.create({
       data: {
         name: 'John Doe',
         email: 'johndoe@example.com',
         password: await hash('123456', 8),
+        role: 'ADMIN',
       },
     })
 
-    const access_token = await jwt.signAsync({ sub: student.id })
-    const response = await request(app.getHttpServer())
-      .post('/anamnesis')
-      .set('Authorization', `Bearer ${access_token}`)
-      .send({
+    const anamnesis = await prisma.anamnesis.create({
+      data: {
         studentId: student.id,
-        fullName: 'John Doe',
+        fullName: student.name,
         age: 29,
         hadChestPainInLastMonth: false,
         hasBalanceProblems: true,
@@ -51,14 +49,21 @@ describe('Create Anamnesis (E2E)', () => {
         hasHeartProblem: false,
         hasOtherHealthIssues: false,
         takesBloodPressureMedication: true,
-      })
-
-    const anamnesisOnDatabase = await prisma.anamnesis.findFirst({
-      where: {
-        fullName: 'John Doe',
       },
     })
-    expect(response.status).toBe(201)
-    expect(anamnesisOnDatabase).toBeTruthy()
+
+    const access_token = jwt.sign({ sub: student.id })
+
+    const response = await request(app.getHttpServer())
+      .get(`/anamnesis/${anamnesis.id}`)
+      .set('Authorization', `Bearer ${access_token}`)
+      .send()
+
+    expect(response.status).toBe(200)
+    expect(response.body.anamnesis).toEqual(
+      expect.objectContaining({
+        fullName: 'John Doe',
+      }),
+    )
   })
 })

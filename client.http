@@ -145,12 +145,12 @@ Content-Type: application/json
 ###
 
 # @name reply_training_feedback
-POST {{baseUrl}}/trainings/feedback/58a47d2b-e502-4d6b-bae7-fef005643f91/reply
+POST {{baseUrl}}/trainings/feedback/8baee68e-6d3f-437a-a447-1cf551cbbee9/reply
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "reply": "Continue firme no progresso!"
+  "reply": "Estou gostando de ver!, Você vai muito longe."
 }
 
 ###

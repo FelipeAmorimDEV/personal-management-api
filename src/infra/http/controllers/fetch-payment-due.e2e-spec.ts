@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Create Anamnesis (E2E)', () => {
+describe('Fetch Payment Due (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -27,38 +27,36 @@ describe('Create Anamnesis (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /anamnesis', async () => {
+  test('[GET] /fetch-payment-due', async () => {
     const student = await prisma.user.create({
       data: {
         name: 'John Doe',
-        email: 'johndoe@example.com',
+        email: 'johndoestudent@example.com',
         password: await hash('123456', 8),
+        role: 'ADMIN',
       },
     })
 
-    const access_token = await jwt.signAsync({ sub: student.id })
-    const response = await request(app.getHttpServer())
-      .post('/anamnesis')
-      .set('Authorization', `Bearer ${access_token}`)
-      .send({
+    await prisma.invoice.create({
+      data: {
         studentId: student.id,
-        fullName: 'John Doe',
-        age: 29,
-        hadChestPainInLastMonth: false,
-        hasBalanceProblems: true,
-        hasBoneOrJointProblem: false,
-        hasChestPainDuringActivity: true,
-        hasHeartProblem: false,
-        hasOtherHealthIssues: false,
-        takesBloodPressureMedication: true,
-      })
-
-    const anamnesisOnDatabase = await prisma.anamnesis.findFirst({
-      where: {
-        fullName: 'John Doe',
+        methodPayment: 'PIX',
+        invoiceStatus: 'PENDING',
+        createdAt: new Date(),
+        description: 'Plano de 3 Meses',
+        price: 650,
+        dueDate: new Date('2025-02-10'),
       },
     })
-    expect(response.status).toBe(201)
-    expect(anamnesisOnDatabase).toBeTruthy()
+
+    const jwtToken = await jwt.signAsync({ sub: student.id })
+
+    const response = await request(app.getHttpServer())
+      .get(`/fetch-payment-due`)
+      .set('Authorization', `Bearer ${jwtToken}`)
+      .send()
+
+    expect(response.status).toBe(200)
+    expect(response.body.paymentDue.id).toBeTruthy()
   })
 })

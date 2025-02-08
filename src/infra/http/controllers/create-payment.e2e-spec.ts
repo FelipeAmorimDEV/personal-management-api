@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Create Anamnesis (E2E)', () => {
+describe('Create Payment (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -27,38 +27,37 @@ describe('Create Anamnesis (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /anamnesis', async () => {
+  test('[POST] /invoices', async () => {
     const student = await prisma.user.create({
       data: {
         name: 'John Doe',
-        email: 'johndoe@example.com',
+        email: 'johndoestudent@example.com',
         password: await hash('123456', 8),
+        role: 'STUDENT',
       },
     })
 
-    const access_token = await jwt.signAsync({ sub: student.id })
+    const access_token = jwt.sign({ sub: student.id })
+
     const response = await request(app.getHttpServer())
-      .post('/anamnesis')
+      .post('/invoices')
       .set('Authorization', `Bearer ${access_token}`)
       .send({
         studentId: student.id,
-        fullName: 'John Doe',
-        age: 29,
-        hadChestPainInLastMonth: false,
-        hasBalanceProblems: true,
-        hasBoneOrJointProblem: false,
-        hasChestPainDuringActivity: true,
-        hasHeartProblem: false,
-        hasOtherHealthIssues: false,
-        takesBloodPressureMedication: true,
+        methodPayment: 'PIX',
+        paymentStatus: 'PENDING',
+        description: 'Plano de 3 Meses',
+        price: 650,
+        dueDate: '2023-08-10',
       })
 
-    const anamnesisOnDatabase = await prisma.anamnesis.findFirst({
+    const paymentOnDataBase = await prisma.invoice.findFirst({
       where: {
-        fullName: 'John Doe',
+        studentId: student.id,
       },
     })
+
     expect(response.status).toBe(201)
-    expect(anamnesisOnDatabase).toBeTruthy()
+    expect(paymentOnDataBase).toBeTruthy()
   })
 })

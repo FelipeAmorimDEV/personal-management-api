@@ -38,13 +38,8 @@ export class WebhookController {
         const paymentIntent = event.data.object as Stripe.PaymentIntent
         console.log(`✅ Pagamento bem-sucedido: ${paymentIntent.id}`)
 
-        if (!paymentIntent.invoice) {
-          console.log('❌ Invoice não encontrado para o pagamento')
-          break
-        }
-
         this.markInvoicePaid.execute({
-          invoiceId: paymentIntent.invoice.toString(),
+          invoiceId: paymentIntent.id,
         })
         break
 

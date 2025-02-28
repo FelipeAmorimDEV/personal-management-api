@@ -4,8 +4,10 @@ import { StripeService } from './stripe.service'
 import { StripeServiceRepository } from '@/domain/payments/applications/repositories/stripe-service-repository'
 import { WebhookController } from './webhook.controller'
 import { MarkInvoicePaidUseCase } from '@/domain/payments/applications/use-cases/mark-invoice-paid'
+import { DatabaseModule } from '../database/database.module'
 
 @Module({
+  imports: [DatabaseModule],
   controllers: [PaymentController, WebhookController],
   providers: [
     {

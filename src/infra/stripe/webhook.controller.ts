@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import { MarkInvoicePaidUseCase } from '@/domain/payments/applications/use-cases/mark-invoice-paid'
 import { Controller, Post, Req, Res, Headers } from '@nestjs/common'
 import { Response, Request } from 'express'
 import Stripe from 'stripe'
@@ -7,7 +8,7 @@ import Stripe from 'stripe'
 export class WebhookController {
   private stripe: Stripe
 
-  constructor() {
+  constructor(private markInvoicePaid: MarkInvoicePaidUseCase) {
     this.stripe = new Stripe(
       'sk_test_51QxFqKCvdixTyBPMpDZah7ceHHJVjATqt6WqDddtjrzAPceIKRvx9FXd4EvmJ7YSDP8J0mCFC6cHShHa4eTgVFmN00pHn46UWf',
     )
@@ -36,6 +37,15 @@ export class WebhookController {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent
         console.log(`✅ Pagamento bem-sucedido: ${paymentIntent.id}`)
+
+        if (!paymentIntent.invoice) {
+          console.log('❌ Invoice não encontrado para o pagamento')
+          break
+        }
+
+        this.markInvoicePaid.execute({
+          invoiceId: paymentIntent.invoice.toString(),
+        })
         break
 
       case 'payment_method.attached':

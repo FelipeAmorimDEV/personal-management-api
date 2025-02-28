@@ -35,12 +35,20 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.paymentDate
   }
 
+  set paymentDate(paymentDate: Date | undefined | null) {
+    this.props.paymentDate = paymentDate
+  }
+
   get description() {
     return this.props.description
   }
 
   get paymentStatus() {
     return this.props.paymentStatus
+  }
+
+  set paymentStatus(paymentStatus: PaymentStatus) {
+    this.props.paymentStatus = paymentStatus
   }
 
   get price() {

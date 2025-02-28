@@ -23,6 +23,7 @@ export class MarkInvoicePaidUseCase {
   }: MarkInvoicePaidUseCaseRequest): Promise<MarkInvoicePaidUseCaseResponse> {
     const invoice = await this.paymentsRepository.findByInvoiceId(invoiceId)
 
+    console.log('🔥 Invoice:', invoice)
     if (!invoice) {
       return left(new ResourceNotFoundError())
     }

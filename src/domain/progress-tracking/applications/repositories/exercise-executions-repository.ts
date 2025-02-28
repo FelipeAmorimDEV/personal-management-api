@@ -1,8 +1,11 @@
 import { PaginationParams } from '@/core/types/pagination-params'
 import { StudentExerciseExecution } from '../../enterprise/entities/student-exercise-execution'
 import { StudentExerciseExecutionWithDetails } from '../../enterprise/entities/value-objects/student-exercise-execution-with-details'
+import { GroupByExercise } from '@/infra/database/prisma/repositories/prisma-exercise-executions-repository'
 
 export abstract class ExerciseExecutionsRepository {
+  abstract fetchManyByUserId(userId: string): Promise<GroupByExercise[]>
+
   abstract findByUserIdAndExerciseId(
     userId: string,
     exerciseId: string,

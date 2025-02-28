@@ -29,6 +29,7 @@
     "@nestjs/schedule": "^5.0.1",
     "@nestjs/serve-static": "^5.0.1",
     "@prisma/client": "^6.1.0",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.13",
     "node-cron": "^3.0.3",
@@ -37,7 +38,9 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "stripe": "^17.7.0",
     "supertest": "^7.0.0",
+    "uuid": "^11.0.5",
     "zod": "^3.24.1",
     "zod-validation-error": "^3.4.0"
   },
@@ -66,5 +69,8 @@
     "unplugin-swc": "^1.5.1",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

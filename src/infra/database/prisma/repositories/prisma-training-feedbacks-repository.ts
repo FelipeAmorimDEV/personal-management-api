@@ -8,12 +8,96 @@ import { PrismaExerciseExecutionMapper } from '../mappers/prisma-exercise-execut
 import { getDatesOfWeek } from '@/utils/get-dates-of-week'
 import dayjs from 'dayjs'
 import { PrismaTrainingFeedbackWithDetailsMapper } from '../mappers/prisma-training-feedback-with-details-mapper'
+import { PrismaStudentExerciseMapper } from '../mappers/prisma-student-exercise-mapper'
+import { Student } from '@/domain/identity-management/enterprise/entities/student'
+import { PrismaStudentMapper } from '../mappers/prisma-student-mapper'
 
 @Injectable()
 export class PrismaTrainingFeedbacksRepository
   implements TrainingFeedbacksRepository
 {
   constructor(private prisma: PrismaService) {}
+
+  async getUsersWithoutTrainingForDays(days: number): Promise<Student[]> {
+    const daysAgo = new Date()
+    daysAgo.setDate(daysAgo.getDate() - days)
+
+    const usersWithoutTraining = await this.prisma.user.findMany({
+      where: {
+        AND: [
+          {
+            trainingExecutionFeedback: {
+              some: {}, // Garante que o usuário já treinou pelo menos uma vez
+            },
+          },
+          {
+            trainingExecutionFeedback: {
+              none: {
+                createdAt: {
+                  gte: daysAgo, // Nenhum treino nos últimos X dias
+                },
+              },
+            },
+          },
+        ],
+      },
+    })
+
+    return usersWithoutTraining.map(PrismaStudentMapper.toDomain)
+  }
+
+  async getTotalWeightLifted(studentId: string) {
+    const totalWeightLifted = await this.prisma.weightLifted.findFirst({
+      where: {
+        studentId,
+      },
+    })
+
+    if (!totalWeightLifted) {
+      return 0
+    }
+
+    return totalWeightLifted.weightLifted
+  }
+
+  async updateTotalWeightLifted(studentId: string, totalWeightLifted: number) {
+    await this.prisma.weightLifted.upsert({
+      where: {
+        studentId,
+      },
+      update: {
+        weightLifted: totalWeightLifted,
+      },
+      create: {
+        studentId,
+        weightLifted: totalWeightLifted,
+      },
+    })
+  }
+
+  async getExerciseDetails(exerciseId: string) {
+    const exerciseDetails = await this.prisma.studentExercise.findFirst({
+      where: {
+        exerciseId,
+      },
+    })
+
+    if (!exerciseDetails) {
+      return null
+    }
+
+    return PrismaStudentExerciseMapper.toDomain(exerciseDetails)
+  }
+
+  async getTrainingCount(studentId: string): Promise<number> {
+    const trainings = this.prisma.trainingExecutionFeedback.count({
+      where: {
+        studentId,
+      },
+    })
+
+    return trainings
+  }
 
   async findTrainingFrequencyByUserId(userId: string) {
     const today = new Date()

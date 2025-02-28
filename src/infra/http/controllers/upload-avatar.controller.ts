@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { UploadAvatarUseCase } from '@/domain/identity-management/applications/use-cases/upload-avatar'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
@@ -22,16 +23,19 @@ import { HttpUserPresenter } from '../presenters/http-user-presenter'
 @UseGuards(JwtAuthGuard)
 export class UploadAvatarController {
   constructor(private uploadAvatar: UploadAvatarUseCase) {}
+
   @Post()
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: diskStorage({
         destination: './uploads',
         filename(req, file, callback) {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9)
-          const extension = extname(file.originalname)
-          callback(null, `${file.fieldname}-${uniqueSuffix}${extension}`)
+          const originalFileName = file.originalname.split('.')[0] // Pegando o nome do arquivo enviado (sem a extensão)
+          const sanitizedFileName = originalFileName.replace(/\s+/g, '-') // Substituindo os espaços por hífens
+          const fileExtension = extname(file.originalname) // Pegando a extensão do arquivo
+          const uniqueSuffix = uuidv4() // Gerando o UUID único
+          const fileName = `${sanitizedFileName}-${uniqueSuffix}${fileExtension}` // Adicionando o UUID ao nome do arquivo
+          callback(null, fileName) // Salvando o arquivo com o nome final
         },
       }),
       fileFilter: (req, file, callback) => {
@@ -41,7 +45,7 @@ export class UploadAvatarController {
         callback(null, true)
       },
       limits: {
-        fileSize: 5 * 1024 * 1024,
+        fileSize: 5 * 1024 * 1024, // Limite de 5 MB
       },
     }),
   )
@@ -49,7 +53,7 @@ export class UploadAvatarController {
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserPayload,
   ) {
-    const fileName = file.filename
+    const fileName = file.filename // Agora o nome do arquivo contém o nome do usuário + UUID
     const studentId = user.sub
 
     const result = await this.uploadAvatar.execute({ fileName, studentId })

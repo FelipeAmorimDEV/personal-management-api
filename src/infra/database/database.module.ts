@@ -28,6 +28,10 @@ import { AnamnesisRepository } from '@/domain/progress-tracking/applications/rep
 import { PrismaAnamnesisRepository } from './prisma/repositories/prisma-anamnesis-repository'
 import { PaymentsRepository } from '@/domain/payments/applications/repositories/payments-repository'
 import { PrismaPaymentRepository } from './prisma/repositories/prisma-payment-repository'
+import { AchievementsRepository } from '@/domain/progress-tracking/applications/repositories/achievements-repository'
+import { PrismaAchievementsRepository } from './prisma/repositories/prisma-achievements-repository'
+import { StudentAchievementsRepository } from '@/domain/progress-tracking/applications/repositories/student-achievements-repository'
+import { PrismaStudentAchievementsRepository } from './prisma/repositories/prisma-student-achievements-repository'
 
 @Module({
   providers: [
@@ -88,6 +92,14 @@ import { PrismaPaymentRepository } from './prisma/repositories/prisma-payment-re
       provide: PaymentsRepository,
       useClass: PrismaPaymentRepository,
     },
+    {
+      provide: AchievementsRepository,
+      useClass: PrismaAchievementsRepository,
+    },
+    {
+      provide: StudentAchievementsRepository,
+      useClass: PrismaStudentAchievementsRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -105,6 +117,8 @@ import { PrismaPaymentRepository } from './prisma/repositories/prisma-payment-re
     BodyCompositionsRepository,
     AnamnesisRepository,
     PaymentsRepository,
+    AchievementsRepository,
+    StudentAchievementsRepository,
   ],
 })
 export class DatabaseModule {}

@@ -12,6 +12,12 @@ const exerciseSchema = z.object({
   weightUsed: z.coerce.number(),
 })
 
+const finishedExerciseSchema = z.object({
+  id: z.string().uuid(),
+  sets: z.coerce.number(),
+  repetitions: z.coerce.number(),
+})
+
 const createTrainingFeedbackBodySchema = z.object({
   trainingId: z.string().uuid(),
   intensity: z.enum([
@@ -23,6 +29,7 @@ const createTrainingFeedbackBodySchema = z.object({
   ]),
   comment: z.string(),
   exercises: z.array(exerciseSchema),
+  finishedExercises: z.array(finishedExerciseSchema),
 })
 
 type CreateTrainingFeedbackBodySchema = z.infer<
@@ -45,7 +52,8 @@ export class CreateTrainingFeedbackController {
     @Body(zodValidationPipe) body: CreateTrainingFeedbackBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { trainingId, intensity, comment, exercises } = body
+    const { trainingId, intensity, comment, exercises, finishedExercises } =
+      body
     const userId = user.sub
 
     await this.createTrainingFeedback.execute({
@@ -54,6 +62,7 @@ export class CreateTrainingFeedbackController {
       intensity,
       comment,
       exercises,
+      finishedExercises,
     })
   }
 }

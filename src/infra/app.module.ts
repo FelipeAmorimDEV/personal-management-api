@@ -7,6 +7,7 @@ import { MulterModule } from '@nestjs/platform-express'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
 import { ScheduleModule } from '@nestjs/schedule'
+import { NotificationModule } from './notification/notification.module'
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ScheduleModule } from '@nestjs/schedule'
     ScheduleModule.forRoot(),
     HttpModule,
     AuthModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}

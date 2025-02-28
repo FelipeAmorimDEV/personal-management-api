@@ -11,6 +11,8 @@ type PaymentProps = {
   paymentDate?: Date | null
   description: string
   paymentStatus: PaymentStatus
+  checkoutUrl?: string | null
+  stripePaymentIntentId?: string | null
   price: number
   createdAt: Date
   updatedAt?: Date | null
@@ -43,6 +45,22 @@ export class Payment extends Entity<PaymentProps> {
 
   get price() {
     return this.props.price
+  }
+
+  get checkoutUrl() {
+    return this.props.checkoutUrl
+  }
+
+  get stripePaymentIntentId() {
+    return this.props.stripePaymentIntentId
+  }
+
+  set checkoutUrl(checkoutUrl: string | undefined | null) {
+    this.props.checkoutUrl = checkoutUrl
+  }
+
+  set stripePaymentIntentId(stripePaymentIntentId: string | undefined | null) {
+    this.props.stripePaymentIntentId = stripePaymentIntentId
   }
 
   get createdAt() {

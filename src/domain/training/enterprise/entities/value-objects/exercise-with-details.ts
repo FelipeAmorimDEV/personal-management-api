@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
 
-type ExerciseWithDetailsProps = {
+export type ExerciseWithDetailsProps = {
   studentExerciseId: UniqueEntityID
   exerciseId: UniqueEntityID
   trainingId: UniqueEntityID

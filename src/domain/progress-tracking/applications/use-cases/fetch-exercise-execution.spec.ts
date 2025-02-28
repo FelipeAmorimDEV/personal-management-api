@@ -2,14 +2,17 @@ import { InMemoryExerciseExecutionsRepository } from 'test/repositories/in-memor
 import { FetchExerciseExecutionsUseCase } from './fetch-exercise-executions'
 import { makeExerciseExecution } from 'test/factories/make-exercise-execution'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryExercisesRepository } from 'test/repositories/in-memory-exercises-repository'
 
 let inMemoryExerciseExecutionsRepository: InMemoryExerciseExecutionsRepository
+let inMemoryExercisesRepository: InMemoryExercisesRepository
 let sut: FetchExerciseExecutionsUseCase
 
 describe('Fetch Exercise Executions', () => {
   beforeEach(() => {
+    inMemoryExercisesRepository = new InMemoryExercisesRepository()
     inMemoryExerciseExecutionsRepository =
-      new InMemoryExerciseExecutionsRepository()
+      new InMemoryExerciseExecutionsRepository(inMemoryExercisesRepository)
     sut = new FetchExerciseExecutionsUseCase(
       inMemoryExerciseExecutionsRepository,
     )

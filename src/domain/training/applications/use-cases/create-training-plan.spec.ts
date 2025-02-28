@@ -38,6 +38,7 @@ describe('Create Training Plan', () => {
       goal: 'Hipertrofia',
       sessionsPerWeek: 3,
       strategy: 'FIXED_DAYS',
+      trainingLevel: 'BEGINNER',
       startDate: new Date(2024, 6, 10).toString(),
       endDate: new Date(2024, 9, 10).toString(),
     })
@@ -60,6 +61,7 @@ describe('Create Training Plan', () => {
       goal: 'Hipertrofia',
       sessionsPerWeek: 3,
       strategy: 'FIXED_DAYS',
+      trainingLevel: 'BEGINNER',
       startDate: new Date(2024, 6, 10).toString(),
       endDate: new Date(2024, 9, 10).toString(),
     })

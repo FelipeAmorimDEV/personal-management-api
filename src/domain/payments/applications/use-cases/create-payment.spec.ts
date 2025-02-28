@@ -2,13 +2,20 @@ import { InMemoryPaymentsRepository } from 'test/repositories/in-memory-payments
 import { CreatePaymentUseCase } from './create-payment'
 import { MethodPayment } from '../enums/method-payment'
 import { PaymentStatus } from '../enums/payment-status'
+import { InMemoryStripeServiceRepository } from 'test/repositories/in-memory-stripe-service-repository'
 
 let sut: CreatePaymentUseCase
 let inMemoryPaymentsRepository: InMemoryPaymentsRepository
+let inMemoryStripeServiceRepository: InMemoryStripeServiceRepository
+
 describe('CreatePayment', () => {
   beforeEach(() => {
+    inMemoryStripeServiceRepository = new InMemoryStripeServiceRepository()
     inMemoryPaymentsRepository = new InMemoryPaymentsRepository()
-    sut = new CreatePaymentUseCase(inMemoryPaymentsRepository)
+    sut = new CreatePaymentUseCase(
+      inMemoryPaymentsRepository,
+      inMemoryStripeServiceRepository,
+    )
   })
   it('should be create a payment', async () => {
     const result = await sut.execute({

@@ -1,13 +1,23 @@
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { CreateMyProgressUpdateUseCase } from './create-my-progress-update'
 import { InMemoryMyProgressRepository } from 'test/repositories/in-memory-my-progress-repository'
+import { InMemoryMyProgressAnswerRepository } from 'test/repositories/in-memory-my-progress-answer-repository'
 
+let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryMyProgressAnswerRepository: InMemoryMyProgressAnswerRepository
 let inMemoryMyProgressRepository: InMemoryMyProgressRepository
 
 let sut: CreateMyProgressUpdateUseCase
 
 describe('Create My Progress Update', () => {
   beforeEach(() => {
-    inMemoryMyProgressRepository = new InMemoryMyProgressRepository()
+    inMemoryMyProgressAnswerRepository =
+      new InMemoryMyProgressAnswerRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryMyProgressRepository = new InMemoryMyProgressRepository(
+      inMemoryUsersRepository,
+      inMemoryMyProgressAnswerRepository,
+    )
     sut = new CreateMyProgressUpdateUseCase(inMemoryMyProgressRepository)
   })
 

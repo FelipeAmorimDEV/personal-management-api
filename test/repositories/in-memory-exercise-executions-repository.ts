@@ -3,6 +3,7 @@ import { ExerciseExecutionsRepository } from '@/domain/progress-tracking/applica
 import { StudentExerciseExecution } from '@/domain/progress-tracking/enterprise/entities/student-exercise-execution'
 import { StudentExerciseExecutionWithDetails } from '@/domain/progress-tracking/enterprise/entities/value-objects/student-exercise-execution-with-details'
 import { InMemoryExercisesRepository } from './in-memory-exercises-repository'
+import { GroupByExercise } from '@/infra/database/prisma/repositories/prisma-exercise-executions-repository'
 
 export class InMemoryExerciseExecutionsRepository
   implements ExerciseExecutionsRepository
@@ -53,11 +54,44 @@ export class InMemoryExerciseExecutionsRepository
   }
 
   async fetchManyByUserId(userId: string) {
+    // Filtra as execuções de exercícios pelo studentId (userId)
     const exerciseExecutions = this.items.filter(
       (item) => item.studentId.toString() === userId,
     )
 
-    return exerciseExecutions
+    // Agrupando as execuções por exercício usando reduce
+    const groupedByExercise = exerciseExecutions.reduce(
+      (acc, execution) => {
+        // Encontra o exercício correspondente (deve existir no repositório de exercícios)
+        const exercise = this.inMemoryExerciseRepository.items.find(
+          (exerciseItem) => exerciseItem.id === execution.exerciseId,
+        )
+
+        if (!exercise) {
+          throw new Error('Exercise not found')
+        }
+
+        // Se o exercício não foi encontrado no acumulador, cria um novo grupo
+        if (!acc[execution.exerciseId.toString()]) {
+          acc[execution.exerciseId.toString()] = {
+            exerciseName: exercise.name, // Nome do exercício
+            data: [], // Inicia um array para armazenar as execuções
+          }
+        }
+
+        // Adiciona a execução ao grupo correspondente
+        acc[execution.exerciseId.toString()].data.push({
+          data: execution.createdAt.toISOString(), // Formato de data em string
+          weightUsed: execution.weightUsed,
+        })
+
+        return acc
+      },
+      {} as Record<string, GroupByExercise>,
+    )
+
+    // Converte o objeto agrupado em um array de GroupByExercise
+    return Object.values(groupedByExercise)
   }
 
   async fetchManyByUserIdAndExerciseId(

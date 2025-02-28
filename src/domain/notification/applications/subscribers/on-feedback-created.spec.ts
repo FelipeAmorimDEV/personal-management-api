@@ -8,17 +8,38 @@ import { MockInstance } from 'vitest'
 import { waitFor } from 'test/utils/wait-for'
 import { makeStudent } from 'test/factories/make-student'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryReplyTrainingFeedbackRepository } from 'test/repositories/in-memory-reply-training-feedback-repository'
+import { InMemoryTrainingsRepository } from 'test/repositories/in-memory-trainings-repository'
+import { InMemoryStudentExercisesRepository } from 'test/repositories/in-memory-student-exercises-repository'
+import { InMemoryExercisesRepository } from 'test/repositories/in-memory-exercises-repository'
 
 let sendNotificationUseCase: SendNotificationUseCase
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
+let inMemoryReplyTrainingFeedbackRepository: InMemoryReplyTrainingFeedbackRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryTrainingsRepository: InMemoryTrainingsRepository
+let inMemoryExercisesRepository: InMemoryExercisesRepository
+let inMemoryStudentExercisesRepository: InMemoryStudentExercisesRepository
 let inMemoryTrainingFeedbacksRepository: InMemoryTrainingExecutionsRepository
 let callbackNotification: MockInstance
 describe('On Feedback Created', () => {
   beforeEach(async () => {
-    inMemoryTrainingFeedbacksRepository =
-      new InMemoryTrainingExecutionsRepository()
+    inMemoryExercisesRepository = new InMemoryExercisesRepository()
+    inMemoryStudentExercisesRepository = new InMemoryStudentExercisesRepository(
+      inMemoryExercisesRepository,
+    )
+    inMemoryTrainingsRepository = new InMemoryTrainingsRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryReplyTrainingFeedbackRepository =
+      new InMemoryReplyTrainingFeedbackRepository()
+    inMemoryTrainingFeedbacksRepository =
+      new InMemoryTrainingExecutionsRepository(
+        inMemoryReplyTrainingFeedbackRepository,
+        inMemoryUsersRepository,
+        inMemoryTrainingsRepository,
+        inMemoryStudentExercisesRepository,
+      )
+
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
       inMemoryNotificationsRepository,

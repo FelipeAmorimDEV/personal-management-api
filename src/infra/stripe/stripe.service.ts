@@ -62,6 +62,9 @@ export class StripeService {
       cancel_url: 'http://localhost:3000/cancel',
     })
 
+    console.log('PAYMENT INTENT SESSION', session.payment_intent?.toString())
+    console.log('PAYMENT INTENT INVOICE', invoice.payment_intent?.toString())
+
     return {
       url: session.url,
       paymentIntentId: invoice.payment_intent, // 🔗 Agora sempre retorna um PaymentIntent válido

@@ -7,6 +7,11 @@ import { getDatesOfWeek } from '@/utils/get-dates-of-week'
 import { InMemoryReplyTrainingFeedbackRepository } from './in-memory-reply-training-feedback-repository'
 import { InMemoryUsersRepository } from './in-memory-users-repository'
 import { InMemoryTrainingsRepository } from './in-memory-trainings-repository'
+import { StudentExercise } from '@/domain/training/enterprise/entities/student-exercise'
+import { WeightLifted } from '@/domain/progress-tracking/enterprise/entities/weight-lifted'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryStudentExercisesRepository } from './in-memory-student-exercises-repository'
+import { Student } from '@/domain/identity-management/enterprise/entities/student'
 
 export class InMemoryTrainingExecutionsRepository
   implements TrainingFeedbacksRepository
@@ -15,9 +20,95 @@ export class InMemoryTrainingExecutionsRepository
     private replyTrainingFeedback: InMemoryReplyTrainingFeedbackRepository,
     private usersRepository: InMemoryUsersRepository,
     private trainingsRepository: InMemoryTrainingsRepository,
+    private studentExercisesRepository: InMemoryStudentExercisesRepository,
   ) {}
 
   public items: TrainingFeedback[] = []
+  public weightLifted: WeightLifted[] = []
+
+  async getUsersWithoutTrainingForDays(days: number): Promise<Student[]> {
+    const daysAgo = new Date()
+    daysAgo.setDate(daysAgo.getDate() - days)
+
+    // Filtra os usuários que não realizaram treinos nos últimos X dias
+    const usersWithoutTraining: Student[] = []
+
+    for (const feedback of this.items) {
+      // Encontrar o usuário associado ao feedback
+      const user = this.usersRepository.items.find(
+        (user) => user.id.toString() === feedback.studentId.toString(),
+      )
+
+      if (!user) {
+        continue
+      }
+
+      // Verificar o último treino do usuário
+      const lastTrainingFeedback = this.items
+        .filter((item) => item.studentId.toString() === user.id.toString())
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]
+
+      // Se o último treino foi feito antes de 'X' dias, adiciona o usuário na lista
+      if (!lastTrainingFeedback || lastTrainingFeedback.createdAt < daysAgo) {
+        usersWithoutTraining.push(user)
+      }
+    }
+
+    return usersWithoutTraining
+  }
+
+  async getTotalWeightLifted(studentId: string): Promise<number> {
+    const weightLifted = this.weightLifted.find(
+      (weight) => weight.studentId.toString() === studentId,
+    )
+
+    if (!weightLifted) {
+      return 0
+    }
+
+    return weightLifted.weightLifted
+  }
+
+  async updateTotalWeightLifted(
+    studentId: string,
+    totalWeightLifted: number,
+  ): Promise<void> {
+    const weightLifted = this.weightLifted.find(
+      (weight) => weight.studentId.toString() === studentId,
+    )
+
+    if (weightLifted) {
+      weightLifted.weightLifted = totalWeightLifted
+    } else {
+      this.weightLifted.push(
+        WeightLifted.create({
+          studentId: new UniqueEntityID(studentId),
+          weightLifted: totalWeightLifted,
+        }),
+      )
+    }
+  }
+
+  async getExerciseDetails(
+    exerciseId: string,
+  ): Promise<StudentExercise | null> {
+    const exerciseDetails = this.studentExercisesRepository.items.find(
+      (exercise) => exercise.exerciseId.toString() === exerciseId,
+    )
+
+    if (!exerciseDetails) {
+      return null
+    }
+    return exerciseDetails
+  }
+
+  async getTrainingCount(studentId: string): Promise<number> {
+    const trainingFeedback = this.items.filter(
+      (item) => item.studentId.toString() === studentId,
+    )
+
+    return trainingFeedback.length
+  }
 
   async findTrainingFrequencyByUserId(userId: string) {
     // const frequencyTraining: TrainingFrequency[] = []

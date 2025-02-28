@@ -10,7 +10,7 @@ export type PrismaExerciseRelation = Exercise & {
   groupMuscle: GroupMuscle[]
 }
 
-type PrismaExeciseExecution = PrismaExeciseExecutions & {
+export type PrismaExeciseExecution = PrismaExeciseExecutions & {
   exercise?: PrismaExerciseRelation
 }
 

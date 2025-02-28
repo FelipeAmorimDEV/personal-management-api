@@ -19,6 +19,8 @@ export class PrismaPaymentMapper {
         studentId: new UniqueEntityID(payment.studentId),
         createdAt: payment.createdAt,
         updatedAt: payment.updatedAt,
+        checkoutUrl: payment.checkoutUrl,
+        stripePaymentIntentId: payment.stripePaymentIntentId,
       },
       new UniqueEntityID(payment.id),
     )
@@ -36,6 +38,8 @@ export class PrismaPaymentMapper {
       studentId: payment.studentId.toString(),
       createdAt: payment.createdAt,
       updatedAt: payment.updatedAt,
+      checkoutUrl: payment.checkoutUrl,
+      stripePaymentIntentId: payment.stripePaymentIntentId,
     }
   }
 }

@@ -75,9 +75,13 @@ import { FetchPaymentDueController } from './controllers/fetch-payment-due.contr
 import { FetchPaymentDueUseCase } from '@/domain/payments/applications/use-cases/fetch-payment-due'
 import { FindAnamnesisController } from './controllers/find-anamnesis.controller'
 import { FindAnamnesisUseCase } from '@/domain/progress-tracking/applications/use-cases/find-anamnesis'
+import { UnlockAchievementUseCase } from '@/domain/progress-tracking/applications/use-cases/unlock-achievement'
+import { FetchWeightProgressController } from './controllers/fetch-weight-progress.controller'
+import { FetchWeightProgressUseCase } from '@/domain/progress-tracking/applications/use-cases/fetch-weight-progress'
+import { StripeModule } from '../stripe/stripe.module'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, JobsModule],
+  imports: [DatabaseModule, CryptographyModule, JobsModule, StripeModule],
   controllers: [
     CreateAccountController,
     AuthenticateAccountController,
@@ -115,6 +119,7 @@ import { FindAnamnesisUseCase } from '@/domain/progress-tracking/applications/us
     FindPaymentController,
     FetchPaymentDueController,
     FindAnamnesisController,
+    FetchWeightProgressController,
   ],
   providers: [
     UpdateExpiredPlansJob,
@@ -154,6 +159,8 @@ import { FindAnamnesisUseCase } from '@/domain/progress-tracking/applications/us
     FindPaymentUseCase,
     FetchPaymentDueUseCase,
     FindAnamnesisUseCase,
+    UnlockAchievementUseCase,
+    FetchWeightProgressUseCase,
   ],
 })
 export class HttpModule {}

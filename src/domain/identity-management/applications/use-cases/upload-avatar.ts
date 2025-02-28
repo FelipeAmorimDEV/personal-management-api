@@ -29,6 +29,8 @@ export class UploadAvatarUseCase {
     if (!user) {
       return left(new ResourceNotFoundError())
     }
+
+    // Remove o avatar antigo
     if (user.avatar) {
       try {
         // Ajuste do caminho para garantir que o diretório 'uploads' seja correto

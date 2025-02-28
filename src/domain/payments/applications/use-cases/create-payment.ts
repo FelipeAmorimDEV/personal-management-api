@@ -5,6 +5,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { MethodPayment } from '../enums/method-payment'
 import { PaymentStatus } from '../enums/payment-status'
 import { Injectable } from '@nestjs/common'
+import { StripeServiceRepository } from '../repositories/stripe-service-repository'
 
 interface CreatePaymentUseCaseRequest {
   studentId: string
@@ -20,7 +21,10 @@ type CreatePaymentUseCaseResponse = Either<null, { payment: Payment }>
 
 @Injectable()
 export class CreatePaymentUseCase {
-  constructor(private paymentsRepository: PaymentsRepository) {}
+  constructor(
+    private paymentsRepository: PaymentsRepository,
+    private stripeServiceRepository: StripeServiceRepository,
+  ) {}
 
   async execute({
     studentId,
@@ -40,6 +44,17 @@ export class CreatePaymentUseCase {
       dueDate: new Date(dueDate),
       paymentDate: paymentDate ? new Date(paymentDate) : null,
     })
+
+    const { url, paymentIntentId } =
+      await this.stripeServiceRepository.createCheckoutSession(
+        price * 100,
+        'brl',
+      )
+
+    payment.checkoutUrl = url
+    payment.stripePaymentIntentId = paymentIntentId
+
+    console.log('PAYMENT', payment)
 
     await this.paymentsRepository.create(payment)
 

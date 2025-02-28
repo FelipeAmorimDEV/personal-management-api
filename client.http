@@ -82,41 +82,21 @@ Content-Type: application/json
 POST {{baseUrl}}/trainings
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
+
 {
   "trainingPlanId": "fb267dad-2f9c-401c-b512-d08ecb50df38",
-  "name": "TREINO A",
+  "name": "TREINO D",
   "type": "SESSION",
   "groupMuscle": [
     {
       "name": "Peito",
       "id": "6415a170-9134-4581-be58-e1647798ff2f"
-    },
-    {
-      "name": "Biceps",
-      "id": "4d5e1ef8-680a-4597-bcec-58fbaa80720f"
-    },
-    {
-      "name": "Triceps",
-      "id": "e659dff5-1678-439e-8260-a33dcef2966d"
     }
   ],
   "exercises": [
     {
       "exerciseId": "9ad1359a-1b17-40de-91ab-a70b13326a58",
       "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    },
-    {
-      "exerciseId": "d7fbda49-8aeb-4b49-ae91-cf9a05a5eb78",
-      "sets": 3,
-      "repetitions": 12,
-      "restTime": 120
-    }
-    ,
-    {
-      "exerciseId": "461c96e2-6fde-4238-be9b-8481baaa3481",
-      "sets": 4,
       "repetitions": 12,
       "restTime": 120
     }
@@ -185,7 +165,7 @@ Content-Type: application/json
 ###
 
 # @name create_my_progress_answer_admin
-POST {{baseUrl}}/my-progress/406ee3d9-1c23-4578-8305-64494af4776e/answer
+POST {{baseUrl}}/my-progress/5f77906b-a414-43b2-993e-6340756c211d/answer
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
@@ -349,4 +329,9 @@ Authorization: Bearer {{authToken}}
 ### 
 # @name find_anamnesis
 GET {{baseUrl}}/anamnesis/15bac5be-892f-46a2-af06-4febaec62c41
+Authorization: Bearer {{authToken}}
+
+###
+# @name fetch_weight_progress
+GET {{baseUrl}}/weight-progress
 Authorization: Bearer {{authToken}}

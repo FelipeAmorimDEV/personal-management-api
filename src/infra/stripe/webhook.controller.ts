@@ -34,18 +34,30 @@ export class WebhookController {
 
     // 🎯 Tratamento dos eventos
     switch (event.type) {
+      case 'invoice.payment_succeeded': // Alterado para esse evento
+        const invoice = event.data.object as Stripe.Invoice
+        console.log(`✅ Pagamento da fatura bem-sucedido: ${invoice.id}`)
+
+        // Use o ID da fatura para sua lógica de negócios
+        this.markInvoicePaid.execute({
+          invoiceId: invoice.id, // Use invoice.id
+        })
+        break
+
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent
         console.log(`✅ Pagamento bem-sucedido: ${paymentIntent.id}`)
 
-        // Pegar o ID da fatura associado ao PaymentIntent
-        const invoiceId = paymentIntent.invoice
-        console.log(`📄 ID da fatura: ${invoiceId}`)
+        // Se necessário, também pode pegar o ID da fatura aqui
+        if (paymentIntent.invoice) {
+          const invoiceId = paymentIntent.invoice
+          console.log(`📄 ID da fatura: ${invoiceId}`)
 
-        // Agora você pode usar o invoiceId para buscar a fatura no banco
-        this.markInvoicePaid.execute({
-          invoiceId: invoiceId?.toString() ?? '',
-        })
+          // Usar o ID da fatura para marcar como paga
+          this.markInvoicePaid.execute({
+            invoiceId,
+          })
+        }
         break
 
       case 'payment_method.attached':

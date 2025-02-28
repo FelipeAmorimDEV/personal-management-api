@@ -4,7 +4,7 @@ import {
   Req,
   Res,
   Headers,
-  BadRequestException,
+  RawBodyRequest,
 } from '@nestjs/common'
 import { Response, Request } from 'express'
 import Stripe from 'stripe'
@@ -24,43 +24,39 @@ export class StripeWebhookController {
 
   @Post()
   async handleWebhook(
-    @Req() req: Request,
+    @Req() req: RawBodyRequest<Request>, // 🛑 Pegamos o rawBody aqui
     @Res() res: Response,
     @Headers('stripe-signature') signature: string,
   ) {
     let event: Stripe.Event
 
-    // Verifica se a assinatura do webhook é válida
+    // 🔥 Agora o Stripe recebe o rawBody corretamente
+    const rawBody = req.body as Buffer
+
     try {
       event = this.stripe.webhooks.constructEvent(
-        req.body,
+        rawBody,
         signature,
         this.webhookSecret,
       )
-    } catch (err: any) {
+    } catch (err) {
       console.error('Erro ao verificar webhook:', err.message)
-      throw new BadRequestException(`Webhook error: ${err.message}`)
+      return res.status(400).send(`Webhook error: ${err.message}`)
     }
 
-    // Processar os eventos do Stripe
+    // Processar eventos do Stripe
     switch (event.type) {
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice
         console.log(`✅ Pagamento confirmado para Invoice: ${invoice.id}`)
-
-        // Aqui você pode atualizar o status no banco de dados
-        // Exemplo: this.orderService.updateInvoiceStatus(invoice.id, 'paid')
-
+        // Atualizar o status da invoice no banco de dados
         break
       }
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
         console.log(`❌ Pagamento falhou para Invoice: ${invoice.id}`)
-
         // Atualizar o status para "não pago" no banco de dados
-        // Exemplo: this.orderService.updateInvoiceStatus(invoice.id, 'failed')
-
         break
       }
 

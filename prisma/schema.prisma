@@ -216,19 +216,19 @@ model Anamnesis {
 }
 
 model Invoice {
-  id                    String         @id @default(uuid())
-  student               User           @relation(fields: [studentId], references: [id])
-  studentId             String         @map("student_id")
-  methodPayment         MethodPayment? @map("method_payment")
-  dueDate               DateTime       @map("due_date")
-  paymentDate           DateTime?      @map("payment_date")
-  description           String
-  invoiceStatus         PaymentStatus  @map("payment_status")
-  checkoutUrl           String?        @map("checkout_url")
-  stripePaymentIntentId String?        @map("stripe_payment_intent_id")
-  price                 Float
-  createdAt             DateTime       @map("created_at")
-  updatedAt             DateTime?      @updatedAt @map("updated_at")
+  id            String         @id @default(uuid())
+  student       User           @relation(fields: [studentId], references: [id])
+  studentId     String         @map("student_id")
+  methodPayment MethodPayment? @map("method_payment")
+  dueDate       DateTime       @map("due_date")
+  paymentDate   DateTime?      @map("payment_date")
+  description   String
+  invoiceStatus PaymentStatus  @map("payment_status")
+  checkoutUrl   String?        @map("checkout_url")
+  invoiceId     String?        @map("invoice_id")
+  price         Float
+  createdAt     DateTime       @map("created_at")
+  updatedAt     DateTime?      @updatedAt @map("updated_at")
 
   @@map("invoices")
 }

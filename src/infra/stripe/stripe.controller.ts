@@ -7,11 +7,12 @@ export class PaymentController {
 
   @Post('create-checkout-session')
   async createCheckoutSession(
-    @Body() body: { amount: number; currency: string },
+    @Body() body: { amount: number; currency: string; email: string },
   ) {
     const { url } = await this.stripeService.createCheckoutSession(
       body.amount,
       body.currency,
+      body.email,
     )
     return { url }
   }

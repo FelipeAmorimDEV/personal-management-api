@@ -7,6 +7,20 @@ import { Injectable } from '@nestjs/common'
 @Injectable()
 export class PrismaPaymentRepository implements PaymentsRepository {
   constructor(private prisma: PrismaService) {}
+  async findByInvoiceId(invoiceId: string): Promise<Payment | null> {
+    const payment = await this.prisma.invoice.findFirst({
+      where: {
+        invoiceId,
+      },
+    })
+
+    if (!payment) {
+      return null
+    }
+
+    return PrismaPaymentMapper.toDomain(payment)
+  }
+
   async findPaymentDue(): Promise<Payment | null> {
     const today = new Date()
     const sevenDaysFromNow = new Date()

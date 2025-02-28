@@ -4,6 +4,7 @@ import { HashGenerator } from '../cryptography/hash-generator'
 import { UsersRepository } from '../repositories/users-repository'
 import { Either, left, right } from '@/core/either'
 import { EmailAlreadyExistsError } from './errors/email-already-exists-error'
+import { StripeServiceRepository } from '@/domain/payments/applications/repositories/stripe-service-repository'
 
 interface CreateStudentUseCaseRequest {
   name: string
@@ -18,6 +19,7 @@ export class CreateStudentUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private hashGenerator: HashGenerator,
+    private stripeService: StripeServiceRepository,
   ) {}
 
   async execute({
@@ -39,7 +41,8 @@ export class CreateStudentUseCase {
       password: hashedPassword,
     })
 
-    this.usersRepository.create(student)
+    await this.usersRepository.create(student)
+    await this.stripeService.findOrCreateCustomer(student.email)
 
     return right(null)
   }

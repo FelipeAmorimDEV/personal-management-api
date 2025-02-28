@@ -20,7 +20,7 @@ export class PrismaPaymentMapper {
         createdAt: payment.createdAt,
         updatedAt: payment.updatedAt,
         checkoutUrl: payment.checkoutUrl,
-        stripePaymentIntentId: payment.stripePaymentIntentId,
+        invoiceId: payment.invoiceId,
       },
       new UniqueEntityID(payment.id),
     )
@@ -39,7 +39,7 @@ export class PrismaPaymentMapper {
       createdAt: payment.createdAt,
       updatedAt: payment.updatedAt,
       checkoutUrl: payment.checkoutUrl,
-      stripePaymentIntentId: payment.stripePaymentIntentId,
+      invoiceId: payment.invoiceId,
     }
   }
 }

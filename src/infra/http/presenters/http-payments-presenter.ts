@@ -8,7 +8,7 @@ export class HttpPaymentsPresenter {
       paymentDate: payment.paymentDate,
       dueDate: payment.dueDate,
       checkoutUrl: payment.checkoutUrl,
-      stripePaymentIntentId: payment.stripePaymentIntentId,
+      invoiceId: payment.invoiceId,
     }
   }
 }

@@ -7,16 +7,23 @@ import { InMemoryTrainingsRepository } from 'test/repositories/in-memory-trainin
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { makeStudent } from 'test/factories/make-student'
 import { makeTraining } from 'test/factories/make-training'
+import { InMemoryStudentExercisesRepository } from 'test/repositories/in-memory-student-exercises-repository'
+import { InMemoryExercisesRepository } from 'test/repositories/in-memory-exercises-repository'
 
 let inMemoryTrainingFeedbacksRepository: InMemoryTrainingExecutionsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryTrainingsRepository: InMemoryTrainingsRepository
 let inMemoryReplyTrainingFeedbackRepository: InMemoryReplyTrainingFeedbackRepository
-
+let inMemoryStudentExercisesRepository: InMemoryStudentExercisesRepository
+let inMemoryExercisesRepository: InMemoryExercisesRepository
 let sut: FetchRecentTrainingFeedbackUseCase
 
 describe('Fetch Training Feedback User', () => {
   beforeEach(() => {
+    inMemoryExercisesRepository = new InMemoryExercisesRepository()
+    inMemoryStudentExercisesRepository = new InMemoryStudentExercisesRepository(
+      inMemoryExercisesRepository,
+    )
     inMemoryReplyTrainingFeedbackRepository =
       new InMemoryReplyTrainingFeedbackRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository()
@@ -26,6 +33,7 @@ describe('Fetch Training Feedback User', () => {
         inMemoryReplyTrainingFeedbackRepository,
         inMemoryUsersRepository,
         inMemoryTrainingsRepository,
+        inMemoryStudentExercisesRepository,
       )
 
     sut = new FetchRecentTrainingFeedbackUseCase(

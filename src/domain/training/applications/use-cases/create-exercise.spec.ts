@@ -44,6 +44,7 @@ describe('Create Exercise', () => {
       name: 'Supino Reto',
       videoUrl: 'http://youtube.com/supinoreto',
       description: 'Descrição',
+      groupMuscle: [{ id: '1', name: 'Peito' }],
     })
 
     expect(inMemoryExercisesRepository.items[0]).toEqual(
@@ -61,6 +62,7 @@ describe('Create Exercise', () => {
       name: 'Supino Reto',
       videoUrl: 'http://youtube.com/supinoreto',
       description: 'Descrição',
+      groupMuscle: [{ id: '1', name: 'Peito' }],
     })
 
     expect(result.isLeft())

@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { IntensityLevel } from '@/domain/progress-tracking/applications/use-cases/enums/intensity-level'
 import {
   TrainingFeedback,
   TrainingFeedbackProps,
@@ -13,7 +14,7 @@ export function makeTrainingFeedback(
       trainingId: new UniqueEntityID('training-1'),
       comment: 'Novo comentario',
       studentId: new UniqueEntityID('student-1'),
-      rate: 5,
+      intensity: IntensityLevel.LOW,
       ...override,
     },
     id,

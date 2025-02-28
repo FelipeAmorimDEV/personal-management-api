@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3333
+@baseUrl = https://mypersonalpro.com
 @authToken = {{authenticate.response.body.access_token}}
 # @name create_account
 POST {{baseUrl}}/accounts
@@ -221,7 +221,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "studentId": "d1faf8ed-5d8e-4f9b-897f-6461aa1984a4",
+  "studentId": "914c6769-554d-4ebf-88c2-55c7b716be94",
   "paymentStatus": "PENDING",
   "description": "Plano de 3 Meses",
   "price": 300,

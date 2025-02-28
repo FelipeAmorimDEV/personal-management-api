@@ -55,7 +55,7 @@ export class WebhookController {
 
           // Usar o ID da fatura para marcar como paga
           this.markInvoicePaid.execute({
-            invoiceId,
+            invoiceId: invoiceId.toString(),
           })
         }
         break

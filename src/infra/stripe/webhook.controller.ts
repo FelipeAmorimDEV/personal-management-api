@@ -31,14 +31,18 @@ export class WebhookController {
     }
 
     switch (event.type) {
-      case 'invoice.payment_succeeded':
-        const invoice = event.data.object as Stripe.Invoice
-        console.log(`✅ Pagamento confirmado para fatura: ${invoice.id}`)
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object as Stripe.PaymentIntent
+        if (paymentIntent.invoice) {
+          const stripeInvoiceId = paymentIntent.invoice.toString()
 
-        await this.markInvoicePaid.execute({
-          invoiceId: invoice.id,
-        })
-        console.log(`✅ Fatura ${invoice.id} atualizada para pago!`)
+          await this.markInvoicePaid.execute({
+            invoiceId: stripeInvoiceId,
+          })
+
+          console.log(`✅ Fatura ${stripeInvoiceId} atualizada para pago!`)
+        }
+
         break
 
       default:

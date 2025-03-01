@@ -5,7 +5,6 @@ export abstract class StripeServiceRepository {
     amount: number,
     currency: string,
     customerEmail: string,
-    invoiceId: string,
   ): Promise<{ url: string; paymentIntentId: string; invoiceId: string }>
 
   abstract findOrCreateCustomer(email: string): Promise<Stripe.Customer>

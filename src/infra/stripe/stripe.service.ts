@@ -15,15 +15,11 @@ export class StripeService {
     amount: number,
     currency: string,
     customerEmail: string,
-    invoiceId: string,
   ) {
     try {
       const customer = await this.findOrCreateCustomer(customerEmail)
 
       const session = await this.stripe.checkout.sessions.create({
-        metadata: {
-          invoiceId,
-        },
         customer: customer.id,
         payment_method_types: ['card', 'boleto'],
         mode: 'payment',

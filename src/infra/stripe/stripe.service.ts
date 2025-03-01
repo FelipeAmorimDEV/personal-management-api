@@ -41,14 +41,12 @@ export class StripeService {
         cancel_url: `http://localhost:3333/cancel`,
       })
 
-      const invoice = await this.createInvoice(customer.id, amount, currency)
-
       console.log('Session', session)
 
       return {
         url: session.url,
         paymentIntentId: session.payment_intent?.toString(),
-        invoiceId: invoice.id,
+        invoiceId: session.id,
       }
     } catch (error) {
       console.error('Erro ao criar sessão de checkout:', error)

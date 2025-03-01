@@ -37,19 +37,19 @@ export class WebhookController {
     }
 
     switch (event.type) {
-      case 'payment_intent.succeeded':
-        const paymentIntent = event.data.object as Stripe.PaymentIntent
+      case 'checkout.session.completed':
+        const checkout = event.data.object as Stripe.Checkout.Session
         console.log(`✅ Evento recebido: ${event.type}`)
-        const paymentId = paymentIntent.metadata.invoiceId
-        console.log(`✅ ID da fatura: ${paymentId}`)
-        if (paymentId) {
+        console.log(`✅ ID da sessão de checkout: ${checkout.id}`)
+        console.log('Checkout', checkout)
+        /* if (paymentId) {
           // Chama o caso de uso para atualizar a fatura como paga
           await this.markInvoicePaid.execute({
             invoiceId: paymentId,
           })
 
           console.log(`✅ Fatura ${paymentId} atualizada para pago!`)
-        }
+        } */
         break
 
       default:

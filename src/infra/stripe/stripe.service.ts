@@ -33,8 +33,8 @@ export class StripeService {
             quantity: 1,
           },
         ],
-        success_url: `http://localhost:3333/success?session_id=`,
-        cancel_url: `http://localhost:3333/cancel`,
+        success_url: `seuapp://success`, // URL personalizada para redirecionamento no app
+        cancel_url: `seuapp://cancel`, // URL personalizada para redirecionamento no app
       })
 
       console.log('Session', session)

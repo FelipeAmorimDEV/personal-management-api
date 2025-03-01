@@ -21,6 +21,9 @@ export class StripeService {
       const customer = await this.findOrCreateCustomer(customerEmail)
 
       const session = await this.stripe.checkout.sessions.create({
+        invoice_creation: {
+          enabled: true,
+        },
         customer: customer.id,
         payment_method_types: ['card', 'boleto'],
         mode: 'payment',
@@ -40,7 +43,7 @@ export class StripeService {
 
       const invoice = await this.createInvoice(customer.id, amount, currency)
 
-      console.log('SessionURL', session.url)
+      console.log('INvoide id session', session.invoice?.toString())
       console.log('InvoiceID', invoice.id)
       console.log('PaymentIntentID', session.payment_intent?.toString())
 

@@ -7,7 +7,7 @@ import Stripe from 'stripe'
 @Controller('webhook')
 export class WebhookController {
   private stripe: Stripe
-  private endpointSecret = 'we_1QxWtRCvdixTyBPM4VMwFMoq' // Substitua com o segredo do seu webhook no Stripe
+  private endpointSecret = 'whsec_oklLws15peJeYicGK2deo7e2yUETxIOE' // Substitua com o segredo do seu webhook no Stripe
 
   constructor(private markInvoicePaid: MarkInvoicePaidUseCase) {
     this.stripe = new Stripe(

@@ -224,8 +224,8 @@ Content-Type: application/json
   "studentId": "914c6769-554d-4ebf-88c2-55c7b716be94",
   "paymentStatus": "PENDING",
   "description": "Plano de 3 Meses",
-  "price": 300,
-  "dueDate": "2025-02-10"
+  "price": 50,
+  "dueDate": "2025-02-28"
 }
 
 

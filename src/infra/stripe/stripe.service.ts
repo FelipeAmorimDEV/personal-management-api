@@ -16,68 +16,67 @@ export class StripeService {
     currency: string,
     customerEmail: string,
   ) {
-    // 1️⃣ Criar ou recuperar o cliente do Stripe
-    const customer = await this.findOrCreateCustomer(customerEmail)
+    try {
+      const customer = await this.findOrCreateCustomer(customerEmail)
 
-    // 2️⃣ Criar um Invoice Item para a fatura
-    await this.stripe.invoiceItems.create({
-      customer: customer.id,
+      const session = await this.stripe.checkout.sessions.create({
+        customer: customer.id,
+        payment_method_types: ['card', 'boleto'],
+        mode: 'payment',
+        line_items: [
+          {
+            price_data: {
+              currency,
+              product_data: { name: 'Plano de Treino' },
+              unit_amount: amount,
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      })
+
+      const invoice = await this.createInvoice(customer.id, amount, currency)
+
+      console.log('Invoice ID:', invoice.id)
+      console.log('Invoice URL:', session.payment_intent)
+      console.log('IntentId:', invoice.status)
+
+      return {
+        url: session.url,
+        paymentIntentId: session.payment_intent?.toString(),
+        invoiceId: invoice.id,
+      }
+    } catch (error) {
+      console.error('Erro ao criar sessão de checkout:', error)
+      throw new Error('Falha ao criar sessão de pagamento')
+    }
+  }
+
+  private async findOrCreateCustomer(email: string) {
+    const customers = await this.stripe.customers.list({ email, limit: 1 })
+    return customers.data.length
+      ? customers.data[0]
+      : await this.stripe.customers.create({ email })
+  }
+
+  private async createInvoice(
+    customerId: string,
+    amount: number,
+    currency: string,
+  ) {
+    const invoiceItem = await this.stripe.invoiceItems.create({
+      customer: customerId,
       amount,
       currency,
       description: 'Plano de Treino',
     })
 
-    let invoice = await this.stripe.invoices.create({
-      customer: customer.id,
-      auto_advance: true, // A fatura será finalizada automaticamente
+    return this.stripe.invoices.create({
+      customer: customerId,
+      auto_advance: true,
       collection_method: 'charge_automatically',
     })
-
-    // 4️⃣ Finalizar a Invoice para gerar o PaymentIntent
-    invoice = await this.stripe.invoices.finalizeInvoice(invoice.id)
-
-    // 🔍 Buscar a fatura novamente para garantir que o PaymentIntent foi gerado
-    invoice = await this.stripe.invoices.retrieve(invoice.id)
-
-    // 5️⃣ Criar a sessão de checkout vinculada ao PaymentIntent da Invoice
-    const session = await this.stripe.checkout.sessions.create({
-      customer: customer.id,
-      payment_method_types: ['boleto', 'card'],
-      mode: 'payment',
-      payment_intent_data: {
-        setup_future_usage: 'off_session', // Permite pagamentos futuros
-      },
-      line_items: [
-        {
-          price_data: {
-            currency,
-            product_data: { name: 'Plano de Treino' },
-            unit_amount: amount,
-          },
-          quantity: 1,
-        },
-      ],
-      success_url:
-        'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:3000/cancel',
-    })
-
-    console.log('PAYMENT INTENT SESSION', session.payment_intent?.toString())
-    console.log('PAYMENT INTENT INVOICE', invoice.payment_intent?.toString())
-
-    return {
-      url: session.url,
-      paymentIntentId: invoice.payment_intent, // 🔗 Agora sempre retorna um PaymentIntent válido
-      invoiceId: invoice.id,
-    }
-  }
-
-  // Função auxiliar para encontrar ou criar um cliente no Stripe
-  private async findOrCreateCustomer(email: string) {
-    const existingCustomers = await this.stripe.customers.list({ email })
-    if (existingCustomers.data.length > 0) {
-      return existingCustomers.data[0] // Retorna o primeiro cliente encontrado
-    }
-    return this.stripe.customers.create({ email }) // Cria um novo cliente se não existir
   }
 }

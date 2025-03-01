@@ -1,12 +1,10 @@
 import { PaymentsRepository } from '../repositories/payments-repository'
-import { Either, left, right } from '@/core/either'
+import { Either, right } from '@/core/either'
 import { Payment } from '../../enterprise/entities/payment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { MethodPayment } from '../enums/method-payment'
 import { PaymentStatus } from '../enums/payment-status'
 import { Injectable } from '@nestjs/common'
-import { StripeServiceRepository } from '../repositories/stripe-service-repository'
-import { UsersRepository } from '@/domain/identity-management/applications/repositories/users-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 interface CreatePaymentUseCaseRequest {
@@ -26,11 +24,7 @@ type CreatePaymentUseCaseResponse = Either<
 
 @Injectable()
 export class CreatePaymentUseCase {
-  constructor(
-    private paymentsRepository: PaymentsRepository,
-    private stripeServiceRepository: StripeServiceRepository,
-    private usersRepository: UsersRepository,
-  ) {}
+  constructor(private paymentsRepository: PaymentsRepository) {}
 
   async execute({
     studentId,
@@ -50,25 +44,6 @@ export class CreatePaymentUseCase {
       dueDate: new Date(dueDate),
       paymentDate: paymentDate ? new Date(paymentDate) : null,
     })
-
-    const student = await this.usersRepository.findById(studentId)
-
-    if (!student) {
-      return left(new ResourceNotFoundError())
-    }
-
-    const { url, invoiceId } =
-      await this.stripeServiceRepository.createCheckoutSession(
-        price * 100,
-        'brl',
-        student.email,
-        payment.id.toString(),
-      )
-
-    payment.checkoutUrl = url
-    payment.invoiceId = invoiceId
-
-    console.log('Payment', payment)
 
     await this.paymentsRepository.create(payment)
 

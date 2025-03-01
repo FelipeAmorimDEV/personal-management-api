@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import Stripe from 'stripe'
+import { InvoiceRepository } from '@/infra/database/invoice.repository'
 
 @Injectable()
 export class StripeService {
   private stripe: Stripe
 
-  constructor() {
+  constructor(private invoiceRepository: InvoiceRepository) {
     this.stripe = new Stripe(
       'sk_test_51QxFqKCvdixTyBPMpDZah7ceHHJVjATqt6WqDddtjrzAPceIKRvx9FXd4EvmJ7YSDP8J0mCFC6cHShHa4eTgVFmN00pHn46UWf',
     )
@@ -33,15 +34,15 @@ export class StripeService {
             quantity: 1,
           },
         ],
-        success_url: `localhost:3333/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `ocalhost:3333/cancel`,
+        success_url: `http://localhost:3333/success?session_id=`,
+        cancel_url: `http://localhost:3333/cancel`,
       })
 
       const invoice = await this.createInvoice(customer.id, amount, currency)
 
-      console.log('Invoice ID:', invoice.id)
-      console.log('Invoice URL:', session.payment_intent)
-      console.log('IntentId:', invoice.status)
+      console.log('SessionURL', session.url)
+      console.log('InvoiceID', invoice.id)
+      console.log('PaymentIntentID', session.payment_intent?.toString())
 
       return {
         url: session.url,
@@ -66,7 +67,7 @@ export class StripeService {
     amount: number,
     currency: string,
   ) {
-    const invoiceItem = await this.stripe.invoiceItems.create({
+    await this.stripe.invoiceItems.create({
       customer: customerId,
       amount,
       currency,

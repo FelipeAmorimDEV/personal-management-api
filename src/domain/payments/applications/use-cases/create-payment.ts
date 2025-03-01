@@ -67,6 +67,8 @@ export class CreatePaymentUseCase {
     payment.checkoutUrl = url
     payment.invoiceId = invoiceId
 
+    console.log('Payment', payment)
+
     await this.paymentsRepository.create(payment)
 
     return right({

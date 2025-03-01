@@ -10,7 +10,7 @@ export class PrismaPaymentRepository implements PaymentsRepository {
   async findByInvoiceId(invoiceId: string): Promise<Payment | null> {
     const payment = await this.prisma.invoice.findFirst({
       where: {
-        id: invoiceId,
+        invoiceId,
       },
     })
 

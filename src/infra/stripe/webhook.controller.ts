@@ -38,7 +38,7 @@ export class WebhookController {
         const invoice = event.data.object as Stripe.Invoice
         console.log(`✅ Pagamento da fatura bem-sucedido: ${invoice.id}`)
 
-        const personalProInvoiceId = invoice.metadata?.personalpro_invoice_id
+        const personalProInvoiceId = invoice.id
 
         if (personalProInvoiceId) {
           console.log(`✅ Fatura ${personalProInvoiceId} marcada como paga!`)

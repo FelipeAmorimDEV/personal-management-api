@@ -7,6 +7,7 @@ import Stripe from 'stripe'
 @Controller('webhook')
 export class WebhookController {
   private stripe: Stripe
+  private endpointSecret = 'we_1QxWtRCvdixTyBPM4VMwFMoq' // Substitua com o segredo do seu webhook no Stripe
 
   constructor(private markInvoicePaid: MarkInvoicePaidUseCase) {
     this.stripe = new Stripe(
@@ -24,31 +25,38 @@ export class WebhookController {
 
     try {
       const rawBody = req.body as Buffer
-      event = JSON.parse(rawBody.toString()) // ⚠️ Remova essa linha se for validar assinatura
+      // Valida a assinatura do evento
+      event = this.stripe.webhooks.constructEvent(
+        rawBody,
+        signature,
+        this.endpointSecret,
+      )
     } catch (err: any) {
-      console.error('❌ Erro ao processar webhook:', err.message)
+      console.error('❌ Erro na validação do webhook:', err.message)
       return res.status(400).send(`Webhook error: ${err.message}`)
     }
 
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent
+        console.log(`✅ Evento recebido: ${event.type}`)
         if (paymentIntent.invoice) {
           const stripeInvoiceId = paymentIntent.invoice.toString()
 
+          // Chama o caso de uso para atualizar a fatura como paga
           await this.markInvoicePaid.execute({
             invoiceId: stripeInvoiceId,
           })
 
           console.log(`✅ Fatura ${stripeInvoiceId} atualizada para pago!`)
         }
-
         break
 
       default:
         console.log(`ℹ️ Evento não tratado: ${event.type}`)
     }
 
+    // Retorna uma resposta indicando que o evento foi recebido
     return res.json({ received: true })
   }
 }

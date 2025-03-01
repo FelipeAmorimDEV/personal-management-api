@@ -23,55 +23,22 @@ export class WebhookController {
     let event: Stripe.Event
 
     try {
-      // 🔥 Garantir que o corpo da requisição seja um Buffer
       const rawBody = req.body as Buffer
-
-      event = JSON.parse(rawBody.toString()) // ⚠️ Apenas se NÃO for necessário validar assinatura
+      event = JSON.parse(rawBody.toString()) // ⚠️ Remova essa linha se for validar assinatura
     } catch (err: any) {
       console.error('❌ Erro ao processar webhook:', err.message)
       return res.status(400).send(`Webhook error: ${err.message}`)
     }
 
-    // 🎯 Tratamento dos eventos
     switch (event.type) {
-      case 'invoice.payment_succeeded': // Alterado para esse evento
+      case 'invoice.payment_succeeded':
         const invoice = event.data.object as Stripe.Invoice
-        console.log(`✅ Pagamento da fatura bem-sucedido: ${invoice.id}`)
+        console.log(`✅ Pagamento confirmado para fatura: ${invoice.id}`)
 
-        const personalProInvoiceId = invoice.id
-
-        if (personalProInvoiceId) {
-          console.log(`✅ Fatura ${personalProInvoiceId} marcada como paga!`)
-          this.markInvoicePaid.execute({
-            invoiceId: invoice.id, // Use invoice.id
-          })
-        } else {
-          console.warn(
-            '❌ Nenhuma referência da fatura encontrada no metadata.',
-          )
-        }
-
-        break
-
-      case 'payment_intent.succeeded':
-        const paymentIntent = event.data.object as Stripe.PaymentIntent
-        console.log(`✅ Pagamento bem-sucedido: ${paymentIntent.id}`)
-
-        // Se necessário, também pode pegar o ID da fatura aqui
-        if (paymentIntent.invoice) {
-          const invoiceId = paymentIntent.invoice
-          console.log(`📄 ID da fatura: ${invoiceId}`)
-
-          // Usar o ID da fatura para marcar como paga
-          this.markInvoicePaid.execute({
-            invoiceId: invoiceId.toString(),
-          })
-        }
-        break
-
-      case 'payment_method.attached':
-        const paymentMethod = event.data.object as Stripe.PaymentMethod
-        console.log(`💳 Método de pagamento anexado: ${paymentMethod.id}`)
+        await this.markInvoicePaid.execute({
+          invoiceId: invoice.id,
+        })
+        console.log(`✅ Fatura ${invoice.id} atualizada para pago!`)
         break
 
       default:

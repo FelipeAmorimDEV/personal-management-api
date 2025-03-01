@@ -42,14 +42,14 @@ export class WebhookController {
         console.log(`✅ Evento recebido: ${event.type}`)
         console.log(`✅ ID da sessão de checkout: ${checkout.id}`)
         console.log('Checkout', checkout)
-        /* if (paymentId) {
+        if (checkout.id) {
           // Chama o caso de uso para atualizar a fatura como paga
           await this.markInvoicePaid.execute({
-            invoiceId: paymentId,
+            invoiceId: checkout.id,
           })
 
-          console.log(`✅ Fatura ${paymentId} atualizada para pago!`)
-        } */
+          console.log(`✅ Fatura ${checkout.id} atualizada para pago!`)
+        }
         break
 
       default:

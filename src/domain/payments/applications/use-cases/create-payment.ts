@@ -62,6 +62,7 @@ export class CreatePaymentUseCase {
         price * 100,
         'brl',
         student.email,
+        payment.id.toString(),
       )
 
     payment.checkoutUrl = url

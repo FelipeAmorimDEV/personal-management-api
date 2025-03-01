@@ -5,6 +5,7 @@ import { StripeServiceRepository } from '@/domain/payments/applications/reposito
 import { WebhookController } from './webhook.controller'
 import { MarkInvoicePaidUseCase } from '@/domain/payments/applications/use-cases/mark-invoice-paid'
 import { DatabaseModule } from '../database/database.module'
+import { VinculaFaturaUseCase } from '@/domain/payments/applications/use-cases/vincula-fatura'
 
 @Module({
   imports: [DatabaseModule],
@@ -16,6 +17,7 @@ import { DatabaseModule } from '../database/database.module'
     },
     StripeService,
     MarkInvoicePaidUseCase,
+    VinculaFaturaUseCase,
   ],
   exports: [StripeServiceRepository],
 })
